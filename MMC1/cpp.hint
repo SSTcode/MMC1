@@ -1,0 +1,2 @@
+#define MMC1_API __declspec(dllexport)
+#define MMC1_API __declspec(dllimport)
