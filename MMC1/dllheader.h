@@ -1,3 +1,7 @@
+/*
+ *  DllHeader.h
+ *
+ */
 #ifndef PLECSDLLHEADER_H_
 #define PLECSDLLHEADER_H_
 
