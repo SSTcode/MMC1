@@ -5,21 +5,12 @@ struct PLL_struct PLL;
 
 void PLL_calc(float enable)
 {
-	abc_abg(Meas.U_grid);
-	abg_dqz(Meas.U_grid, PLL.theta_1);
-	Meas.theta = atan2f(Meas.U_grid.beta, Meas.U_grid.alfa);
+	abc_abg(Meas.Uy_grid);
+	abg_dqz(Meas.Uy_grid, PLL.theta_1);
+	Meas.theta = atan2f(Meas.Uy_grid.beta, Meas.Uy_grid.alfa);
 	static float theta_last;
 
-	Meas.Im = (Meas.Ixy_p.a + Meas.Ixy_p.b + Meas.Ixy_p.c + Meas.Ixy_n.a + Meas.Ixy_n.b + Meas.Ixy_n.c) * 0.166666667f;
-	Meas.Is = ((Meas.Ixy_p.a + Meas.Ixy_p.b + Meas.Ixy_p.c)-( Meas.Ixy_n.a + Meas.Ixy_n.b + Meas.Ixy_n.c) )* 0.166666667f;
 
-	Meas.Io.a = ( 2.0f * (Meas.Ixy_p.a + Meas.Ixy_n.a) -      (Meas.Ixy_p.b + Meas.Ixy_n.b) -      (Meas.Ixy_p.c + Meas.Ixy_n.c)) * 0.166666667f;
-	Meas.Io.b = (-1.0f * (Meas.Ixy_p.a + Meas.Ixy_n.a) + 2.0f*(Meas.Ixy_p.b + Meas.Ixy_n.b) -      (Meas.Ixy_p.c + Meas.Ixy_n.c)) * 0.166666667f;
-	Meas.Io.c = (-1.0f * (Meas.Ixy_p.a + Meas.Ixy_n.a) -      (Meas.Ixy_p.b + Meas.Ixy_n.b) +2.0f* (Meas.Ixy_p.c + Meas.Ixy_n.c)) * 0.166666667f;
-
-	Meas.Iz.a = (2.0f *  (Meas.Ixy_p.a - Meas.Ixy_n.a) -        (Meas.Ixy_p.b - Meas.Ixy_n.b) -        (Meas.Ixy_p.c - Meas.Ixy_n.c)) * 0.166666667f;
-	Meas.Iz.b = (-1.0f * (Meas.Ixy_p.a - Meas.Ixy_n.a) + 2.0f * (Meas.Ixy_p.b - Meas.Ixy_n.b) -        (Meas.Ixy_p.c - Meas.Ixy_n.c)) * 0.166666667f;
-	Meas.Iz.c = (-1.0f * (Meas.Ixy_p.a - Meas.Ixy_n.a) -        (Meas.Ixy_p.b - Meas.Ixy_n.b) + 2.0f * (Meas.Ixy_p.c - Meas.Ixy_n.c)) * 0.166666667f;
 
 
 	if (!enable && !PLL.ERR)
@@ -63,18 +54,18 @@ void PLL_calc(float enable)
 				PLL.w_filter2 = omega_est;
 				PLL.PI.integrator = omega_est;
 
-				PLL.SOGI_alf.x = Meas.U_grid.alfa;
-				PLL.SOGI_bet.x = Meas.U_grid.beta;
+				PLL.SOGI_alf.x = Meas.Uy_grid.alfa;
+				PLL.SOGI_bet.x = Meas.Uy_grid.beta;
 
 				if (omega_est > 0)
 				{
-					PLL.SOGI_alf.qx = Meas.U_grid.beta;
-					PLL.SOGI_bet.qx = -Meas.U_grid.alfa;
+					PLL.SOGI_alf.qx = Meas.Uy_grid.beta;
+					PLL.SOGI_bet.qx = -Meas.Uy_grid.alfa;
 				}
 				else
 				{
-					PLL.SOGI_alf.qx = -Meas.U_grid.beta;
-					PLL.SOGI_bet.qx = Meas.U_grid.alfa;
+					PLL.SOGI_alf.qx = -Meas.Uy_grid.beta;
+					PLL.SOGI_bet.qx = Meas.Uy_grid.alfa;
 				}
 
 				PLL.state++;
@@ -151,8 +142,8 @@ void PLL_calc(float enable)
 
 			//SOGI alf/bet
 			PLL.w = fabs(PLL.PI.out);
-			SOGI_calc(&PLL.SOGI_alf, Meas.U_grid.alfa, PLL.w);
-			SOGI_calc(&PLL.SOGI_bet, Meas.U_grid.beta, PLL.w);
+			SOGI_calc(&PLL.SOGI_alf, Meas.Uy_grid.alfa, PLL.w);
+			SOGI_calc(&PLL.SOGI_bet, Meas.Uy_grid.beta, PLL.w);
 
 			// Determinar el componente compatible de la señal en alf / bet
 			if (PLL.PI.out > 0.0f)

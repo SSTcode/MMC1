@@ -38,6 +38,30 @@ if (CIC_struct.div_memory != div_memory_new)																						 \
 }																																	 \
 }
 
+//Cascaded integrator?comb filter
+#define CIC2_filter(CIC_struct, input) 																									 \
+{																																		 \
+register float div_osr = 1.0f / (float)CIC_struct.OSR;																					 \
+register float limit = (int32)(4294967296.0 / 2.0 * div_osr * div_osr);																	 \
+CIC_struct.integrator[1] += CIC_struct.integrator[0];																				     \
+CIC_struct.integrator[0] += (int32)fmaxf(fminf(input, limit), -limit);																     \
+register float counter_temp = CIC_struct.counter + 1.0f;																			 	 \
+counter_temp = (counter_temp - (float)((int32)(counter_temp * div_osr)) * (float)CIC_struct.OSR);									 	 \
+CIC_struct.counter = (int32)counter_temp;																							 	 \
+register int32 div_memory_new = (int32)(counter_temp * 20.0f * div_osr);															 	 \
+if (CIC_struct.div_memory != div_memory_new)																						 	 \
+{																																	 	 \
+CIC_struct.div_memory = div_memory_new;																								 	 \
+register int32* subtractor = (int32*)((int32(*)[2]) & CIC_struct.subtractor + div_memory_new);										 	 \
+register int32* decimator = (int32*)&CIC_struct.decimator_memory + div_memory_new;													 	 \
+* (subtractor + 1) = *decimator - *subtractor;																						 	 \
+* subtractor = *decimator;																											 	 \
+* decimator = CIC_struct.integrator[1];																								 	 \
+CIC_struct.out = (float)(CIC_struct.integrator[1] - *subtractor - *(subtractor + 1)) * div_osr * div_osr;							 	 \
+}																																	 	 \
+}	
+
+
 #define abc_abg(t_struct)								    \
 {														    \
 register float in_bc = t_struct.b + t_struct.c;				\
@@ -53,7 +77,7 @@ register float out_temp = t_struct.gamma - 0.5f * t_struct.alfa; \
 register float t_struct_bet_temp = t_struct.beta * MATH_SQRT3_2; \
 t_struct.b = out_temp + t_struct_bet_temp;						 \
 t_struct.c = out_temp - t_struct_bet_temp;                       \
-t_struct.n = t_struct.gamma * 3.0f;			                     \
+t_struct.neutro = t_struct.gamma * 3.0f;			                     \
 }
 
 #define abg_dqz(t_struct, angle)								 \
@@ -124,13 +148,15 @@ struct transformation_struct
 	float a;
 	float b;
 	float c;
-	float n;
+	float neutro;
 	float alfa;
 	float beta;
 	float gamma;
 	float d;
 	float q;
 	float z;
+	float p;
+	float n;
 };
 
 struct SOGI_struct

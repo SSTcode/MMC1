@@ -21,25 +21,31 @@ struct Control_struct
 	struct PI_struct PI_Is;
 	struct PR_struct PR_Io;
 	struct PR_struct PR_Iz;
-	float U_dc_filter;
-	float U_dc_ref;
-	float T_filtr_U_dc;
+
+	float Mm;
+	float Ms;
+	struct transformation_struct Mo;
+	struct transformation_struct Mz;
+
+	float Im;
+	float Is;
+	struct transformation_struct Io;
+	struct transformation_struct Iz;
+
 	float Ts;
 	float ERR;
 	float RDY;
+	float U_dc;
 
-	float U_lim;
-	float I_lim;
-	float L_comp;
-	float Cdc;
 
-	struct CIC_struct CIC_load_q_a, CIC_load_q_b, CIC_load_q_c;
+
+	struct CIC_struct CIC_Ux_dc_p, CIC_Ux_dc_n;
 
 	enum Control_state_enum state, state_last;
 };
 
 extern struct Control_struct Ctrl;
 
-void Compensator_calc(float enable);
+void Control_calc(float enable);
 
 #endif /* Compensator_H_ */

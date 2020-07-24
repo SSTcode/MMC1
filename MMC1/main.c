@@ -7,7 +7,7 @@
 //2. Attach the DLL to the PLECS process using Debug > Attach to process > PLECS.exe.
 //3. In main.c, create a breakpoint at the line y = kp * e + ki * i.
 
-#define DLL_INPUTS_NUMBER   12
+#define DLL_INPUTS_NUMBER   30
 #define DLL_OUTPUTS_NUMBER  8
 #define DLL_PARAMETERS_NUMBER  7
 
@@ -46,6 +46,9 @@ DLLEXPORT void plecsStart(struct SimulationState* aState)
     PLL.SOGI_bet.Ts = PLL.Ts;
 
     ////////////////////////////////////////////////////////////////
+
+    Ctrl.CIC_Ux_dc_p.OSR = 0.02f / Ctrl.Ts / 2.0f;//312;
+    Ctrl.CIC_Ux_dc_n.OSR = Ctrl.CIC_Ux_dc_p.OSR;
 
     float Lm = 3.0f*Ldc + L + 2.0f *Lac;
     float rm = 3.0f*rdc + r + 2.0f *rac;
@@ -89,34 +92,55 @@ DLLEXPORT void plecsStart(struct SimulationState* aState)
 //output is written to DLL output port after the output delay
 DLLEXPORT void plecsOutput(struct SimulationState* aState)
 {
-    Meas.U_grid.a = aState_global->inputs[0];
-    Meas.U_grid.b = aState_global->inputs[1];
-    Meas.U_grid.c = aState_global->inputs[2];
-    Meas.I_grid.a = aState_global->inputs[3];
-    Meas.I_grid.b = aState_global->inputs[4];
-    Meas.I_grid.c = aState_global->inputs[5];
-
-    Meas.Ixy_p.a = aState_global->inputs[6];
-    Meas.Ixy_n.a = aState_global->inputs[7];
-    Meas.Ixy_p.b = aState_global->inputs[8];
-    Meas.Ixy_n.b = aState_global->inputs[9];
-    Meas.Ixy_p.c = aState_global->inputs[10];
-    Meas.Ixy_n.c = aState_global->inputs[11];
-    
-    Meas.U_dc = aState_global->inputs[12];
+    //6
+    Meas.Uy_grid.a = aState_global->inputs[0];
+    Meas.Uy_grid.b = aState_global->inputs[1];
+    Meas.Uy_grid.c = aState_global->inputs[2];
+    Meas.Iy_grid.a = aState_global->inputs[3];
+    Meas.Iy_grid.b = aState_global->inputs[4];
+    Meas.Iy_grid.c = aState_global->inputs[5];
+    // 4
+    Meas.Ux_dc.p = aState_global->inputs[6];
+    Meas.Ux_dc.n = aState_global->inputs[7];
+    Meas.Ix_dc.p = aState_global->inputs[8];
+    Meas.Ix_dc.n = aState_global->inputs[9];
+    //6
+    Meas.Uxy_p.a = aState_global->inputs[10];
+    Meas.Uxy_n.a = aState_global->inputs[11];
+    Meas.Uxy_p.b = aState_global->inputs[12];
+    Meas.Uxy_n.b = aState_global->inputs[13];
+    Meas.Uxy_p.c = aState_global->inputs[14];
+    Meas.Uxy_n.c = aState_global->inputs[15];
+    //6
+    Meas.Ixy_p.a = aState_global->inputs[16];
+    Meas.Ixy_n.a = aState_global->inputs[17];
+    Meas.Ixy_p.b = aState_global->inputs[18];
+    Meas.Ixy_n.b = aState_global->inputs[19];
+    Meas.Ixy_p.c = aState_global->inputs[20];
+    Meas.Ixy_n.c = aState_global->inputs[21];
+    //8
+    Meas.Im_ref   = aState_global->inputs[22];
+    Meas.Is_ref   = aState_global->inputs[23];
+    Meas.Iz_ref.a = aState_global->inputs[24];
+    Meas.Iz_ref.b = aState_global->inputs[25];
+    Meas.Iz_ref.c = aState_global->inputs[26];
+    Meas.Io_ref.a = aState_global->inputs[27];
+    Meas.Io_ref.b = aState_global->inputs[28];
+    Meas.Io_ref.c = aState_global->inputs[29];
 
 
     float enable = 1;
     PLL_calc(enable);
+    Control_calc(PLL.RDY);
 
-    aState_global->outputs[0] = Meas.Im;
-    aState_global->outputs[1] = Meas.Is;
-    aState_global->outputs[2] = Meas.Io.a ;
-    aState_global->outputs[3] = Meas.Io.b ;
-    aState_global->outputs[4] = Meas.Io.c ;
-    aState_global->outputs[5] = Meas.Iz.a ;
-    aState_global->outputs[6] = Meas.Iz.b ;
-    aState_global->outputs[7] = Meas.Iz.c ;
+    aState_global->outputs[0] = Ctrl.Ms;;
+    aState_global->outputs[1] = Ctrl.Mm;
+    aState_global->outputs[2] = Ctrl.Mo.a ;
+    aState_global->outputs[3] = Ctrl.Mo.b ;
+    aState_global->outputs[4] = Ctrl.Mo.c ;
+    aState_global->outputs[5] = Ctrl.Mz.a ;
+    aState_global->outputs[6] = Ctrl.Mz.b ;
+    aState_global->outputs[7] = Ctrl.Mz.c ;
 
 
 }

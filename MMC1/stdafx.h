@@ -33,19 +33,21 @@ typedef INT16 int16;
 
 struct Measurements
 {
-	struct transformation_struct U_grid;
-	struct transformation_struct I_grid;
+	struct transformation_struct Uy_grid;
+	struct transformation_struct Iy_grid;
+	struct transformation_struct Ux_dc;
+	struct transformation_struct Ix_dc;
+	struct transformation_struct Uxy_p;
+	struct transformation_struct Uxy_n;
 	struct transformation_struct Ixy_p;
 	struct transformation_struct Ixy_n;
-	struct transformation_struct Io;
-	struct transformation_struct Iz;
-	float Im;
-	float Is;
+
+	struct transformation_struct Io_ref;
+	struct transformation_struct Iz_ref;
+	float Im_ref;
+	float Is_ref;
+
 	float theta;
-	float I_comp_N;
-	float U_dc;
-	struct Power_struct power_load_CIC_avg;
-	struct Power_struct power_load;
 
 };
 
