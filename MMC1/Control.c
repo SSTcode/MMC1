@@ -79,7 +79,7 @@ void Control_calc(float enable)
 		{
 			
 			
-	
+	//Permanent Regim
 			Ctrl.Ms = 0.249f;;
 			Ctrl.Mm  = 0.2499650000f;
 			Ctrl.Mo.a= 0.2536f* MATH_1_SQRT2*sin(PLL.theta_1-172.86f*3.14f/180.0f);
