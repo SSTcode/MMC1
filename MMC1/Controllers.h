@@ -120,6 +120,10 @@ reactive_power_abc(p_struct, u_t_struct, i_t_struct)
 
 
 
+
+
+
+
 struct CIC_struct
 {
 	int32 integrator[2];
@@ -169,6 +173,7 @@ struct SOGI_struct
 
 struct PI_struct {
 	float Kp;
+	float Ki;
 	float Ts_Ti;
 	float Ti;
 	float Ts;
@@ -178,6 +183,11 @@ struct PI_struct {
 	float lim_H;
 	float lim_L;
 	float out;
+	float error_prev;
+	float out_prev;
+	float out_3ph[3];
+	float error_prev_3ph[3];
+	float out_prev_3ph[3];
 };
 
 struct PR_struct
@@ -196,6 +206,16 @@ struct PR_struct
 	float alpha;
 };
 
+struct DEC_struct
+{
+	//float xy[6];
+	float o[3];
+	float z[3];
+	float s;
+	float m;
+
+};
+
 void SOGI_calc(struct SOGI_struct* SOGI, float input, float w);
 
 void PR_calc(struct PR_struct* PR, float error);
@@ -203,5 +223,12 @@ void PR_calc_imp(struct PR_struct* PR, float error);
 
 void PI_antiwindup_fast(struct PI_struct* PI, float error);
 void PI_antiwindup(struct PI_struct* PI, float error);
+
+void PI_tustin(struct PI_struct* PI_tus, float error);
+void PI_tustin_3ph(struct PI_struct* PI_tus, float error[3]);
+
+void xy2Dec(struct DEC_struct* DEC,float xy[6]);
+
+//void s_Dec2xy(float* xy, float* o, float s, float* z, float m);
 
 #endif /* Controllers_H_ */

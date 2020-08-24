@@ -89,3 +89,47 @@ void PR_calc_imp(struct PR_struct* PR, float error)
 	PR->x2 = PR->y0;
 	PR->out = PR->y0 * PR->Ki + error * PR->Kp;
 }
+
+void PI_tustin(struct PI_struct* PI_tus,float error)
+{
+	float out_temp = 0.0;
+	out_temp = (PI_tus->Ki * PI_tus->Ts)*0.5f * (error + PI_tus->error_prev) + PI_tus->out_prev;
+	if (out_temp - error * PI_tus->Kp > PI_tus->lim_H) out_temp = PI_tus->lim_H - error * PI_tus->Kp;
+	if (out_temp - error * PI_tus->Kp < PI_tus->lim_L) out_temp = PI_tus->lim_L - error * PI_tus->Kp;
+	PI_tus->out_prev = out_temp;
+	PI_tus->error_prev = error;
+	PI_tus->out = out_temp + error*PI_tus->Kp;
+}
+
+void PI_tustin_3ph(struct PI_struct* PI_tus, float error[3])
+{
+	int i;
+	float out_temp[3] = { 0.0,0.0,0.0 };
+	for (i = 0; i < 3; i++) {
+		out_temp[i] = (PI_tus->Ki * PI_tus->Ts) * 0.5f * (error[i] + PI_tus->error_prev_3ph[i]) + PI_tus->out_prev_3ph[i];
+		if (out_temp[i] - error[i] * PI_tus->Kp > PI_tus->lim_H) out_temp[i] = PI_tus->lim_H - error[i] * PI_tus->Kp;
+		if (out_temp[i] - error[i] * PI_tus->Kp < PI_tus->lim_L) out_temp[i] = PI_tus->lim_L - error[i] * PI_tus->Kp;
+		PI_tus->out_prev_3ph[i] = out_temp[i];
+		PI_tus->error_prev_3ph[i] = error[i];
+		PI_tus->out_3ph[i] = out_temp[i] + error[i] * PI_tus->Kp;
+	}
+}
+
+void xy2Dec(struct DEC_struct* DEC, float xy[6])
+{																								
+	DEC->o[0] = 0.166666667f * (2.0f * xy[0] + 2.0f * xy[3] - xy[1] - xy[4] - xy[2] - xy[5]);
+	DEC->o[1] = 0.166666667f * (-1.0f* xy[0] - xy[3] + 2.0f * xy[1] + 2.0f * xy[4] - xy[2] - xy[5]);
+	DEC->o[2] = 0.166666667f * (-1.0f* xy[0] - xy[3] - xy[1] - xy[4] + 2.0f * xy[2] + 2.0f * xy[5]);
+
+	DEC->s    = 0.166666667f * (       xy[0] - xy[3] + xy[1] - xy[4] + xy[2] - xy[5]);
+
+	DEC->z[0] = 0.166666667f * (2.0f * xy[0] - 2.0f * xy[3] - xy[1] + xy[4] - xy[2] + xy[5]);
+	DEC->z[1] = 0.166666667f * (-1.0f* xy[0] + xy[3] + 2.0f * xy[1] - 2.0f * xy[4] - xy[2] + xy[5]);
+	DEC->z[2] = 0.166666667f * (-1.0f* xy[0] + xy[3] - xy[1] + xy[4] + 2.0f * xy[2] - 2.0f * xy[5]);
+
+	DEC->m    = 0.166666667f * (       xy[0] + xy[1] + xy[2] + xy[3] + xy[4] + xy[5]);
+}
+
+
+
+

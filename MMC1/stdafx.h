@@ -35,12 +35,12 @@ struct Measurements
 {
 	struct transformation_struct Uy_grid;
 	struct transformation_struct Iy_grid;
-	struct transformation_struct Ux_dc;
 	struct transformation_struct Ix_dc;
 	struct transformation_struct Uxy_p;
 	struct transformation_struct Uxy_n;
-	struct transformation_struct Ixy_p;
-	struct transformation_struct Ixy_n;
+
+	float Uc_pn[6];
+	float Vdc;
 
 	struct transformation_struct Io_ref;
 	struct transformation_struct Iz_ref;
@@ -48,6 +48,21 @@ struct Measurements
 	float Is_ref;
 
 	float theta;
+
+
+				
+	float Ixy[6];
+
+				
+	float Vxy[6];
+	float Vo[3] ;
+	float Vz[3] ;
+	float Vs    ;
+	float Vm    ;
+	
+
+
+
 
 };
 
