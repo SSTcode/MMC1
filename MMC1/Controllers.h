@@ -208,7 +208,7 @@ struct PR_struct
 
 struct DEC_struct
 {
-	//float xy[6];
+	float xy[6];
 	float o[3];
 	float z[3];
 	float s;
@@ -227,8 +227,8 @@ void PI_antiwindup(struct PI_struct* PI, float error);
 void PI_tustin(struct PI_struct* PI_tus, float error);
 void PI_tustin_3ph(struct PI_struct* PI_tus, float error[3]);
 
-void xy2Dec(struct DEC_struct* DEC,float xy[6]);
+void xy2Dec(struct DEC_struct* DEC, float xy[6]);
+void Dec2xy(struct DEC_struct* DEC, float o[3], float s, float z[3], float m);
 
-//void s_Dec2xy(float* xy, float* o, float s, float* z, float m);
 
 #endif /* Controllers_H_ */

@@ -25,6 +25,12 @@ struct Control_struct
 	struct PI_struct PI_sv;
 	struct PI_struct PI_mv;
 
+	struct PI_struct PI_oi;
+	struct PI_struct PI_zi;
+	struct PI_struct PI_si;
+
+	float duty_modxy[6];
+
 	struct PR_struct PR_Io;
 	struct PR_struct PR_Iz;
 
@@ -33,10 +39,7 @@ struct Control_struct
 	struct transformation_struct Mo;
 	struct transformation_struct Mz;
 
-	float Im;
-	float Is;
-	struct transformation_struct Io;
-	struct transformation_struct Iz;
+	float n_cell;
 
 	float Ts;
 	float C;
@@ -51,11 +54,41 @@ struct Control_struct
 	float Uc_xy_filter_coeff;
 
 	float Ixy[6];
+	float Io[3];
+	float Iz[3];
+	float Is;
+	float Im;
 
+	float Vxy[6];
+	float Vo[3];
+	float Vz[3];
+	float Vs;
+	float Vm;
 
 	float I_xy_filter[5];
 	float I_xy_filter2[5];
 	float I_xy_filter_coeff;
+
+	float izref[3];
+	float ioref[3];
+	float isref;
+	float Vmrefv;
+	float Vmrefi;
+	float Vmref;
+	
+	float Voref[3];
+	float Vzref[3];
+	float Vsref;
+
+	float is_sign;
+	float Is_est;
+
+	float Io_refT[3];
+	float Iz_refT[3];
+	
+	float err_oi[3];
+	float err_zi[3];
+	float err_si;
 
 	float err_ov[3];
 	float err_zv[3];
@@ -64,7 +97,7 @@ struct Control_struct
 	float Vc_ref;
 	float Exy_ref;
 
-	struct DEC_struct xy2Dec;
+
 	float Exy[6];
 	float Eo[3];
 	float Ez[3];
@@ -82,6 +115,8 @@ struct Control_struct
 
 
 	struct CIC_struct CIC_Ux_dc_p, CIC_Ux_dc_n;
+
+	struct DEC_struct xy2Dec;
 
 	enum Control_state_enum state, state_last;
 };

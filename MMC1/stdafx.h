@@ -40,6 +40,7 @@ struct Measurements
 	struct transformation_struct Uxy_n;
 
 	float Uc_pn[6];
+	float Vgrid[3];
 	float Vdc;
 
 	struct transformation_struct Io_ref;
@@ -54,11 +55,7 @@ struct Measurements
 	float Ixy[6];
 
 				
-	float Vxy[6];
-	float Vo[3] ;
-	float Vz[3] ;
-	float Vs    ;
-	float Vm    ;
+
 	
 
 

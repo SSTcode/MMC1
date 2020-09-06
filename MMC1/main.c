@@ -35,9 +35,18 @@ DLLEXPORT void plecsStart(struct SimulationState* aState)
     float Lac = aState->parameters[5];
     float rac = aState->parameters[6];
     Ctrl.C   = aState->parameters[7];
-    float n_cell = aState->parameters[8];
+    Ctrl.n_cell = aState->parameters[8];
 
-    
+    if (Ctrl.Vdc < 1.0) Ctrl.Vdc = 1.0f;
+    Ctrl.Vx = Ctrl.Vdc * 0.5f;
+    if (Ctrl.Vc_ref < Ctrl.Vdc / 4.0f * 1.2f) Ctrl.Vc_ref = Ctrl.Vdc / 4.0f * 1.2f;
+    Ctrl.Exy_ref = Ctrl.Vc_ref * Ctrl.Vc_ref * Ctrl.C * 0.5f;
+    float Io_max = 8.0f;
+    float Umax_i = Ctrl.Vc_ref * Ctrl.n_cell;
+    float Umax_v = Ctrl.Vx * Io_max;
+    float Umin_i = -Umax_i;
+    float Umin_v = -Umax_v;
+
     PLL.omega_nominal = MATH_2PI * 50.0f;
     PLL.PI.Kp = 92.0f;
     PLL.PI.Ti = 0.087f;
@@ -59,15 +68,7 @@ Ctrl.Vdc = 100.0f;
     Ctrl.CIC_Ux_dc_p.OSR = 0.02f / Ctrl.Ts / 2.0f;//312;
     Ctrl.CIC_Ux_dc_n.OSR = Ctrl.CIC_Ux_dc_p.OSR;
 
-    if (Ctrl.Vdc < 1.0) Ctrl.Vdc = 1.0f;
-    Ctrl.Vx = Ctrl.Vdc * 0.5f;
-    if (Ctrl.Vc_ref < Ctrl.Vdc / 4.0f * 1.2f) Ctrl.Vc_ref = Ctrl.Vdc / 4.0f * 1.2f;
-    Ctrl.Exy_ref = Ctrl.Vc_ref * Ctrl.Vc_ref * Ctrl.C * 0.5f;
-    float Io_max = 8.0f;
-    float Umax_i = Ctrl.Vc_ref * n_cell;
-    float Umax_v = Ctrl.Vx * Io_max;
-    float Umin_i = -Umax_i;
-    float Umin_v = -Umax_v;
+
 
 
     register float Uc_xy_filter_T = 2.0f * sqrtf(MATH_SQRT2 - 1.0f) / (MATH_2PI * 30.0f); //30Hz cutoff, Time constant of low-pass
@@ -108,6 +109,7 @@ Ctrl.Vdc = 100.0f;
     register float I_xy_filter_T = 2.0f * sqrtf(MATH_SQRT2 - 1.0f) / (MATH_2PI * 30.0f); //30Hz cutoff, Time constant of low-pass
     Ctrl.I_xy_filter_coeff = Ctrl.Ts * 2.0f / I_xy_filter_T;
     
+    Ctrl.Is_est = 0.3f;
     
     
     float Lm = 3.0f*Ldc + L + 2.0f *Lac;
@@ -155,6 +157,11 @@ DLLEXPORT void plecsOutput(struct SimulationState* aState)
     Meas.Uy_grid.a = aState_global->inputs[0];
     Meas.Uy_grid.b = aState_global->inputs[1];
     Meas.Uy_grid.c = aState_global->inputs[2];
+
+    Meas.Vgrid[0] = aState_global->inputs[0];
+    Meas.Vgrid[1] = aState_global->inputs[1];
+    Meas.Vgrid[2] = aState_global->inputs[2];
+
     Meas.Iy_grid.a = aState_global->inputs[3];
     Meas.Iy_grid.b = aState_global->inputs[4];
     Meas.Iy_grid.c = aState_global->inputs[5];

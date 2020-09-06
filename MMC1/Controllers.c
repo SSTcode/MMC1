@@ -131,5 +131,14 @@ void xy2Dec(struct DEC_struct* DEC, float xy[6])
 }
 
 
+void Dec2xy(struct DEC_struct* DEC, float o[3], float s, float z[3], float m)
+{
+	DEC->xy[0] = o[0] + s + z[0] + m; //pa
+	DEC->xy[1] = o[1] + s + z[1] + m; //pb 
+	DEC->xy[2] = o[2] + s + z[2] + m; //pc 
+	DEC->xy[3] = o[0] - s - z[0] + m; //na 
+	DEC->xy[4] = o[1] - s - z[1] + m; //nb
+	DEC->xy[5] = o[2] - s - z[2] + m; //nc
 
+}
 
