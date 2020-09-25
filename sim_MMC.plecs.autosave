@@ -49,7 +49,7 @@ Plecs {
   ScriptsDialogGeometry ""
   ScriptsDialogSplitterPos "0"
   Schematic {
-    Location      [0, 23; 1536, 777]
+    Location      [0, 26; 1536, 780]
     ZoomFactor    0.999996
     SliderPosition [205, 0]
     ShowBrowser   off
@@ -235,34 +235,6 @@ Plecs {
       }
     }
     Component {
-      Type          ThreePhaseVoltageSource
-      Name          "V_3ph"
-      Show          off
-      Position      [45, 255]
-      Direction     up
-      Flipped       off
-      Parameter {
-        Variable      "V"
-        Value         "vac"
-        Show          off
-      }
-      Parameter {
-        Variable      "w"
-        Value         "50"
-        Show          off
-      }
-      Parameter {
-        Variable      "phi"
-        Value         "0"
-        Show          off
-      }
-      Parameter {
-        Variable      "neutral"
-        Value         "1"
-        Show          off
-      }
-    }
-    Component {
       Type          Voltmeter
       Name          "Vm1"
       Show          on
@@ -285,19 +257,6 @@ Plecs {
       Parameter {
         Variable      "Visibility"
         Value         "1"
-        Show          off
-      }
-    }
-    Component {
-      Type          Resistor
-      Name          "Rload"
-      Show          on
-      Position      [745, 240]
-      Direction     down
-      Flipped       on
-      Parameter {
-        Variable      "R"
-        Value         "16"
         Show          off
       }
     }
@@ -2241,8 +2200,8 @@ Plecs {
 "AAAAA=="
       SavedViews    "AAAAAgAAAAA="
       HeaderState   "AAAA/wAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAAAAAAAL/gMAAAAJAAAAB"
-"AAAAH0AAAAFAAAAfQAAAAYAAAB9AAAABwAAAH0AAAABAAAAfQAAAAIAAAB9AAAAAwAAAH0AAAAIAA"
-"AAfQAAAAkAAAB9AAABVAAAAAsBAAABAAAAAAAAAAAAAAAAff////8AAACBAAAAAAAAAAsAAAEjAAA"
+"wAAAH0AAAAGAAAAfQAAAAUAAAB9AAAABAAAAH0AAAAJAAAAfQAAAAgAAAB9AAAAAwAAAH0AAAACAA"
+"AAfQAAAAEAAAB9AAABVAAAAAsBAAABAAAAAAAAAAAAAAAAff////8AAACBAAAAAAAAAAsAAAEjAAA"
 "AAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAA"
 "AAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAA"
 "AAxAAAAAQAAAAAAAAPoAAAAADE="
@@ -5292,6 +5251,19 @@ Plecs {
         Show          off
       }
     }
+    Component {
+      Type          DCVoltageSource
+      Name          "V_dc"
+      Show          on
+      Position      [745, 240]
+      Direction     down
+      Flipped       on
+      Parameter {
+        Variable      "V"
+        Value         "400"
+        Show          off
+      }
+    }
     Connection {
       Type          Wire
       SrcComponent  "vcp"
@@ -5413,7 +5385,7 @@ Plecs {
         }
       }
       Branch {
-        DstComponent  "Rload"
+        DstComponent  "V_dc"
         DstTerminal   2
       }
     }
@@ -5488,7 +5460,7 @@ Plecs {
       Type          Wire
       SrcComponent  "Is"
       SrcTerminal   2
-      DstComponent  "Rload"
+      DstComponent  "V_dc"
       DstTerminal   1
     }
     Connection {
@@ -5596,14 +5568,6 @@ Plecs {
         DstComponent  "Ground3"
         DstTerminal   1
       }
-    }
-    Connection {
-      Type          Wire
-      SrcComponent  "V_3ph"
-      SrcTerminal   4
-      Points        [20, 255]
-      DstComponent  "Ground2"
-      DstTerminal   1
     }
     Connection {
       Type          Signal
@@ -5962,27 +5926,6 @@ Plecs {
       DstTerminal   1
     }
     Connection {
-      Type          Wire
-      SrcComponent  "V_3ph"
-      SrcTerminal   1
-      DstComponent  "3ph Meter3"
-      DstTerminal   1
-    }
-    Connection {
-      Type          Wire
-      SrcComponent  "V_3ph"
-      SrcTerminal   2
-      DstComponent  "3ph Meter3"
-      DstTerminal   2
-    }
-    Connection {
-      Type          Wire
-      SrcComponent  "V_3ph"
-      SrcTerminal   3
-      DstComponent  "3ph Meter3"
-      DstTerminal   3
-    }
-    Connection {
       Type          Signal
       SrcComponent  "Step"
       SrcTerminal   1
@@ -6289,6 +6232,26 @@ Plecs {
       SrcTerminal   5
       DstComponent  "PIsEnergy"
       DstTerminal   4
+    }
+    Connection {
+      Type          Wire
+      SrcComponent  "3ph Meter3"
+      SrcTerminal   1
+      Points        [65, 245; 65, 255]
+      Branch {
+        DstComponent  "3ph Meter3"
+        DstTerminal   2
+      }
+      Branch {
+        Points        [65, 265]
+        DstComponent  "3ph Meter3"
+        DstTerminal   3
+      }
+      Branch {
+        Points        [20, 255]
+        DstComponent  "Ground2"
+        DstTerminal   1
+      }
     }
     Annotation {
       Name          "is=Ix/3"
