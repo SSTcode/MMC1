@@ -8,7 +8,7 @@
 //3. In main.c, create a breakpoint at the line y = kp * e + ki * i.
 
 #define DLL_INPUTS_NUMBER   37
-#define DLL_OUTPUTS_NUMBER  22
+#define DLL_OUTPUTS_NUMBER  31
 #define DLL_PARAMETERS_NUMBER  9
 
 DLLEXPORT void plecsSetSizes(struct SimulationSizes* aSizes)
@@ -154,18 +154,18 @@ Ctrl.Vdc = 100.0f;
 DLLEXPORT void plecsOutput(struct SimulationState* aState)
 {
     //6
-    Meas.Uy_grid.a = aState_global->inputs[0];
-    Meas.Uy_grid.b = aState_global->inputs[1];
-    Meas.Uy_grid.c = aState_global->inputs[2];
+    Meas.Uy_grid.a = aState_global->inputs[3];
+    Meas.Uy_grid.b = aState_global->inputs[4];
+    Meas.Uy_grid.c = aState_global->inputs[5];
 
     Meas.Vgrid[0] = aState_global->inputs[0];
     Meas.Vgrid[1] = aState_global->inputs[1];
     Meas.Vgrid[2] = aState_global->inputs[2];
 
-    Meas.Iy_grid.a = aState_global->inputs[3];
-    Meas.Iy_grid.b = aState_global->inputs[4];
-    Meas.Iy_grid.c = aState_global->inputs[5];
-    // 4
+   // Meas.Iy_grid.a = aState_global->inputs[3];
+   // Meas.Iy_grid.b = aState_global->inputs[4];
+   // Meas.Iy_grid.c = aState_global->inputs[5];
+   // // 4
     //Meas.Ux_dc.p = aState_global->inputs[6];
     //Meas.Ux_dc.n = aState_global->inputs[7];
     //Meas.Ix_dc.p = aState_global->inputs[8];
@@ -207,35 +207,49 @@ DLLEXPORT void plecsOutput(struct SimulationState* aState)
     PLL_calc(enable);
     Control_calc(PLL.RDY);
 
-   //aState_global->outputs[0] = Ctrl.xy2Dec.xy[0];
-   //aState_global->outputs[1] = Ctrl.xy2Dec.xy[1];
-   //aState_global->outputs[2] = Ctrl.xy2Dec.xy[2];
-   //                            
-   //aState_global->outputs[3] = Ctrl.xy2Dec.xy[3];
-   //aState_global->outputs[4] = Ctrl.xy2Dec.xy[4];
-   //aState_global->outputs[5] = Ctrl.xy2Dec.xy[5];
+   aState_global->outputs[0] = PLL.theta_1;
+   aState_global->outputs[1] = PLL.theta_2;
+   aState_global->outputs[2] = PLL.theta_3;
+                               
+   aState_global->outputs[3] = Meas.Uy_grid.a;
+   aState_global->outputs[4] = Meas.Uy_grid.b;
+   aState_global->outputs[5] = Meas.Uy_grid.c;
                               
-    aState_global->outputs[6] = Ctrl.err_ov[0];
-    aState_global->outputs[7] = Ctrl.err_ov[1];
-    aState_global->outputs[8] = Ctrl.err_ov[2];
+   aState_global->outputs[6] = Ctrl.Is;
 
-    aState_global->outputs[9]  = Ctrl.err_zv[0];
-    aState_global->outputs[10] = Ctrl.err_zv[1];
-    aState_global->outputs[11] = Ctrl.err_zv[2];
+   aState_global->outputs[7]  = Ctrl.Io[0];
+   aState_global->outputs[8]  = Ctrl.Io[1];
+   aState_global->outputs[9]  = Ctrl.Io[2];
 
-    aState_global->outputs[12] = Ctrl.err_sv;
-    aState_global->outputs[13] = Ctrl.err_mv;
+   aState_global->outputs[10] = Ctrl.Iz[0];
+   aState_global->outputs[11] = Ctrl.Iz[1];
+   aState_global->outputs[12] = Ctrl.Iz[2];
+
+   aState_global->outputs[13] = Ctrl.Im;
  
-    aState_global->outputs[14] = Ctrl.PI_sv.out;
-    aState_global->outputs[15] = Ctrl.PI_mv.out;
+   aState_global->outputs[14] = PLL.theta_4;
 
-    aState_global->outputs[16] = Ctrl.PI_ov.out_3ph[0];
-    aState_global->outputs[17] = Ctrl.PI_ov.out_3ph[1];
-    aState_global->outputs[18] = Ctrl.PI_ov.out_3ph[2];
+   aState_global->outputs[15] = Ctrl.Io_struct.a;
+   aState_global->outputs[16] = Ctrl.Io_struct.b;
+   aState_global->outputs[17] = Ctrl.Io_struct.c;
 
-    aState_global->outputs[19] = Ctrl.PI_zv.out_3ph[0];
-    aState_global->outputs[20] = Ctrl.PI_zv.out_3ph[1];
-    aState_global->outputs[21] = Ctrl.PI_zv.out_3ph[2];
+   aState_global->outputs[18] = Ctrl.Io_struct.d;
+   aState_global->outputs[19] = Ctrl.Io_struct.q;
+
+
+   aState_global->outputs[20] = Ctrl.Iz_struct.a;
+   aState_global->outputs[21] = Ctrl.Iz_struct.b;
+   aState_global->outputs[22] = Ctrl.Iz_struct.c;
+                                      
+   aState_global->outputs[23] = Ctrl.Iz_struct.d;
+   aState_global->outputs[24] = Ctrl.Iz_struct.q;
+
+   aState_global->outputs[25] = Ctrl.duty_modxy[0];
+   aState_global->outputs[26] = Ctrl.duty_modxy[1];
+   aState_global->outputs[27] = Ctrl.duty_modxy[2];
+   aState_global->outputs[28] = Ctrl.duty_modxy[3];
+   aState_global->outputs[29] = Ctrl.duty_modxy[4];
+   aState_global->outputs[30] = Ctrl.duty_modxy[5];
 
 
 }

@@ -25,9 +25,11 @@ struct Control_struct
 	struct PI_struct PI_sv;
 	struct PI_struct PI_mv;
 
-	struct PI_struct PI_oi;
-	struct PI_struct PI_zi;
+	struct PI_struct PI_oi_d;
+	struct PI_struct PI_zi_d;
 	struct PI_struct PI_si;
+	struct PI_struct PI_oi_q;
+	struct PI_struct PI_zi_q;
 
 	float duty_modxy[6];
 
@@ -38,6 +40,14 @@ struct Control_struct
 	float Ms;
 	struct transformation_struct Mo;
 	struct transformation_struct Mz;
+
+	struct transformation_struct Io_struct;
+	struct transformation_struct Iz_struct;
+	struct transformation_struct Io_ref_struct;
+	struct transformation_struct Iz_ref_struct;
+
+	struct transformation_struct Voref_struct;
+	struct transformation_struct Vzref_struct;
 
 	float n_cell;
 

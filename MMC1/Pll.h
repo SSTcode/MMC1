@@ -23,6 +23,9 @@ struct PLL_struct {
 	float theta_1;
 	float theta_2;
 	float theta_3;
+	float theta_4;
+	float theta_5;
+	float theta_6;
 	float w;
 	float w_filter1;
 	float w_filter2;

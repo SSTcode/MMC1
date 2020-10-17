@@ -16,6 +16,7 @@ extern const float MATH_SQRT3_2;
 extern const float MATH_SQRT2;
 extern const float MATH_SQRT3;
 extern const float MATH_2_3;
+extern const float MATH_SQRT_2_3;
 
 //Cascaded integrator–comb filter
 #define CIC1_filter(CIC_struct, input)			                                                                                     \
@@ -89,6 +90,41 @@ t_struct.q = -sine * (t_struct.alfa) + cosine * (t_struct.beta); \
 t_struct.z = t_struct.gamma;									 \
 }
 
+#define abc_dq_pos(t_struct, angle)									 \
+{																	 \
+	register float sine = sinf(angle);            					 \
+	register float cosine = cosf(angle);          					 \
+	t_struct.d =  MATH_SQRT_2_3 * (t_struct.a - 0.5 * t_struct.b - 0.5 * t_struct.c) * cosine + MATH_SQRT_2_3 * (MATH_SQRT3_2 * t_struct.b - MATH_SQRT3_2 * t_struct.c) * sine;		\
+	t_struct.q = -MATH_SQRT_2_3 * (t_struct.a - 0.5 * t_struct.b - 0.5 * t_struct.c) * sine   + MATH_SQRT_2_3 * (MATH_SQRT3_2 * t_struct.b - MATH_SQRT3_2 * t_struct.c) * cosine;	\
+}
+
+#define abc_dq_neg(t_struct, angle)									 \
+{																	 \
+	register float sine = sinf(angle);            					 \
+	register float cosine = cosf(angle);          					 \
+	t_struct.d =  MATH_SQRT_2_3 * (t_struct.a - 0.5 * t_struct.b - 0.5 * t_struct.c) * cosine + MATH_SQRT_2_3 * (-MATH_SQRT3_2 * t_struct.b + MATH_SQRT3_2 * t_struct.c) * sine;    \
+	t_struct.q = -MATH_SQRT_2_3 * (t_struct.a - 0.5 * t_struct.b - 0.5 * t_struct.c) * sine   + MATH_SQRT_2_3 * (-MATH_SQRT3_2 * t_struct.b + MATH_SQRT3_2 * t_struct.c) * cosine;	\
+}
+
+
+#define dq_abc_pos(t_struct, angle)									 \
+{																	 \
+	register float sine = sinf(angle);            					 \
+	register float cosine = cosf(angle);          					 \
+t_struct.a =         t_struct.d * cosine - t_struct.q * sine;		 \
+t_struct.b = -0.5 * (t_struct.d * cosine - t_struct.q * sine) + MATH_SQRT3_2 * (t_struct.d * sine + t_struct.q * cosine);	\
+t_struct.c = -0.5 * (t_struct.d * cosine - t_struct.q * sine) - MATH_SQRT3_2 * (t_struct.d * sine + t_struct.q * cosine);	\
+}
+
+#define dq_abc_neg(t_struct, angle)									 \
+{																	 \
+	register float sine = sinf(angle);            					 \
+	register float cosine = cosf(angle);          					 \
+t_struct.a = t_struct.d * cosine - t_struct.q * sine;				 \
+t_struct.b = -0.5 * (t_struct.d * cosine - t_struct.q * sine) - MATH_SQRT3_2 * (t_struct.d * sine + t_struct.q * cosine);	\
+t_struct.c = -0.5 * (t_struct.d * cosine - t_struct.q * sine) + MATH_SQRT3_2 * (t_struct.d * sine + t_struct.q * cosine);	\
+}
+
 #define dqz_abg(t_struct, angle)					 \
 {                                   				 \
 register float sine = sinf(angle);   				 \
@@ -97,6 +133,19 @@ t_struct.alfa = cosine*t_struct.d - sine*t_struct.q; \
 t_struct.beta = sine*t_struct.d + cosine*t_struct.q; \
 t_struct.gamma = t_struct.z;						 \
 }
+
+
+
+#define Dec2xy(xy_struct, o_struct, s, z_struct, m)		\
+{														\
+	xy_struct.pa = o_struct.a + s + z_struct.a + m; 	\
+	xy_struct.pb = o_struct.b + s + z_struct.b + m;  	\
+	xy_struct.pc = o_struct.c + s + z_struct.c + m;  	\
+	xy_struct.na = o_struct.a - s - z_struct.a + m;  	\
+	xy_struct.nb = o_struct.b - s - z_struct.b + m; 	\
+	xy_struct.nc = o_struct.c - s - z_struct.c + m; 	\
+}
+
 
 #define reactive_power_abc(p_struct, u_t_struct, i_t_struct)			    \
 {																		    \
@@ -152,15 +201,13 @@ struct transformation_struct
 	float a;
 	float b;
 	float c;
-	float neutro;
+	float n;
 	float alfa;
 	float beta;
 	float gamma;
 	float d;
 	float q;
 	float z;
-	float p;
-	float n;
 };
 
 struct SOGI_struct
@@ -213,6 +260,15 @@ struct DEC_struct
 	float z[3];
 	float s;
 	float m;
+	float pa;
+	float pb;
+	float pc;
+	float na;
+	float nb;
+	float nc;
+	float a;
+	float b;
+	float c;
 
 };
 
@@ -228,7 +284,7 @@ void PI_tustin(struct PI_struct* PI_tus, float error);
 void PI_tustin_3ph(struct PI_struct* PI_tus, float error[3]);
 
 void xy2Dec(struct DEC_struct* DEC, float xy[6]);
-void Dec2xy(struct DEC_struct* DEC, float o[3], float s, float z[3], float m);
+//void Dec2xy(struct DEC_struct* DEC, float o[3], float s, float z[3], float m);
 
 
 #endif /* Controllers_H_ */

@@ -95,43 +95,43 @@ void Control_calc(float enable)
 		case Ctrler_active:
 		{
 			
-			xy2Dec(&Ctrl.xy2Dec, Ctrl.Exy);
-	
-			Ctrl.err_ov[0] = Ctrl.xy2Dec.o[0];//Ctrl.Eo[0];
-			Ctrl.err_ov[1] = Ctrl.xy2Dec.o[1];//Ctrl.Eo[1];
-			Ctrl.err_ov[2] = Ctrl.xy2Dec.o[2];//Ctrl.Eo[2];
-							
-			Ctrl.err_zv[0] = Ctrl.xy2Dec.z[0];// Ctrl.Ez[0];
-			Ctrl.err_zv[1] = Ctrl.xy2Dec.z[1]; //Ctrl.Ez[1];
-			Ctrl.err_zv[2] = Ctrl.xy2Dec.z[2]; //Ctrl.Ez[2];
+			//xy2Dec(&Ctrl.xy2Dec, Ctrl.Exy);
+			//
+			//Ctrl.err_ov[0] = Ctrl.xy2Dec.o[0];//Ctrl.Eo[0];
+			//Ctrl.err_ov[1] = Ctrl.xy2Dec.o[1];//Ctrl.Eo[1];
+			//Ctrl.err_ov[2] = Ctrl.xy2Dec.o[2];//Ctrl.Eo[2];
+			//				
+			//Ctrl.err_zv[0] = Ctrl.xy2Dec.z[0];// Ctrl.Ez[0];
+			//Ctrl.err_zv[1] = Ctrl.xy2Dec.z[1]; //Ctrl.Ez[1];
+			//Ctrl.err_zv[2] = Ctrl.xy2Dec.z[2]; //Ctrl.Ez[2];
+			//
+			//Ctrl.err_sv = Ctrl.xy2Dec.s;
+			//Ctrl.err_mv = Ctrl.Exy_ref - Ctrl.xy2Dec.m;
+			//
+			//PI_tustin(&Ctrl.PI_sv, Ctrl.err_sv);
+			//PI_tustin(&Ctrl.PI_mv, Ctrl.err_mv);
+			//PI_tustin_3ph(&Ctrl.PI_ov, Ctrl.err_ov);
+			//PI_tustin_3ph(&Ctrl.PI_zv, Ctrl.err_zv);
 
-			Ctrl.err_sv = Ctrl.xy2Dec.s;
-			Ctrl.err_mv = Ctrl.Exy_ref - Ctrl.xy2Dec.m;
-
-			PI_tustin(&Ctrl.PI_sv, Ctrl.err_sv);
-			PI_tustin(&Ctrl.PI_mv, Ctrl.err_mv);
-			PI_tustin_3ph(&Ctrl.PI_ov, Ctrl.err_ov);
-			PI_tustin_3ph(&Ctrl.PI_zv, Ctrl.err_zv);
-
-			Ctrl.izref[0] = Ctrl.PI_ov.out_3ph[0] / Ctrl.Vx;
-			Ctrl.izref[1] = Ctrl.PI_ov.out_3ph[1] / Ctrl.Vx;
-			Ctrl.izref[2] = Ctrl.PI_ov.out_3ph[2] / Ctrl.Vx;
-
-			Ctrl.ioref[0] = Ctrl.PI_zv.out_3ph[0] / Ctrl.Vx;
-			Ctrl.ioref[1] = Ctrl.PI_zv.out_3ph[1] / Ctrl.Vx;
-			Ctrl.ioref[2] = Ctrl.PI_zv.out_3ph[2] / Ctrl.Vx;
-
-			Ctrl.isref = Ctrl.PI_mv.out / Ctrl.Vx;
-
-			if (Ctrl.isref > 0)Ctrl.is_sign = 1.0;
-			else Ctrl.is_sign = -1.0;
-
-			Ctrl.Vmrefv = -1.0 * Ctrl.PI_sv.out/Ctrl.Is_est * Ctrl.is_sign;
+			//Ctrl.izref[0] = Ctrl.PI_ov.out_3ph[0] / Ctrl.Vx;
+			//Ctrl.izref[1] = Ctrl.PI_ov.out_3ph[1] / Ctrl.Vx;
+			//Ctrl.izref[2] = Ctrl.PI_ov.out_3ph[2] / Ctrl.Vx;
+			//
+			//Ctrl.ioref[0] = Ctrl.PI_zv.out_3ph[0] / Ctrl.Vx;
+			//Ctrl.ioref[1] = Ctrl.PI_zv.out_3ph[1] / Ctrl.Vx;
+			//Ctrl.ioref[2] = Ctrl.PI_zv.out_3ph[2] / Ctrl.Vx;
+			//
+			//Ctrl.isref = Ctrl.PI_mv.out / Ctrl.Vx;
+			//
+			//if (Ctrl.isref > 0)Ctrl.is_sign = 1.0;
+			//else Ctrl.is_sign = -1.0;
+			//
+			Ctrl.Vmrefv = 0.0;// -1.0 * Ctrl.PI_sv.out / Ctrl.Is_est * Ctrl.is_sign;
 
 			xy2Dec(&Ctrl.xy2Dec, Ctrl.Ixy);
-			Ctrl.Io[0] = Ctrl.xy2Dec.o[0];
-			Ctrl.Io[1] = Ctrl.xy2Dec.o[1];
-			Ctrl.Io[2] = Ctrl.xy2Dec.o[2];
+			Ctrl.Io[0] = -Ctrl.xy2Dec.o[0];
+			Ctrl.Io[1] = -Ctrl.xy2Dec.o[1];
+			Ctrl.Io[2] = -Ctrl.xy2Dec.o[2];
 
 			Ctrl.Iz[0] = Ctrl.xy2Dec.z[0];
 			Ctrl.Iz[1] = Ctrl.xy2Dec.z[1];
@@ -140,53 +140,72 @@ void Control_calc(float enable)
 			Ctrl.Is = Ctrl.xy2Dec.s;
 			Ctrl.Im = Ctrl.xy2Dec.m;
 
-			//Control de Io 
-			Ctrl.Io_refT[0] = Meas.Io_ref.a + Ctrl.ioref[0];
-			Ctrl.Io_refT[1] = Meas.Io_ref.b + Ctrl.ioref[1];
-			Ctrl.Io_refT[2] = Meas.Io_ref.c + Ctrl.ioref[2];
-			
-			Ctrl.err_oi[0] = Ctrl.Io_refT[0] - Ctrl.Io[0];
-			Ctrl.err_oi[1] = Ctrl.Io_refT[1] - Ctrl.Io[1];
-			Ctrl.err_oi[2] = Ctrl.Io_refT[2] - Ctrl.Io[2];
 
+			//Trasformation
+			//static struct transformation_struct Io = { 0 };
+			Ctrl.Io_struct.a = Ctrl.Io[0];
+			Ctrl.Io_struct.b = Ctrl.Io[1];
+			Ctrl.Io_struct.c = Ctrl.Io[2];
+			abc_dq_pos(Ctrl.Io_struct, PLL.theta_2);
+
+			Ctrl.Iz_struct.a = Ctrl.Iz[0];
+			Ctrl.Iz_struct.b = Ctrl.Iz[1];
+			Ctrl.Iz_struct.c = Ctrl.Iz[2];
+			abc_dq_neg(Ctrl.Iz_struct, PLL.theta_5);
+
+			Ctrl.Io_ref_struct.a = Meas.Io_ref.a;
+			Ctrl.Io_ref_struct.b = Meas.Io_ref.b;
+			Ctrl.Io_ref_struct.c = Meas.Io_ref.c;
+			abc_dq_pos(Ctrl.Io_ref_struct, PLL.theta_2);
+
+			Ctrl.Iz_ref_struct.a = Meas.Iz_ref.a;
+			Ctrl.Iz_ref_struct.b = Meas.Iz_ref.b;
+			Ctrl.Iz_ref_struct.c = Meas.Iz_ref.c;
+			abc_dq_neg(Ctrl.Iz_ref_struct, PLL.theta_5);
+
+			//Control de Io
+			Ctrl.err_oi[0] = Ctrl.Io_ref_struct.d - Ctrl.Io_struct.d;
+			Ctrl.err_oi[1] = Ctrl.Io_ref_struct.q - Ctrl.Io_struct.q;
 
 			//Control de Iz
-			Ctrl.Iz_refT[0] = Meas.Iz_ref.a + Ctrl.izref[0];
-			Ctrl.Iz_refT[1] = Meas.Iz_ref.b + Ctrl.izref[1];
-			Ctrl.Iz_refT[2] = Meas.Iz_ref.c + Ctrl.izref[2];
-		   
-			Ctrl.err_zi[0] = Ctrl.Iz_refT[0] - Ctrl.Iz[0];
-			Ctrl.err_zi[1] = Ctrl.Iz_refT[1] - Ctrl.Iz[1];
-			Ctrl.err_zi[2] = Ctrl.Iz_refT[2] - Ctrl.Iz[2];
-
+			Ctrl.err_zi[0] = Ctrl.Iz_ref_struct.d - Ctrl.Iz_struct.d;
+			Ctrl.err_zi[1] = Ctrl.Iz_ref_struct.q - Ctrl.Iz_struct.q;
+		
 			//Control de Is	
-			Ctrl.err_si = Ctrl.isref - Ctrl.Is;
+			Ctrl.err_si = Meas.Is_ref - Ctrl.Is;
 
 			//Control de Im	
 			Ctrl.Vmrefi = Ctrl.Vmrefv;// +Vm_ripple;
 
 
+			PI_tustin(&Ctrl.PI_oi_d, Ctrl.err_oi[0]);
+			PI_tustin(&Ctrl.PI_oi_q, Ctrl.err_oi[1]);
+			PI_tustin(&Ctrl.PI_zi_d, Ctrl.err_zi[0]);
+			PI_tustin(&Ctrl.PI_zi_q, Ctrl.err_zi[1]);
 			PI_tustin(&Ctrl.PI_si, Ctrl.err_si);
-			PI_tustin_3ph(&Ctrl.PI_oi, Ctrl.err_oi);
-			PI_tustin_3ph(&Ctrl.PI_zi, Ctrl.err_zi);
+	
 
-			Ctrl.Voref[0] = Ctrl.PI_oi.out_3ph[0];
-			Ctrl.Voref[1] = Ctrl.PI_oi.out_3ph[1];
-			Ctrl.Voref[2] = Ctrl.PI_oi.out_3ph[2];
-
-			Ctrl.Vzref[0] = Ctrl.PI_zi.out_3ph[0];
-			Ctrl.Vzref[1] = Ctrl.PI_zi.out_3ph[1];
-			Ctrl.Vzref[2] = Ctrl.PI_zi.out_3ph[2];
-
+			Ctrl.Voref_struct.d = Ctrl.PI_oi_d.out;
+			Ctrl.Voref_struct.q = Ctrl.PI_oi_q.out;
+		
+			Ctrl.Vzref_struct.d = Ctrl.PI_zi_d.out;
+			Ctrl.Vzref_struct.q = Ctrl.PI_zi_q.out;
+	
 			Ctrl.Vsref = Ctrl.PI_si.out;
 
-			Dec2xy(&Ctrl.xy2Dec, Ctrl.Voref, Ctrl.Vsref, Ctrl.Vzref, Ctrl.Vmrefi);
-			Ctrl.Vxy[0] = Ctrl.xy2Dec.xy[0];
-			Ctrl.Vxy[1] = Ctrl.xy2Dec.xy[1];
-			Ctrl.Vxy[2] = Ctrl.xy2Dec.xy[2];
-			Ctrl.Vxy[3] = Ctrl.xy2Dec.xy[3];
-			Ctrl.Vxy[4] = Ctrl.xy2Dec.xy[4];
-			Ctrl.Vxy[5] = Ctrl.xy2Dec.xy[5];
+
+			//Trasformation
+			dq_abc_pos(Ctrl.Voref_struct, PLL.theta_2);
+
+			dq_abc_neg(Ctrl.Vzref_struct, PLL.theta_5);
+
+			Dec2xy(Ctrl.xy2Dec, Ctrl.Voref_struct, Ctrl.Vsref, Ctrl.Vzref_struct, Ctrl.Vmrefi);
+			Ctrl.Vxy[0] = Ctrl.xy2Dec.pa;
+			Ctrl.Vxy[1] = Ctrl.xy2Dec.pb;
+			Ctrl.Vxy[2] = Ctrl.xy2Dec.pc;
+			Ctrl.Vxy[3] = Ctrl.xy2Dec.na;
+			Ctrl.Vxy[4] = Ctrl.xy2Dec.nb;
+			Ctrl.Vxy[5] = Ctrl.xy2Dec.nc;
 
 
 			for (i = 0; i < 3; i++) {
