@@ -124,7 +124,7 @@ struct Control_struct
 
 
 
-	struct CIC_struct CIC_Ux_dc_p, CIC_Ux_dc_n;
+	struct CIC_struct CIC_Ux_dc_p, CIC_Ux_dc_n, CIC_Ixy[6];
 
 	struct DEC_struct xy2Dec;
 

@@ -5,9 +5,14 @@ struct PLL_struct PLL;
 
 void PLL_calc(float enable)
 {
-	abc_abg(Meas.Uy_grid);
-	abg_dqz(Meas.Uy_grid, PLL.theta_1);
-	Meas.theta = atan2f(Meas.Uy_grid.beta, Meas.Uy_grid.alfa);
+	static struct transformation_struct signal_pll = { 0 };
+	signal_pll.a = Meas.Uy_grid.a;
+	signal_pll.b = Meas.Uy_grid.b;
+	signal_pll.c = Meas.Uy_grid.c;
+
+	abc_abg(signal_pll);
+	abg_dqz(signal_pll, PLL.theta_1);
+	Meas.theta = atan2f(signal_pll.beta, signal_pll.alfa);
 	static float theta_last;
 
 
@@ -54,18 +59,18 @@ void PLL_calc(float enable)
 				PLL.w_filter2 = omega_est;
 				PLL.PI.integrator = omega_est;
 
-				PLL.SOGI_alf.x = Meas.Uy_grid.alfa;
-				PLL.SOGI_bet.x = Meas.Uy_grid.beta;
+				PLL.SOGI_alf.x = signal_pll.alfa;
+				PLL.SOGI_bet.x = signal_pll.beta;
 
 				if (omega_est > 0)
 				{
-					PLL.SOGI_alf.qx = Meas.Uy_grid.beta;
-					PLL.SOGI_bet.qx = -Meas.Uy_grid.alfa;
+					PLL.SOGI_alf.qx = signal_pll.beta;
+					PLL.SOGI_bet.qx = -signal_pll.alfa;
 				}
 				else
 				{
-					PLL.SOGI_alf.qx = -Meas.Uy_grid.beta;
-					PLL.SOGI_bet.qx = Meas.Uy_grid.alfa;
+					PLL.SOGI_alf.qx = -signal_pll.beta;
+					PLL.SOGI_bet.qx = signal_pll.alfa;
 				}
 
 				PLL.state++;
@@ -142,8 +147,8 @@ void PLL_calc(float enable)
 
 			//SOGI alf/bet
 			PLL.w = fabs(PLL.PI.out);
-			SOGI_calc(&PLL.SOGI_alf, Meas.Uy_grid.alfa, PLL.w);
-			SOGI_calc(&PLL.SOGI_bet, Meas.Uy_grid.beta, PLL.w);
+			SOGI_calc(&PLL.SOGI_alf, signal_pll.alfa, PLL.w);
+			SOGI_calc(&PLL.SOGI_bet, signal_pll.beta, PLL.w);
 
 			// Determinar el componente compatible de la señal en alf / bet
 			if (PLL.PI.out > 0.0f)
@@ -161,7 +166,7 @@ void PLL_calc(float enable)
 			abg_dqz(x_pos, PLL.theta_1);
 
 			//PI
-			float Umod_pos_PLL = sqrtf(x_pos.alfa * x_pos.alfa + x_pos.beta * x_pos.beta);
+			float Umod_pos_PLL = sqrtf(x_pos.alfa * x_pos.alfa + x_pos.beta * x_pos.beta); //Amplitude
 			float error_PLL = x_pos.q / fmaxf(Umod_pos_PLL, 1.0f);
 			PI_antiwindup_fast(&PLL.PI, error_PLL);
 
@@ -180,6 +185,7 @@ void PLL_calc(float enable)
 			PLL.w_filter1 += PLL.Ts / T_filter * (PLL.PI.out - PLL.w_filter1);
 			// Omega filtrado, filtro de paso bajo 2 orden
 			PLL.w_filter2 += PLL.Ts / T_filter * (PLL.w_filter1 - PLL.w_filter2);
+			
 			PLL.f = PLL.w * MATH_1_2PI;
 			PLL.f_filter1 = PLL.w_filter1 * MATH_1_2PI;
 			PLL.f_filter2 = PLL.w_filter2 * MATH_1_2PI;

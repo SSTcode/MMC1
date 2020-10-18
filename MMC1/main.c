@@ -56,9 +56,13 @@ DLLEXPORT void plecsStart(struct SimulationState* aState)
     PLL.SOGI_alf.Ts = PLL.Ts;
     PLL.SOGI_bet.Ts = PLL.Ts;
 
-    ////////////////////////////////////////////////////////////////
-
-
+    /////////////////////////CIC FILTER///////////////////////////////////////
+    int i;
+    for (i = 0; i < 6; i++) {
+        Ctrl.CIC_Ixy[i].OSR = 0.02f / Ctrl.Ts / 2.0f;//312;
+        //Ctrl.CIC_load_q_b.OSR = Comp.CIC_load_q_a.OSR;
+        //Ctrl.CIC_load_q_c.OSR = Comp.CIC_load_q_a.OSR;
+    }
 Ctrl.U_dc=200;
 Ctrl.Vdc = 100.0f;
 
@@ -131,21 +135,41 @@ Ctrl.Vdc = 100.0f;
 
     Ctrl.PI_Is.Kp = kp_Is;
     Ctrl.PI_Is.Ts_Ti = Ctrl.Ts / ti_Is;
-
+    
 
     float Lz = L;
     float rz = r;
     register float alfa_Iz = 2.0f;
+    //PR
     Ctrl.PR_Iz.w = MATH_2PI * 100.0f;
     Ctrl.PR_Iz.Kp = Lz * Ctrl.PR_Iz.w * (alfa_Iz * alfa_Iz / sqrtf(alfa_Iz))-rz;
     Ctrl.PR_Iz.Ki = Lz* Ctrl.PR_Iz.w * Ctrl.PR_Iz.w * (alfa_Iz * alfa_Iz - 1.0f);
+    //PI
+    register float STC_Iz = (1.5f * Ctrl.Ts) / rz;
+    float kp_Iz = (Lz / rz) / (alfa_Iz * STC_Iz);
+    float ti_Iz = alfa_Iz * alfa_Iz * STC_Iz;
+    Ctrl.PI_zi_d.Kp = kp_Iz;
+    Ctrl.PI_zi_d.Ts_Ti = Ctrl.Ts / ti_Iz;
+    Ctrl.PI_zi_d.lim_H = Io_max;
+    Ctrl.PI_zi_d.lim_L = -Io_max;
+
+
 
     float Lo = L + 2.0f * Lac;
     float ro = r + 2.0f * rac;
     register float alfa_Io = 2.0f;
+    //PR
     Ctrl.PR_Io.w = MATH_2PI * 50.0f;
     Ctrl.PR_Io.Kp = Lo * Ctrl.PR_Io.w * (alfa_Io * alfa_Io / sqrtf(alfa_Io)) - ro;
     Ctrl.PR_Io.Ki = Lo * Ctrl.PR_Io.w * Ctrl.PR_Io.w * (alfa_Io * alfa_Io - 1.0f);
+    //PI
+    register float STC_Io = (1.5f * Ctrl.Ts) / ro;
+    float kp_Io = (Lz / rz) / (alfa_Io * STC_Io);
+    float ti_Io = alfa_Io * alfa_Io * STC_Io;
+    Ctrl.PI_oi_d.Kp = kp_Io;
+    Ctrl.PI_oi_d.Ts_Ti = Ctrl.Ts / ti_Io;
+    Ctrl.PI_oi_d.lim_H = Io_max;
+    Ctrl.PI_oi_d.lim_L = -Io_max;
 
 }
 
@@ -154,29 +178,29 @@ Ctrl.Vdc = 100.0f;
 DLLEXPORT void plecsOutput(struct SimulationState* aState)
 {
     //6
-    Meas.Uy_grid.a = aState_global->inputs[3];
-    Meas.Uy_grid.b = aState_global->inputs[4];
-    Meas.Uy_grid.c = aState_global->inputs[5];
-
-    Meas.Vgrid[0] = aState_global->inputs[0];
-    Meas.Vgrid[1] = aState_global->inputs[1];
-    Meas.Vgrid[2] = aState_global->inputs[2];
-
-   // Meas.Iy_grid.a = aState_global->inputs[3];
-   // Meas.Iy_grid.b = aState_global->inputs[4];
-   // Meas.Iy_grid.c = aState_global->inputs[5];
+    //Meas.Vgrid[0] = aState_global->inputs[0];
+    //Meas.Vgrid[1] = aState_global->inputs[1];
+    //Meas.Vgrid[2] = aState_global->inputs[2];
+    //
+    Meas.Uy_grid.a = aState_global->inputs[0];
+    Meas.Uy_grid.b = aState_global->inputs[1];
+    Meas.Uy_grid.c = aState_global->inputs[2];
+    //
+    Meas.Iy_grid.a = aState_global->inputs[3];
+    Meas.Iy_grid.b = aState_global->inputs[4];
+    Meas.Iy_grid.c = aState_global->inputs[5];
    // // 4
     //Meas.Ux_dc.p = aState_global->inputs[6];
     //Meas.Ux_dc.n = aState_global->inputs[7];
     //Meas.Ix_dc.p = aState_global->inputs[8];
     //Meas.Ix_dc.n = aState_global->inputs[9];
     //6
-    Meas.Uxy_p.a = aState_global->inputs[10];
-    Meas.Uxy_p.b = aState_global->inputs[11];
-    Meas.Uxy_p.c = aState_global->inputs[12];
-    Meas.Uxy_n.a = aState_global->inputs[13];
-    Meas.Uxy_n.b = aState_global->inputs[14];
-    Meas.Uxy_n.c = aState_global->inputs[15];
+    //Meas.Uxy_p.a = aState_global->inputs[10];
+    //Meas.Uxy_p.b = aState_global->inputs[11];
+    //Meas.Uxy_p.c = aState_global->inputs[12];
+    //Meas.Uxy_n.a = aState_global->inputs[13];
+    //Meas.Uxy_n.b = aState_global->inputs[14];
+    //Meas.Uxy_n.c = aState_global->inputs[15];
     //6
     Meas.Ixy[0] = aState_global->inputs[16]; //ipa
     Meas.Ixy[1] = aState_global->inputs[17]; //ipb
@@ -194,30 +218,28 @@ DLLEXPORT void plecsOutput(struct SimulationState* aState)
     Meas.Io_ref.b = aState_global->inputs[28];
     Meas.Io_ref.c = aState_global->inputs[29];
     //6
-    Meas.Uc_pn[0] = aState_global->inputs[30]; //vcpa
-    Meas.Uc_pn[1] = aState_global->inputs[31]; //vcpb
-    Meas.Uc_pn[2] = aState_global->inputs[32]; //vcpc
-    Meas.Uc_pn[3] = aState_global->inputs[33]; //vcna
-    Meas.Uc_pn[4] = aState_global->inputs[34]; //vcnb
-    Meas.Uc_pn[5] = aState_global->inputs[35]; //vcnc
-    //1
-    Meas.Vdc= aState_global->inputs[36]; //vdc
+    //Meas.Uc_pn[0] = aState_global->inputs[30]; //vcpa
+    //Meas.Uc_pn[1] = aState_global->inputs[31]; //vcpb
+    //Meas.Uc_pn[2] = aState_global->inputs[32]; //vcpc
+    //Meas.Uc_pn[3] = aState_global->inputs[33]; //vcna
+    //Meas.Uc_pn[4] = aState_global->inputs[34]; //vcnb
+    //Meas.Uc_pn[5] = aState_global->inputs[35]; //vcnc
+    ////1
+    //Meas.Vdc= aState_global->inputs[36]; //vdc
 
     float enable = 1;
     PLL_calc(enable);
     Control_calc(PLL.RDY);
 
-   aState_global->outputs[0] = PLL.theta_1;
-   aState_global->outputs[1] = PLL.theta_2;
-   aState_global->outputs[2] = PLL.theta_3;
-                               
-   aState_global->outputs[3] = Meas.Uy_grid.a;
-   aState_global->outputs[4] = Meas.Uy_grid.b;
-   aState_global->outputs[5] = Meas.Uy_grid.c;
-                              
-   aState_global->outputs[6] = Ctrl.Is;
+    aState_global->outputs[0] = Ctrl.Iz_struct.a;
+    aState_global->outputs[1] = Ctrl.Iz_struct.b;
+    aState_global->outputs[2] = Ctrl.Iz_struct.c;
+    aState_global->outputs[3] = Ctrl.Io_struct.a;
+    aState_global->outputs[4] = Ctrl.Io_struct.b;
+    aState_global->outputs[5] = Ctrl.Io_struct.c;
+    aState_global->outputs[6] = Ctrl.Is;
+    aState_global->outputs[7] = Ctrl.Im;
 
-   aState_global->outputs[7]  = Ctrl.Io[0];
    aState_global->outputs[8]  = Ctrl.Io[1];
    aState_global->outputs[9]  = Ctrl.Io[2];
 
@@ -241,8 +263,8 @@ DLLEXPORT void plecsOutput(struct SimulationState* aState)
    aState_global->outputs[21] = Ctrl.Iz_struct.b;
    aState_global->outputs[22] = Ctrl.Iz_struct.c;
                                       
-   aState_global->outputs[23] = Ctrl.Iz_struct.d;
-   aState_global->outputs[24] = Ctrl.Iz_struct.q;
+   aState_global->outputs[23] = Ctrl.PI_oi_d.out;
+   aState_global->outputs[24] = Ctrl.PI_oi_q.out;
 
    aState_global->outputs[25] = Ctrl.duty_modxy[0];
    aState_global->outputs[26] = Ctrl.duty_modxy[1];
