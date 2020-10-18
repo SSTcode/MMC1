@@ -240,18 +240,16 @@ DLLEXPORT void plecsOutput(struct SimulationState* aState)
     aState_global->outputs[6] = Ctrl.Is;
     aState_global->outputs[7] = Ctrl.Im;
 
-   aState_global->outputs[8]  = Ctrl.Io[1];
-   aState_global->outputs[9]  = Ctrl.Io[2];
-
-   aState_global->outputs[10] = Ctrl.Iz[0];
-   aState_global->outputs[11] = Ctrl.Iz[1];
-   aState_global->outputs[12] = Ctrl.Iz[2];
-
-   aState_global->outputs[13] = Ctrl.Im;
+   aState_global->outputs[8]  = Ctrl.Io_ref_struct.a;
+   aState_global->outputs[9]  = Ctrl.Io_ref_struct.b;
+   aState_global->outputs[10] = Ctrl.Io_ref_struct.c;
+   aState_global->outputs[11] = PLL.theta_1*2.5;
+   aState_global->outputs[12] = PLL.theta_2*2.5;
+   aState_global->outputs[13] = PLL.w;
  
-   aState_global->outputs[14] = PLL.theta_4;
+   aState_global->outputs[14] = Ctrl.Io_ref_struct.d;
+   aState_global->outputs[15] = Ctrl.Io_ref_struct.q;
 
-   aState_global->outputs[15] = Ctrl.Io_struct.a;
    aState_global->outputs[16] = Ctrl.Io_struct.b;
    aState_global->outputs[17] = Ctrl.Io_struct.c;
 

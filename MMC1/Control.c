@@ -140,10 +140,17 @@ void Control_calc(float enable)
 			Ctrl.Is			 = Ctrl.xy2Dec.s;
 			Ctrl.Im			 = Ctrl.xy2Dec.m;
 			//
-			//abc_abg(Ctrl.Io_struct);
-			//abg_dqz(Ctrl.Io_struct, PLL.theta_1);
+			abc_abg(Ctrl.Io_struct);
+			abg_dqz(Ctrl.Io_struct, PLL.theta_1);
 			//
-			////abc_dq_pos(Ctrl.Io_struct, PLL.theta_1);
+			Ctrl.Io_ref_struct.a = Meas.Io_ref.a;
+			Ctrl.Io_ref_struct.b = Meas.Io_ref.b;
+			Ctrl.Io_ref_struct.c = Meas.Io_ref.c;
+			abc_abg(Ctrl.Io_ref_struct);
+			abg_dqz(Ctrl.Io_ref_struct, PLL.theta_1);
+			//
+
+			//abc_dq_pos(Ctrl.Io_struct, PLL.theta_1);
 			//
 
 			//

@@ -6,9 +6,9 @@ struct PLL_struct PLL;
 void PLL_calc(float enable)
 {
 	static struct transformation_struct signal_pll = { 0 };
-	signal_pll.a = Meas.Uy_grid.a;
-	signal_pll.b = Meas.Uy_grid.b;
-	signal_pll.c = Meas.Uy_grid.c;
+	signal_pll.a = Meas.Io_ref.a;
+	signal_pll.b = Meas.Io_ref.b;
+	signal_pll.c = Meas.Io_ref.c;
 
 	abc_abg(signal_pll);
 	abg_dqz(signal_pll, PLL.theta_1);
@@ -192,7 +192,7 @@ void PLL_calc(float enable)
 
 			//if (PLL.theta_4 >= MATH_2PI) PLL.theta_4 = PLL.theta_4 - MATH_2PI;
 			//else PLL.theta_4 = PLL.theta_4;
-			PLL.theta_4 +=2.0f*PLL.PI.out* PLL.Ts;
+			PLL.theta_4 +=2.0f* PLL.w * PLL.Ts;
 			PLL.theta_4 -= (float)((int32)(PLL.theta_4 / MATH_PI)) * MATH_2PI;
 			PLL.theta_5 = PLL.theta_4 - MATH_2PI_3;
 			PLL.theta_5 -= (float)((int32)(PLL.theta_5 / MATH_PI)) * MATH_2PI;

@@ -72,9 +72,9 @@ Plecs {
   ScriptsDialogGeometry ""
   ScriptsDialogSplitterPos "0"
   Schematic {
-    Location      [768, 30; 1536, 777]
+    Location      [0, 23; 1536, 777]
     ZoomFactor    0.970114
-    SliderPosition [1075, 206]
+    SliderPosition [115, 293]
     ShowBrowser   off
     BrowserWidth  100
     Component {
@@ -5855,7 +5855,7 @@ Plecs {
       Type          Math
       Name          "Math3"
       Show          off
-      Position      [300, 790]
+      Position      [290, 720]
       Direction     up
       Flipped       off
       Parameter {
@@ -5868,7 +5868,7 @@ Plecs {
       Type          Subsystem
       Name          "Dec4"
       Show          on
-      Position      [430, 800]
+      Position      [420, 730]
       Direction     up
       Flipped       off
       Frame         [-20, -20; 20, 20]
@@ -6713,7 +6713,7 @@ Plecs {
       Type          Goto
       Name          "Goto34"
       Show          off
-      Position      [490, 785]
+      Position      [480, 715]
       Direction     left
       Flipped       on
       Parameter {
@@ -6731,7 +6731,7 @@ Plecs {
       Type          Goto
       Name          "Goto49"
       Show          off
-      Position      [490, 795]
+      Position      [480, 725]
       Direction     left
       Flipped       on
       Parameter {
@@ -6749,7 +6749,7 @@ Plecs {
       Type          Goto
       Name          "Goto50"
       Show          off
-      Position      [490, 815]
+      Position      [480, 745]
       Direction     left
       Flipped       on
       Parameter {
@@ -6767,7 +6767,7 @@ Plecs {
       Type          Goto
       Name          "Goto51"
       Show          off
-      Position      [490, 805]
+      Position      [480, 735]
       Direction     left
       Flipped       on
       Parameter {
@@ -6785,7 +6785,7 @@ Plecs {
       Type          From
       Name          "From86"
       Show          off
-      Position      [260, 790]
+      Position      [250, 720]
       Direction     right
       Flipped       off
       Parameter {
@@ -6803,7 +6803,7 @@ Plecs {
       Type          Gain
       Name          "Gain30"
       Show          off
-      Position      [360, 790]
+      Position      [350, 720]
       Direction     right
       Flipped       off
       Parameter {
@@ -7182,14 +7182,14 @@ Plecs {
       Type          Scope
       Name          "Scope53"
       Show          off
-      Position      [1630, 435]
+      Position      [375, 900]
       Direction     up
       Flipped       off
       Location      [1, 30; 767, 803]
       State         "AAAA/wAAAAD9AAAAAgAAAAEAAADhAAADp/wCAAAAA/sAAAAQAFoAbwBvA"
-"G0AQQByAGUAYQAAAAAA/////wAAAPsA////+wAAABQAUwBhAHYAZQBkAFYAaQBlAHcAcwIAAAOOAA"
-"ACBwAAAOEAAACW+wAAAAwAVAByAGEAYwBlAHMBAAAAOAAAA6cAAAB+AP///wAAAAMAAAAAAAAAAPw"
-"BAAAAAfsAAAAUAEQAYQB0AGEAVwBpAGQAZwBlAHQAAAAAAP////8AAABfAP///wAAAtcAAAOnAAAA"
+"G0AQQByAGUAYQAAAAAA/////wAAAMwA////+wAAABQAUwBhAHYAZQBkAFYAaQBlAHcAcwIAAAOOAA"
+"ACBwAAAOEAAACW+wAAAAwAVAByAGEAYwBlAHMAAAAAOAAAA6cAAAB+AP///wAAAAMAAAAAAAAAAPw"
+"BAAAAAfsAAAAUAEQAYQB0AGEAVwBpAGQAZwBlAHQAAAAAAP////8AAABfAP///wAAA74AAAOnAAAA"
 "BAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAEAAAAOAFQAbwBvAGwAQgBhAHIBAAAAAP////8AAAAAA"
 "AAAAA=="
       SavedViews    "AAAAAgAAAAEAAAAYAFMAYQB2AGUAZAAgAHYAaQBlAHcAIAAxAAAAAAAAA"
@@ -7208,7 +7208,7 @@ Plecs {
       TimeRange     "0"
       ScrollingMode "1"
       SingleTimeAxis "1"
-      Open          "1"
+      Open          "0"
       Ts            "-1"
       SampleLimit   "0"
       XAxisLabel    "t(s)"
@@ -7242,7 +7242,7 @@ Plecs {
         MaxValue      1
         Signals       {}
         SignalTypes   [ ]
-        Untangle      0
+        Untangle      1
         KeepBaseline  off
         BaselineValue 0
       }
@@ -7253,7 +7253,7 @@ Plecs {
         MaxValue      1
         Signals       {}
         SignalTypes   [ ]
-        Untangle      0
+        Untangle      1
         KeepBaseline  off
         BaselineValue 0
       }
@@ -7630,7 +7630,7 @@ Plecs {
       Type          From
       Name          "From59"
       Show          off
-      Position      [1515, 375]
+      Position      [260, 840]
       Direction     right
       Flipped       off
       Parameter {
@@ -7648,7 +7648,7 @@ Plecs {
       Type          From
       Name          "From61"
       Show          off
-      Position      [1520, 410]
+      Position      [265, 875]
       Direction     right
       Flipped       off
       Parameter {
@@ -7666,7 +7666,7 @@ Plecs {
       Type          From
       Name          "From64"
       Show          off
-      Position      [1520, 450]
+      Position      [265, 915]
       Direction     right
       Flipped       off
       Parameter {
@@ -7684,7 +7684,7 @@ Plecs {
       Type          From
       Name          "From83"
       Show          off
-      Position      [1520, 490]
+      Position      [265, 955]
       Direction     right
       Flipped       off
       Parameter {
@@ -7702,7 +7702,7 @@ Plecs {
       Type          SignalMux
       Name          "Mux15"
       Show          off
-      Position      [1550, 380]
+      Position      [295, 845]
       Direction     right
       Flipped       off
       Parameter {
@@ -7715,7 +7715,7 @@ Plecs {
       Type          SignalMux
       Name          "Mux16"
       Show          off
-      Position      [1550, 415]
+      Position      [295, 880]
       Direction     right
       Flipped       off
       Parameter {
@@ -7728,7 +7728,7 @@ Plecs {
       Type          SignalMux
       Name          "Mux17"
       Show          off
-      Position      [1550, 455]
+      Position      [295, 920]
       Direction     right
       Flipped       off
       Parameter {
@@ -7741,7 +7741,7 @@ Plecs {
       Type          SignalMux
       Name          "Mux18"
       Show          off
-      Position      [1550, 495]
+      Position      [295, 960]
       Direction     right
       Flipped       off
       Parameter {
@@ -18221,7 +18221,7 @@ Plecs {
       Type          PlecsProbe
       Name          "ixy"
       Show          on
-      Position      [250, 835]
+      Position      [255, 765]
       Direction     right
       Flipped       off
     }
@@ -18235,24 +18235,6 @@ Plecs {
       Parameter {
         Variable      "Tag"
         Value         "vCv"
-        Show          off
-      }
-      Parameter {
-        Variable      "Visibility"
-        Value         "1"
-        Show          off
-      }
-    }
-    Component {
-      Type          Goto
-      Name          "Goto55"
-      Show          off
-      Position      [390, 860]
-      Direction     down
-      Flipped       off
-      Parameter {
-        Variable      "Tag"
-        Value         "iarm"
         Show          off
       }
       Parameter {
@@ -18348,7 +18330,7 @@ Plecs {
       Type          From
       Name          "From177"
       Show          off
-      Position      [1295, 35]
+      Position      [1360, 55]
       Direction     right
       Flipped       off
       Parameter {
@@ -18372,8 +18354,8 @@ Plecs {
       Location      [0, 26; 1536, 807]
       State         "AAAA/wAAAAD9AAAAAgAAAAEAAADhAAADsfwCAAAAA/sAAAAQAFoAbwBvA"
 "G0AQQByAGUAYQAAAAAA/////wAAAG4A////+wAAABQAUwBhAHYAZQBkAFYAaQBlAHcAcwAAAAAA//"
-"///wAAAH4A////+wAAAAwAVAByAGEAYwBlAHMBAAAAOAAAA7EAAAB+AP///wAAAAMAAAAAAAAAAPw"
-"BAAAAAfsAAAAUAEQAYQB0AGEAVwBpAGQAZwBlAHQAAAAAAP////8AAABfAP///wAABpoAAAOxAAAA"
+"///wAAAH4A////+wAAAAwAVAByAGEAYwBlAHMAAAAAOAAAA7EAAAB+AP///wAAAAMAAAAAAAAAAPw"
+"BAAAAAfsAAAAUAEQAYQB0AGEAVwBpAGQAZwBlAHQAAAAAAP////8AAABfAP///wAAB4AAAAOxAAAA"
 "BAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAEAAAAOAFQAbwBvAGwAQgBhAHIBAAAAAP////8AAAAAA"
 "AAAAA=="
       SavedViews    "AAAAAgAAAAA="
@@ -18647,24 +18629,6 @@ Plecs {
       }
     }
     Component {
-      Type          From
-      Name          "From178"
-      Show          off
-      Position      [1415, 85]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Tag"
-        Value         "iarm"
-        Show          off
-      }
-      Parameter {
-        Variable      "Visibility"
-        Value         "1"
-        Show          off
-      }
-    }
-    Component {
       Type          Inductor
       Name          "LgA I"
       Show          on
@@ -18761,7 +18725,7 @@ Plecs {
       Type          Subsystem
       Name          "Dec5"
       Show          on
-      Position      [430, 845]
+      Position      [420, 775]
       Direction     up
       Flipped       off
       Frame         [-20, -20; 20, 20]
@@ -19835,7 +19799,7 @@ Plecs {
       Type          Gain
       Name          "Gain15"
       Show          off
-      Position      [325, 835]
+      Position      [350, 765]
       Direction     right
       Flipped       off
       Parameter {
@@ -19858,7 +19822,7 @@ Plecs {
       Type          Goto
       Name          "Goto24"
       Show          off
-      Position      [490, 830]
+      Position      [480, 760]
       Direction     left
       Flipped       on
       Parameter {
@@ -19876,7 +19840,7 @@ Plecs {
       Type          Goto
       Name          "Goto65"
       Show          off
-      Position      [490, 840]
+      Position      [480, 770]
       Direction     left
       Flipped       on
       Parameter {
@@ -19894,7 +19858,7 @@ Plecs {
       Type          Goto
       Name          "Goto66"
       Show          off
-      Position      [490, 860]
+      Position      [480, 790]
       Direction     left
       Flipped       on
       Parameter {
@@ -19912,7 +19876,7 @@ Plecs {
       Type          Goto
       Name          "Goto67"
       Show          off
-      Position      [490, 850]
+      Position      [480, 780]
       Direction     left
       Flipped       on
       Parameter {
@@ -23532,19 +23496,6 @@ Plecs {
       }
     }
     Component {
-      Type          SignalMux
-      Name          "Mux19"
-      Show          off
-      Position      [1410, 65]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Width"
-        Value         "[6 6]"
-        Show          off
-      }
-    }
-    Component {
       Type          From
       Name          "From179"
       Show          off
@@ -23566,7 +23517,7 @@ Plecs {
       Type          Gain
       Name          "Gain16"
       Show          off
-      Position      [1335, 35]
+      Position      [1400, 55]
       Direction     right
       Flipped       off
       Parameter {
@@ -23824,7 +23775,7 @@ Plecs {
       Flipped       on
       Parameter {
         Variable      "Width"
-        Value         "[3 3 1 1 3 1 1 3 2 3 2 8]"
+        Value         "[3 3 1 1 5 1 2 3 2 3 2 5]"
         Show          off
       }
     }
@@ -24089,7 +24040,7 @@ Plecs {
       Type          Goto
       Name          "Goto56"
       Show          off
-      Position      [390, 905]
+      Position      [380, 785]
       Direction     down
       Flipped       off
       Parameter {
@@ -24228,7 +24179,7 @@ Plecs {
       Type          From
       Name          "From98"
       Show          off
-      Position      [1515, 385]
+      Position      [260, 850]
       Direction     right
       Flipped       off
       Parameter {
@@ -24246,7 +24197,7 @@ Plecs {
       Type          From
       Name          "From82"
       Show          off
-      Position      [1520, 420]
+      Position      [265, 885]
       Direction     right
       Flipped       off
       Parameter {
@@ -24264,7 +24215,7 @@ Plecs {
       Type          From
       Name          "From99"
       Show          off
-      Position      [1520, 460]
+      Position      [265, 925]
       Direction     right
       Flipped       off
       Parameter {
@@ -24282,7 +24233,7 @@ Plecs {
       Type          From
       Name          "From100"
       Show          off
-      Position      [1520, 500]
+      Position      [265, 965]
       Direction     right
       Flipped       off
       Parameter {
@@ -25502,6 +25453,218 @@ Plecs {
         Show          off
       }
     }
+    Component {
+      Type          Goto
+      Name          "Goto71"
+      Show          off
+      Position      [1455, 875]
+      Direction     left
+      Flipped       on
+      Parameter {
+        Variable      "Tag"
+        Value         "Sincronization"
+        Show          off
+      }
+      Parameter {
+        Variable      "Visibility"
+        Value         "1"
+        Show          off
+      }
+    }
+    Component {
+      Type          Goto
+      Name          "Goto72"
+      Show          off
+      Position      [1455, 885]
+      Direction     left
+      Flipped       on
+      Parameter {
+        Variable      "Tag"
+        Value         "frequency"
+        Show          off
+      }
+      Parameter {
+        Variable      "Visibility"
+        Value         "1"
+        Show          off
+      }
+    }
+    Component {
+      Type          Scope
+      Name          "Scope54"
+      Show          off
+      Position      [600, 905]
+      Direction     up
+      Flipped       off
+      Location      [0, 26; 1536, 807]
+      State         "AAAA/wAAAAD9AAAAAgAAAAEAAAAAAAAAAPwCAAAAA/sAAAAQAFoAbwBvA"
+"G0AQQByAGUAYQAAAAAA/////wAAAJ0A////+wAAABQAUwBhAHYAZQBkAFYAaQBlAHcAcwAAAAAA//"
+"///wAAAH4A////+wAAAAwAVAByAGEAYwBlAHMAAAAAAP////8AAAB+AP///wAAAAMAAAAAAAAAAPw"
+"BAAAAAfsAAAAUAEQAYQB0AGEAVwBpAGQAZwBlAHQAAAAAAP////8AAABfAP///wAAB4AAAAOxAAAA"
+"BAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAEAAAAOAFQAbwBvAGwAQgBhAHIBAAAAAP////8AAAAAA"
+"AAAAA=="
+      SavedViews    "AAAAAgAAAAA="
+      HeaderState   "AAAA/wAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAAAAAAAL/gMAAAAJAAAAA"
+"gAAAH0AAAADAAAAfQAAAAEAAAB9AAAABgAAAH0AAAAHAAAAfQAAAAQAAAB9AAAABQAAAH0AAAAIAA"
+"AAfQAAAAkAAAB9AAABVAAAAAsBAAABAAAAAAAAAAAAAAAAff////8AAACBAAAAAAAAAAsAAAEjAAA"
+"AAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAA"
+"AAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAA"
+"AAxAAAAAQAAAAAAAAPoAAAAADE="
+      PlotPalettes  "AAAAAQAAAAEAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAA"
+"AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+"=="
+      Axes          "3"
+      TimeRange     "0"
+      ScrollingMode "1"
+      SingleTimeAxis "1"
+      Open          "1"
+      Ts            "-1"
+      SampleLimit   "0"
+      XAxisLabel    "t(s)"
+      ShowLegend    "1"
+      Axis {
+        Name          "Is"
+        AutoScale     1
+        MinValue      0
+        MaxValue      1
+        Signals       {"VCSa"}
+        SignalTypes   [ ]
+        Untangle      0
+        KeepBaseline  off
+        BaselineValue 0
+      }
+      Axis {
+        Name          "Io"
+        AutoScale     1
+        MinValue      0
+        MaxValue      1
+        Signals       {}
+        SignalTypes   [ ]
+        Untangle      0
+        KeepBaseline  off
+        BaselineValue 0
+      }
+      Axis {
+        Name          ""
+        AutoScale     1
+        MinValue      0
+        MaxValue      1
+        Signals       {}
+        SignalTypes   [ ]
+        Untangle      0
+        KeepBaseline  off
+        BaselineValue 0
+      }
+      Fourier {
+        SingleXAxis       on
+        AxisLabel         "Frequency"
+        Scaling           0
+        PhaseDisplay      0
+        ShowFourierLegend off
+        Axis {
+          Name          ""
+          AutoScale     1
+          MinValue      0
+          MaxValue      1
+          Signals       {}
+          Untangle      0
+          KeepBaseline  off
+          BaselineValue 0
+        }
+        Axis {
+          Name          ""
+          AutoScale     1
+          MinValue      0
+          MaxValue      1
+          Signals       {}
+          Untangle      0
+          KeepBaseline  off
+          BaselineValue 0
+        }
+        Axis {
+          Name          ""
+          AutoScale     1
+          MinValue      0
+          MaxValue      1
+          Signals       {}
+          Untangle      0
+          KeepBaseline  off
+          BaselineValue 0
+        }
+      }
+    }
+    Component {
+      Type          From
+      Name          "From79"
+      Show          off
+      Position      [525, 895]
+      Direction     right
+      Flipped       off
+      Parameter {
+        Variable      "Tag"
+        Value         "Sincronization"
+        Show          off
+      }
+      Parameter {
+        Variable      "Visibility"
+        Value         "1"
+        Show          off
+      }
+    }
+    Component {
+      Type          From
+      Name          "From84"
+      Show          off
+      Position      [525, 905]
+      Direction     right
+      Flipped       off
+      Parameter {
+        Variable      "Tag"
+        Value         "frequency"
+        Show          off
+      }
+      Parameter {
+        Variable      "Visibility"
+        Value         "1"
+        Show          off
+      }
+    }
+    Component {
+      Type          Goto
+      Name          "Goto73"
+      Show          off
+      Position      [1455, 895]
+      Direction     left
+      Flipped       on
+      Parameter {
+        Variable      "Tag"
+        Value         "dq"
+        Show          off
+      }
+      Parameter {
+        Variable      "Visibility"
+        Value         "1"
+        Show          off
+      }
+    }
+    Component {
+      Type          From
+      Name          "From87"
+      Show          off
+      Position      [525, 915]
+      Direction     right
+      Flipped       off
+      Parameter {
+        Variable      "Tag"
+        Value         "dq"
+        Show          off
+      }
+      Parameter {
+        Variable      "Visibility"
+        Value         "1"
+        Show          off
+      }
+    }
     Connection {
       Type          Signal
       SrcComponent  "From14"
@@ -26043,14 +26206,6 @@ Plecs {
       DstTerminal   1
     }
     Connection {
-      Type          Signal
-      SrcComponent  "From178"
-      SrcTerminal   1
-      Points        [1425, 85; 1425, 75]
-      DstComponent  "Scope"
-      DstTerminal   2
-    }
-    Connection {
       Type          Wire
       SrcComponent  "Vm3"
       SrcTerminal   1
@@ -26300,33 +26455,10 @@ Plecs {
     }
     Connection {
       Type          Signal
-      SrcComponent  "Mux19"
-      SrcTerminal   1
-      DstComponent  "Scope"
-      DstTerminal   1
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "From179"
-      SrcTerminal   1
-      Points        [1385, 75; 1385, 70]
-      DstComponent  "Mux19"
-      DstTerminal   3
-    }
-    Connection {
-      Type          Signal
       SrcComponent  "From177"
       SrcTerminal   1
       DstComponent  "Gain16"
       DstTerminal   1
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "Gain16"
-      SrcTerminal   2
-      Points        [1355, 60]
-      DstComponent  "Mux19"
-      DstTerminal   2
     }
     Connection {
       Type          Signal
@@ -26503,28 +26635,6 @@ Plecs {
       SrcTerminal   1
       DstComponent  "Gain15"
       DstTerminal   1
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "Gain15"
-      SrcTerminal   2
-      Points        [345, 835]
-      Branch {
-        Points        [390, 835]
-        Branch {
-          DstComponent  "Dec5"
-          DstTerminal   2
-        }
-        Branch {
-          DstComponent  "Goto55"
-          DstTerminal   1
-        }
-      }
-      Branch {
-        Points        [345, 885]
-        DstComponent  "Goto56"
-        DstTerminal   1
-      }
     }
     Connection {
       Type          Wire
@@ -26954,7 +27064,7 @@ Plecs {
       Type          Signal
       SrcComponent  "Mux15"
       SrcTerminal   1
-      Points        [1570, 380; 1570, 420]
+      Points        [315, 845; 315, 885]
       DstComponent  "Scope53"
       DstTerminal   1
     }
@@ -26962,7 +27072,7 @@ Plecs {
       Type          Signal
       SrcComponent  "Mux16"
       SrcTerminal   1
-      Points        [1565, 415; 1565, 430]
+      Points        [310, 880; 310, 895]
       DstComponent  "Scope53"
       DstTerminal   2
     }
@@ -26970,7 +27080,7 @@ Plecs {
       Type          Signal
       SrcComponent  "Mux17"
       SrcTerminal   1
-      Points        [1565, 455; 1565, 440]
+      Points        [310, 920; 310, 905]
       DstComponent  "Scope53"
       DstTerminal   3
     }
@@ -26978,7 +27088,7 @@ Plecs {
       Type          Signal
       SrcComponent  "Mux18"
       SrcTerminal   1
-      Points        [1580, 495; 1580, 450]
+      Points        [325, 960; 325, 915]
       DstComponent  "Scope53"
       DstTerminal   4
     }
@@ -27038,6 +27148,77 @@ Plecs {
       DstComponent  "Mux15"
       DstTerminal   3
     }
+    Connection {
+      Type          Signal
+      SrcComponent  "Gain15"
+      SrcTerminal   2
+      Points        [380, 765]
+      Branch {
+        DstComponent  "Dec5"
+        DstTerminal   2
+      }
+      Branch {
+        DstComponent  "Goto56"
+        DstTerminal   1
+      }
+    }
+    Connection {
+      Type          Signal
+      SrcComponent  "From179"
+      SrcTerminal   1
+      DstComponent  "Scope"
+      DstTerminal   2
+    }
+    Connection {
+      Type          Signal
+      SrcComponent  "Gain16"
+      SrcTerminal   2
+      Points        [1425, 55; 1425, 65]
+      DstComponent  "Scope"
+      DstTerminal   1
+    }
+    Connection {
+      Type          Signal
+      SrcComponent  "Demux9"
+      SrcTerminal   6
+      DstComponent  "Goto71"
+      DstTerminal   1
+    }
+    Connection {
+      Type          Signal
+      SrcComponent  "Demux9"
+      SrcTerminal   7
+      DstComponent  "Goto72"
+      DstTerminal   1
+    }
+    Connection {
+      Type          Signal
+      SrcComponent  "From79"
+      SrcTerminal   1
+      DstComponent  "Scope54"
+      DstTerminal   1
+    }
+    Connection {
+      Type          Signal
+      SrcComponent  "From84"
+      SrcTerminal   1
+      DstComponent  "Scope54"
+      DstTerminal   2
+    }
+    Connection {
+      Type          Signal
+      SrcComponent  "Demux9"
+      SrcTerminal   8
+      DstComponent  "Goto73"
+      DstTerminal   1
+    }
+    Connection {
+      Type          Signal
+      SrcComponent  "From87"
+      SrcTerminal   1
+      DstComponent  "Scope54"
+      DstTerminal   3
+    }
     Annotation {
       Name          "io=Iy/2"
       Position      [1020, 680]
@@ -27052,7 +27233,7 @@ Plecs {
     } 
     Annotation {
       Name          "Capacitor Voltage"
-      Position      [1435, 40]
+      Position      [1445, 20]
     } 
     Annotation {
       Name          "AC port"
@@ -27073,6 +27254,10 @@ Plecs {
     Annotation {
       Name          "XY port"
       Position      [1435, 235]
+    } 
+    Annotation {
+      Name          "Decupling"
+      Position      [380, 860]
     } 
   }
   ProbeBlock {
