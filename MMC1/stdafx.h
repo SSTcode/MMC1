@@ -50,6 +50,10 @@ struct Measurements
 
 	float theta;
 
+	float Lo;
+	float Lz;
+	float Ls;
+	float Lm;
 
 				
 	float Ixy[6];

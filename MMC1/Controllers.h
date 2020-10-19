@@ -136,6 +136,7 @@ t_struct.gamma = t_struct.z;						 \
 
 
 
+
 #define Dec2xy(xy_struct, o_struct, s, z_struct, m)		\
 {														\
 	xy_struct.pa = o_struct.a + s + z_struct.a + m; 	\
@@ -208,6 +209,7 @@ struct transformation_struct
 	float d;
 	float q;
 	float z;
+	float neutro;
 };
 
 struct SOGI_struct

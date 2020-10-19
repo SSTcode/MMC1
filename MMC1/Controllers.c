@@ -34,7 +34,7 @@ void SOGI_calc(struct SOGI_struct* SOGI, float input, float w)
 void PI_antiwindup_fast(struct PI_struct* PI, float error)
 {
 	PI->proportional = PI->Kp * error;
-	PI->integrator += PI->proportional * PI->Ts / PI->Ti;
+	PI->integrator += PI->proportional * PI->Ts_Ti;
 	PI->out = PI->integrator + PI->proportional;
 	if (PI->out > PI->lim_H)
 	{
