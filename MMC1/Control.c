@@ -95,7 +95,10 @@ void Control_calc(float enable)
 		}
 		case Ctrler_active:
 		{
-			
+			Meas.Iz_ref.a = Meas.Iz_step * sinf(PLL.theta_4);
+			Meas.Iz_ref.b = Meas.Iz_step * sinf(PLL.theta_5);
+			Meas.Iz_ref.c = Meas.Iz_step * sinf(PLL.theta_6);
+
 			//xy2Dec(&Ctrl.xy2Dec, Ctrl.Exy);
 			//
 			//Ctrl.err_ov[0] = Ctrl.xy2Dec.o[0];//Ctrl.Eo[0];
@@ -140,45 +143,46 @@ void Control_calc(float enable)
 			Ctrl.Is			 = Ctrl.xy2Dec.s;
 			Ctrl.Im			 = Ctrl.xy2Dec.m;
 			//
+
+			/// STRUCTURE REF IO////////////////////////////////
+			abc_abg(Meas.Iy_grid);
+			abg_dqz(Meas.Iy_grid, PLL.theta_1);
+
 			abc_abg(Ctrl.Io_struct);
 			abg_dqz(Ctrl.Io_struct, PLL.theta_1);
-			/// STRUCTURE REF 
-			Ctrl.Io_ref_struct.a = Meas.Io_ref.a;
-			Ctrl.Io_ref_struct.b = Meas.Io_ref.b;
-			Ctrl.Io_ref_struct.c = Meas.Io_ref.c;
-			abc_abg(Ctrl.Io_ref_struct);
-			abg_dqz(Ctrl.Io_ref_struct, PLL.theta_1);
-			//
+
+			abc_abg(Meas.Io_ref);
+			abg_dqz(Meas.Io_ref, PLL.theta_1);
+			
+			/// STRUCTURE REF IZ//////////////////////////////////
 			abc_abg(Ctrl.Iz_struct);
 			abg_dqz(Ctrl.Iz_struct, -PLL.theta_4);
-			/// STRUCTURE REF 
-			Ctrl.Iz_ref_struct.a = Meas.Iz_ref.a;
-			Ctrl.Iz_ref_struct.b = Meas.Iz_ref.b;
-			Ctrl.Iz_ref_struct.c = Meas.Iz_ref.c;
-			abc_abg(Ctrl.Iz_ref_struct);
-			abg_dqz(Ctrl.Iz_ref_struct, -PLL.theta_4);
+
+			abc_abg(Meas.Iz_ref);
+			abg_dqz(Meas.Iz_ref, -PLL.theta_4);
+
 			/////////////////////////////////////////////////////////////////
-			register float error_Io_d = Ctrl.Io_struct.d - Ctrl.Io_ref_struct.d;
-			PI_tustin(&Ctrl.PI_oi_d, error_Io_d);
-			register float error_Io_q = Ctrl.Io_struct.q - Ctrl.Io_ref_struct.q;
-			PI_tustin(&Ctrl.PI_oi_q, error_Io_q);
+			register float error_Io_d = Meas.Io_ref.d - Meas.Iy_grid.d;
+			PI_antiwindup_fast(&Ctrl.PI_Iod, error_Io_d);
+			register float error_Io_q = Meas.Io_ref.q - Meas.Iy_grid.q;
+			PI_antiwindup_fast(&Ctrl.PI_Ioq, error_Io_q);
 
-			register float error_Iz_d = Ctrl.Iz_struct.d - Ctrl.Iz_ref_struct.d;
-			PI_tustin(&Ctrl.PI_zi_d, error_Iz_d);
-			register float error_Iz_q = Ctrl.Iz_struct.q - Ctrl.Iz_ref_struct.q;
-			PI_tustin(&Ctrl.PI_zi_q, error_Iz_q);
+			register float error_Iz_d = Meas.Iz_ref.d - Ctrl.Iz_struct.d;
+			PI_antiwindup_fast(&Ctrl.PI_Izd, error_Iz_d);
+			register float error_Iz_q = Meas.Iz_ref.q - Ctrl.Iz_struct.q;
+			PI_antiwindup_fast(&Ctrl.PI_Izq, error_Iz_q);
 
-			register float error_Is = Ctrl.Is - Meas.Is_ref;
-			PI_tustin(&Ctrl.PI_si, error_Is);
-			register float error_Im = Ctrl.Im - Meas.Im_ref;
-			PI_tustin(&Ctrl.PI_mi, error_Im);
+			register float error_Is = Meas.Is_ref - Meas.Is;
+			PI_antiwindup_fast(&Ctrl.PI_Is, error_Is);
 
-			//
+
+			/// //////////////////////////////////////////////////////
+
 			static struct transformation_struct Mo_ref;
-			float Mo_d_decoup = PLL.w * Ctrl.Io_ref_struct.q * Meas.Lo;
-			float Mo_q_decoup = PLL.w * Ctrl.Io_ref_struct.d * Meas.Lo;
-			Mo_ref.d = (Ctrl.PI_oi_d.out - Mo_d_decoup);
-			Mo_ref.q = (Ctrl.PI_oi_q.out + Mo_q_decoup);
+			float Mo_d_decoup = PLL.w  * Meas.Lo* Meas.Iy_grid.d;
+			float Mo_q_decoup = PLL.w  * Meas.Lo* Meas.Iy_grid.q;
+			Mo_ref.d = (Ctrl.PI_Iod.out + Mo_q_decoup);
+			Mo_ref.q = (Ctrl.PI_Ioq.out - Mo_d_decoup);
 			/*
 			u_ref.d = Ctrl.PI_oi_d.out - u_d_decoup + Meas.U_grid.d;
 			u_ref.q = Ctrl.PI_oi_q.out + u_q_decoup + Meas.U_grid.q;
@@ -187,15 +191,15 @@ void Control_calc(float enable)
 			abg_abcn(Mo_ref);
 			//
 			static struct transformation_struct Mz_ref;
-			float Mz_d_decoup = 2.0f*PLL.w * Meas.Lz * Ctrl.Iz_ref_struct.q;
-			float Mz_q_decoup = 2.0f*PLL.w * Meas.Lz * Ctrl.Iz_ref_struct.d ;
-			Mz_ref.d = (Ctrl.PI_zi_d.out - Mz_d_decoup);
-			Mz_ref.q = (Ctrl.PI_zi_q.out + Mz_q_decoup);
+			float Mz_d_decoup = 2.0f*PLL.w * Meas.Lz * Ctrl.Iz_struct.d;
+			float Mz_q_decoup = 2.0f*PLL.w * Meas.Lz * Ctrl.Iz_struct.q;
+			Mz_ref.d = (Ctrl.PI_Izd.out - Mz_d_decoup);
+			Mz_ref.q = (Ctrl.PI_Izq.out + Mz_q_decoup);
 			//
 			dqz_abg(Mz_ref, -PLL.theta_4);
 			abg_abcn(Mz_ref);
 			//
-			Dec2xy(Ctrl.xy2Dec, Mo_ref, Ctrl.PI_si.out, Mz_ref, Ctrl.PI_mi.out);
+			Dec2xy(Ctrl.xy2Dec, Mo_ref, Ctrl.PI_Is.out, Mz_ref, Ctrl.PI_mi.out);
 			Ctrl.Vxy[0] = Ctrl.xy2Dec.pa;
 			Ctrl.Vxy[1] = Ctrl.xy2Dec.pb;
 			Ctrl.Vxy[2] = Ctrl.xy2Dec.pc;

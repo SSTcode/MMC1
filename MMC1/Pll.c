@@ -194,9 +194,9 @@ void PLL_calc(float enable)
 			//else PLL.theta_4 = PLL.theta_4;
 			PLL.theta_4 +=2.0f* PLL.w * PLL.Ts;
 			PLL.theta_4 -= (float)((int32)(PLL.theta_4 / MATH_PI)) * MATH_2PI;
-			PLL.theta_5 = PLL.theta_4 - MATH_2PI_3;
+			PLL.theta_5 = PLL.theta_4 + MATH_2PI_3;
 			PLL.theta_5 -= (float)((int32)(PLL.theta_5 / MATH_PI)) * MATH_2PI;
-			PLL.theta_6 = PLL.theta_4 + MATH_2PI_3;
+			PLL.theta_6 = PLL.theta_4 - MATH_2PI_3;
 			PLL.theta_6 -= (float)((int32)(PLL.theta_6 / MATH_PI)) * MATH_2PI;
 			
 

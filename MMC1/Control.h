@@ -25,12 +25,16 @@ struct Control_struct
 	struct PI_struct PI_sv;
 	struct PI_struct PI_mv;
 
+	struct PI_struct PI_Iod;
+	struct PI_struct PI_Ioq;
 	struct PI_struct PI_oi_d;
+	struct PI_struct PI_oi_q;
 	struct PI_struct PI_zi_d;
+	struct PI_struct PI_zi_q;
+	struct PI_struct PI_Izd;
+	struct PI_struct PI_Izq;
 	struct PI_struct PI_si;
 	struct PI_struct PI_mi;
-	struct PI_struct PI_oi_q;
-	struct PI_struct PI_zi_q;
 
 	float duty_modxy[6];
 

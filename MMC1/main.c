@@ -37,9 +37,9 @@ DLLEXPORT void plecsStart(struct SimulationState* aState)
     Ctrl.C   = aState->parameters[7];
     Ctrl.n_cell = aState->parameters[8];
 
-    if (Ctrl.Vdc < 1.0) Ctrl.Vdc = 1.0f;
+    Ctrl.Vdc = 100.0f;
     Ctrl.Vx = Ctrl.Vdc * 0.5f;
-    if (Ctrl.Vc_ref < Ctrl.Vdc / 4.0f * 1.2f) Ctrl.Vc_ref = Ctrl.Vdc / 4.0f * 1.2f;
+    Ctrl.Vc_ref = Ctrl.Vdc / 4.0f * 1.2f;
     Ctrl.Exy_ref = Ctrl.Vc_ref * Ctrl.Vc_ref * Ctrl.C * 0.5f;
     float Io_max = 8.0f;
     float Umax_i = Ctrl.Vc_ref * Ctrl.n_cell;
@@ -123,53 +123,55 @@ Ctrl.Vdc = 100.0f;
     float kp_Im = (Lm/rm) / (alfa_Im * STC_Im);
     float ti_Im = alfa_Im * alfa_Im * STC_Im;
 
-    //Ctrl.PI_Im.Kp = kp_Im;
-    //Ctrl.PI_Im.Ts_Ti = Ctrl.Ts / ti_Im;
+    Ctrl.PI_Im.Kp = kp_Im;
+    Ctrl.PI_Im.Ts_Ti = Ctrl.Ts / ti_Im;
     
-    float Ti = 4.0f;
-    float xi = 0.707f;
-    float h = Ctrl.Ts * Ti;
-    /// //////////////////////
-    float fim = 130.0f;
-    float wn_im = 2.0 * MATH_1_PI * fim;
-    float a1m = -2.0 * exp(-xi * wn_im * h) * cos(sqrt(1.0 - xi * xi) * wn_im * h);
-    float a2m = exp(-2.0 * xi * wn_im * h);
-    float ki_m = rm / h * (1.0 + a1m + a2m) / (1.0 - exp(-h * rm / Meas.Lm));
-    float kp_m = rm * (a1m - a2m + 1.0 + 2.0 * exp(-h * rm / Meas.Lm)) / (2.0 * (1.0 - exp(-h * rm / Meas.Lm)));
-
-    Ctrl.PI_mi.lim_H =  Io_max;
-    Ctrl.PI_mi.lim_L = -Io_max;
-
-    Ctrl.PI_mi.Kp = kp_m;
-    Ctrl.PI_mi.Ki = ki_m;
-
-    /// ////////////////////////////////////////////////////////////////
+    //float Ti = 6.0f;
+    //float xi = 0.707f;
+    //float h = Ctrl.Ts * Ti;
+    ///// /////////////////////////////////////////////////////////////////////////////
+    //float fim = 130.0f;
+    //float wn_im = 2.0 * MATH_1_PI * fim;
+    //float a1m = -2.0 * exp(-xi * wn_im * h) * cos(sqrt(1.0 - xi * xi) * wn_im * h);
+    //float a2m = exp(-2.0 * xi * wn_im * h);
+    //float ki_m = rm / h * (1.0 + a1m + a2m) / (1.0 - exp(-h * rm / Meas.Lm));
+    //float kp_m = rm * (a1m - a2m + 1.0 + 2.0 * exp(-h * rm / Meas.Lm)) / (2.0 * (1.0 - exp(-h * rm / Meas.Lm)));
+    //
+    //Ctrl.PI_mi.lim_H =  Io_max;
+    //Ctrl.PI_mi.lim_L = -Io_max;
+    //
+    //Ctrl.PI_mi.Kp = kp_m;
+    //Ctrl.PI_mi.Ki = ki_m;
+    //
+    ///// ////////////////////////////////////////////////////////////////
     float Ls = 3.0f * Ldc + L ;
     float rs = 3.0f * rdc + r ;
-    register float alfa_Is = 2.0f;
+    register float alfa_Is = 6.0f;
     register float STC_Is = (1.5f * Ctrl.Ts) / rs;
     float kp_Is = (Ls / rs) / (alfa_Is * STC_Is);
     float ti_Is = alfa_Is * alfa_Is * STC_Is;
 
-    //Ctrl.PI_Is.Kp = kp_Is;
-    //Ctrl.PI_Is.Ts_Ti = Ctrl.Ts / ti_Is;
+    Ctrl.PI_Is.Kp = kp_Is;
+    Ctrl.PI_Is.Ts_Ti = Ctrl.Ts / ti_Is;
+    Ctrl.PI_Is.lim_H = Io_max*30.0f;
+    Ctrl.PI_Is.lim_L = -Io_max*30.0f;
     
    //float Ti = 4.0f;
    //float xi = 0.707f;
    //float h = Ctrl.Ts * Ti;
-    /// //////////////////////
-    float fis = 130.0f;
-    float wn_is = 2.0 * MATH_1_PI * fis;
-    float a1s = -2.0 * exp(-xi * wn_is * h) * cos(sqrt(1.0 - xi * xi) * wn_is * h);
-    float a2s = exp(-2.0 * xi * wn_is * h);
-    float ki_s = rs / h * (1.0 + a1s + a2s) / (1.0 - exp(-h * rs / Meas.Ls));
-    float kp_s = rs * (a1s - a2s + 1.0 + 2.0 * exp(-h * rs / Meas.Ls)) / (2.0 * (1.0 - exp(-h * rs / Meas.Ls)));
-
-    Ctrl.PI_si.lim_H = Io_max*500.0f;
-    Ctrl.PI_si.lim_L = -Io_max*500.0f;
-
-    Ctrl.PI_si.Kp = kp_s;
-    Ctrl.PI_si.Ki = ki_s;
+    ///// //////////////////////
+    //float fis = 130.0f;
+    //float wn_is = MATH_2PI * fis;
+    //float a1s = -2.0 * exp(-xi * wn_is * h) * cos(sqrt(1.0 - xi * xi) * wn_is * h);
+    //float a2s = exp(-2.0 * xi * wn_is * h);
+    //float ki_s = rs / h * (1.0 + a1s + a2s) / (1.0 - exp(-h * rs / Meas.Ls));
+    //float kp_s = rs * (a1s - a2s + 1.0 + 2.0 * exp(-h * rs / Meas.Ls)) / (2.0 * (1.0 - exp(-h * rs / Meas.Ls)));
+    //
+    //
+    //Ctrl.PI_si.Kp = -kp_s;
+    //Ctrl.PI_si.Ki = -ki_s;
+    //Ctrl.PI_si.lim_H = Io_max*500.0f;
+    //Ctrl.PI_si.lim_L = -Io_max*500.0f;
 
     /// ////////////////////////////////////////////////////////////////
     Meas.Lz = L;
@@ -183,31 +185,34 @@ Ctrl.Vdc = 100.0f;
     register float STC_Iz = (1.5f * Ctrl.Ts) / rz;
     float kp_Iz = (Meas.Lz / rz) / (alfa_Iz * STC_Iz);
     float ti_Iz = alfa_Iz * alfa_Iz * STC_Iz;
-    //Ctrl.PI_zi_d.Kp = kp_Iz;
-    //Ctrl.PI_zi_d.Ts_Ti = Ctrl.Ts / ti_Iz;
-    Ctrl.PI_zi_d.lim_H = Io_max;
-    Ctrl.PI_zi_d.lim_L = -Io_max;
+    Ctrl.PI_Izd.Kp = kp_Iz;
+    Ctrl.PI_Izd.Ts_Ti = Ctrl.Ts / ti_Iz;
+    Ctrl.PI_Izd.lim_H = Io_max * 100.0f;
+    Ctrl.PI_Izd.lim_L = -Io_max * 100.0f;
 
-    //Ctrl.PI_zi_q.Kp = kp_Iz;
-    //Ctrl.PI_zi_q.Ts_Ti = Ctrl.Ts / ti_Iz;
-    Ctrl.PI_zi_q.lim_H = Io_max;
-    Ctrl.PI_zi_q.lim_L = -Io_max;
-
+    Ctrl.PI_Izq.Kp = kp_Iz;
+    Ctrl.PI_Izq.Ts_Ti = Ctrl.Ts / ti_Iz;
+    Ctrl.PI_Izq.lim_H = Io_max * 100.0f;
+    Ctrl.PI_Izq.lim_L = -Io_max * 100.0f;
     //float Ti = 4.0f;
     //float xi = 0.707f;
     //float h = Ctrl.Ts * Ti;
-    float fiz = 200.0f;
-    float wn_iz = 2.0 * MATH_1_PI * fiz;
-    float a1z = -2.0 * exp(-xi * wn_iz * h) * cos(sqrt(1.0 - xi * xi) * wn_iz * h);
-    float a2z = exp(-2.0 * xi * wn_iz * h);
-    float ki_z = rz / h * (1.0 + a1z + a2z) / (1.0 - exp(-h * rz / Meas.Lz));
-    float kp_z = rz * (a1z - a2z + 1.0 + 2.0 * exp(-h * rz / Meas.Lz)) / (2.0 * (1.0 - exp(-h * rz / Meas.Lz)));
-
-    Ctrl.PI_zi_d.Kp = -kp_z;
-    Ctrl.PI_zi_d.Ki = -ki_z;
-
-    Ctrl.PI_zi_q.Kp = -kp_z;
-    Ctrl.PI_zi_q.Ki = -ki_z;
+    //float fiz = 200.0f;
+    //float wn_iz = MATH_2PI * fiz;
+    //float a1z = -2.0 * exp(-xi * wn_iz * h) * cos(sqrt(1.0 - xi * xi) * wn_iz * h);
+    //float a2z = exp(-2.0 * xi * wn_iz * h);
+    //float ki_z = rz / h * (1.0 + a1z + a2z) / (1.0 - exp(-h * rz / Meas.Lz));
+    //float kp_z = rz * (a1z - a2z + 1.0 + 2.0 * exp(-h * rz / Meas.Lz)) / (2.0 * (1.0 - exp(-h * rz / Meas.Lz)));
+    //
+    //Ctrl.PI_zi_d.Kp = kp_z;
+    //Ctrl.PI_zi_d.Ki = ki_z;
+    //Ctrl.PI_zi_d.lim_H = Io_max * 100.0f;
+    //Ctrl.PI_zi_d.lim_L = -Io_max * 100.0f;
+    //
+    //Ctrl.PI_zi_q.Kp = kp_z;
+    //Ctrl.PI_zi_q.Ki = ki_z;
+    //Ctrl.PI_zi_q.lim_H = Io_max * 100.0f;
+    //Ctrl.PI_zi_q.lim_L = -Io_max * 100.0f;
 
     ///////////////////////////////////////////////////////////////
     Meas.Lo = L + 2.0f * Lac;
@@ -221,34 +226,37 @@ Ctrl.Vdc = 100.0f;
     register float STC_Io = (1.5f * Ctrl.Ts) / ro;
     float kp_Io = (Meas.Lo / ro) / (alfa_Io * STC_Io);
     float ti_Io = alfa_Io * alfa_Io * STC_Io;
-    //Ctrl.PI_oi_d.Kp = kp_Io;
-    //Ctrl.PI_oi_d.Ts_Ti = Ctrl.Ts / ti_Io;
     
+    Ctrl.PI_Iod.Kp = kp_Io;
+    Ctrl.PI_Iod.Ts_Ti = Ctrl.Ts / ti_Io;
+    Ctrl.PI_Iod.lim_H = Io_max ;
+    Ctrl.PI_Iod.lim_L = -Io_max;
 
-   //Ctrl.PI_oi_q.Kp = kp_Io;
-   //Ctrl.PI_oi_q.Ts_Ti = Ctrl.Ts / ti_Io;
-    
+    Ctrl.PI_Ioq.Kp = kp_Io;
+    Ctrl.PI_Ioq.Ts_Ti = Ctrl.Ts / ti_Io;
+    Ctrl.PI_Ioq.lim_H = Io_max * 50.0f;
+    Ctrl.PI_Ioq.lim_L = -Io_max * 50.0f;
     
     //float Ti = 4.0f;
     //float xi = 0.707f;
     //float h = Ctrl.Ts * Ti;
-    float fio = 200.0f;
-    float wn_io = 2.0 * MATH_1_PI * fio;
-    float a1o = -2.0 * exp(-xi * wn_io * h) * cos(sqrt(1.0 - xi * xi) * wn_io * h);
-    float a2o = exp(-2.0 * xi * wn_io * h);
-    float ki_o = ro / h * (1.0 + a1o + a2o) / (1.0 - exp(-h * ro / Meas.Lo));
-    float kp_o = ro * (a1o - a2o + 1.0 + 2.0 * exp(-h * ro / Meas.Lo)) / (2.0 * (1.0 - exp(-h * ro / Meas.Lo)));
-    
-    Ctrl.PI_oi_d.Kp = -kp_o;
-    Ctrl.PI_oi_d.Ki = -ki_o;
-    Ctrl.PI_oi_d.lim_H = Io_max*10;
-    Ctrl.PI_oi_d.lim_L = -Io_max*10;
-
-    Ctrl.PI_oi_q.Kp = -kp_o;
-    Ctrl.PI_oi_q.Ki = -ki_o;
-    Ctrl.PI_oi_q.lim_H = Io_max*10;
-    Ctrl.PI_oi_q.lim_L = -Io_max*10;
-
+    //float fio = 200.0f;
+    //float wn_io = MATH_2PI * fio;
+    //float a1o = -2.0 * exp(-xi * wn_io * h) * cos(sqrt(1.0 - xi * xi) * wn_io * h);
+    //float a2o = exp(-2.0 * xi * wn_io * h);
+    //float ki_o = ro / h * (1.0 + a1o + a2o) / (1.0 - exp(-h * ro / Meas.Lo));
+    //float kp_o = ro * (a1o - a2o + 1.0 + 2.0 * exp(-h * ro / Meas.Lo)) / (2.0 * (1.0 - exp(-h * ro / Meas.Lo)));
+    //
+    //Ctrl.PI_oi_d.Kp = kp_o;
+    //Ctrl.PI_oi_d.Ki = ki_o;
+    //Ctrl.PI_oi_d.lim_H = Io_max*100.0f;
+    //Ctrl.PI_oi_d.lim_L = -Io_max*100.0f;
+    //
+    //Ctrl.PI_oi_q.Kp = kp_o;
+    //Ctrl.PI_oi_q.Ki = ki_o;
+    //Ctrl.PI_oi_q.lim_H = Io_max*100.0f;
+    //Ctrl.PI_oi_q.lim_L = -Io_max*100.0f;
+    //
 
 
 
@@ -292,9 +300,9 @@ DLLEXPORT void plecsOutput(struct SimulationState* aState)
     //8
     Meas.Im_ref   = aState_global->inputs[22];
     Meas.Is_ref   = aState_global->inputs[23];
-    Meas.Iz_ref.a = aState_global->inputs[24];
-    Meas.Iz_ref.b = aState_global->inputs[25];
-    Meas.Iz_ref.c = aState_global->inputs[26];
+    Meas.Iz_step = aState_global->inputs[24];
+    //Meas.Iz_ref.b = aState_global->inputs[25];
+    //Meas.Iz_ref.c = aState_global->inputs[26];
     Meas.Io_ref.a = aState_global->inputs[27];
     Meas.Io_ref.b = aState_global->inputs[28];
     Meas.Io_ref.c = aState_global->inputs[29];
@@ -306,7 +314,7 @@ DLLEXPORT void plecsOutput(struct SimulationState* aState)
     //Meas.Uc_pn[4] = aState_global->inputs[34]; //vcnb
     //Meas.Uc_pn[5] = aState_global->inputs[35]; //vcnc
     ////1
-    //Meas.Vdc= aState_global->inputs[36]; //vdc
+    Meas.Is= aState_global->inputs[36]; //vdc
 
     float enable = 1;
     PLL_calc(enable);
@@ -321,28 +329,28 @@ DLLEXPORT void plecsOutput(struct SimulationState* aState)
     aState_global->outputs[6] = Ctrl.Is;
     aState_global->outputs[7] = Ctrl.Im;
     //Sincronization 5+1+2
-   aState_global->outputs[8]  = Ctrl.Io_ref_struct.a;
-   aState_global->outputs[9]  = Ctrl.Io_ref_struct.b;
-   aState_global->outputs[10] = Ctrl.Io_ref_struct.c;
+   aState_global->outputs[8]  = Meas.Iy_grid.a;
+   aState_global->outputs[9]  = Meas.Iy_grid.b;
+   aState_global->outputs[10] = Meas.Iy_grid.c;
    aState_global->outputs[11] = PLL.theta_1*2.5;
    aState_global->outputs[12] = PLL.theta_2*2.5;
    aState_global->outputs[13] = PLL.w;//Auxiliar
-   aState_global->outputs[14] = Ctrl.Io_struct.d;
-   aState_global->outputs[15] = Ctrl.Io_struct.q;
+   aState_global->outputs[14] = Meas.Iy_grid.d;
+   aState_global->outputs[15] = Meas.Iy_grid.q;
    //Sincronization 5+1+2
-   aState_global->outputs[16] = Ctrl.Iz_ref_struct.a;
-   aState_global->outputs[17] = Ctrl.Iz_ref_struct.b;
-   aState_global->outputs[18] = Ctrl.Iz_ref_struct.c;
-   aState_global->outputs[19] = PLL.theta_4 * 0.2;
-   aState_global->outputs[20] = PLL.theta_5 * 0.2;
+   aState_global->outputs[16] = Meas.Iz_ref.a;
+   aState_global->outputs[17] = Meas.Iz_ref.b;
+   aState_global->outputs[18] = Meas.Iz_ref.c;
+   aState_global->outputs[19] = PLL.theta_4 * 0.02;
+   aState_global->outputs[20] = PLL.theta_5 * 0.02;
    aState_global->outputs[21] = Ctrl.Vc_ref;//Auxiliar
    aState_global->outputs[22] = Ctrl.Iz_struct.d;
    aState_global->outputs[23] = Ctrl.Iz_struct.q;
    // OUT 5
-   aState_global->outputs[24] = Ctrl.PI_oi_d.out;
-   aState_global->outputs[25] = Ctrl.PI_oi_q.out;
-   aState_global->outputs[26] = Ctrl.PI_zi_d.out;
-   aState_global->outputs[27] = Ctrl.PI_zi_q.out;
+   aState_global->outputs[24] = Ctrl.PI_Iod.out;
+   aState_global->outputs[25] = Ctrl.PI_Ioq.out;
+   aState_global->outputs[26] = Ctrl.PI_Izd.out;
+   aState_global->outputs[27] = Ctrl.PI_Izq.out;
    aState_global->outputs[28] = Ctrl.PI_Is.out;
    // DUTY 6
    aState_global->outputs[29] = Ctrl.duty_modxy[0];
@@ -352,11 +360,11 @@ DLLEXPORT void plecsOutput(struct SimulationState* aState)
    aState_global->outputs[33] = Ctrl.duty_modxy[4];
    aState_global->outputs[34] = Ctrl.duty_modxy[5];
    // ERROR 5
-   aState_global->outputs[35] = Ctrl.Io_struct.d - Ctrl.Io_ref_struct.d;
-   aState_global->outputs[36] = Ctrl.Io_struct.q - Ctrl.Io_ref_struct.q;
-   aState_global->outputs[37] = Ctrl.Iz_struct.d - Ctrl.Iz_ref_struct.d;
-   aState_global->outputs[38] = Ctrl.Iz_struct.q - Ctrl.Iz_ref_struct.q;
-   aState_global->outputs[39] = Ctrl.Is - Meas.Is_ref;
+   aState_global->outputs[35] = Meas.Io_ref.d;
+   aState_global->outputs[36] = Meas.Io_ref.q;
+   aState_global->outputs[37] = Meas.Iz_ref.d;
+   aState_global->outputs[38] = Meas.Iz_ref.q;
+   aState_global->outputs[39] = Meas.Is_ref;
    //6
    aState_global->outputs[40] = Ctrl.xy2Dec.pa;
    aState_global->outputs[41] = Ctrl.xy2Dec.pb;

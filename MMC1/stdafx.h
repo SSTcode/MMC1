@@ -45,8 +45,10 @@ struct Measurements
 
 	struct transformation_struct Io_ref;
 	struct transformation_struct Iz_ref;
+	float Iz_step;
 	float Im_ref;
 	float Is_ref;
+	float Is;
 
 	float theta;
 
