@@ -39,7 +39,7 @@ DLLEXPORT void plecsStart(struct SimulationState* aState)
 
     Ctrl.Vdc = 100.0f;
     Ctrl.Vx = Ctrl.Vdc * 0.5f;
-    Ctrl.Vc_ref = Ctrl.Vdc / 4.0f * 1.2f;
+    Ctrl.Vc_ref = Ctrl.Vdc / 2.0f;
     Ctrl.Exy_ref = Ctrl.Vc_ref * Ctrl.Vc_ref * Ctrl.C * 0.5f;
     float Io_max = 8.0f;
     float Umax_i = Ctrl.Vc_ref * Ctrl.n_cell;
@@ -63,8 +63,7 @@ DLLEXPORT void plecsStart(struct SimulationState* aState)
         //Ctrl.CIC_load_q_b.OSR = Comp.CIC_load_q_a.OSR;
         //Ctrl.CIC_load_q_c.OSR = Comp.CIC_load_q_a.OSR;
     }
-Ctrl.U_dc=200;
-Ctrl.Vdc = 100.0f;
+
 
     /// ///////////////////ENEGY//////////////////////////////////////////////
     
@@ -234,8 +233,8 @@ Ctrl.Vdc = 100.0f;
 
     Ctrl.PI_Ioq.Kp = kp_Io;
     Ctrl.PI_Ioq.Ts_Ti = Ctrl.Ts / ti_Io;
-    Ctrl.PI_Ioq.lim_H = Io_max * 50.0f;
-    Ctrl.PI_Ioq.lim_L = -Io_max * 50.0f;
+    Ctrl.PI_Ioq.lim_H = Io_max *100;
+    Ctrl.PI_Ioq.lim_L = -Io_max *100;
     
     //float Ti = 4.0f;
     //float xi = 0.707f;
@@ -334,7 +333,7 @@ DLLEXPORT void plecsOutput(struct SimulationState* aState)
    aState_global->outputs[10] = Meas.Iy_grid.c;
    aState_global->outputs[11] = PLL.theta_1*2.5;
    aState_global->outputs[12] = PLL.theta_2*2.5;
-   aState_global->outputs[13] = PLL.w;//Auxiliar
+   aState_global->outputs[13] = Ctrl.Vx;//Auxiliar
    aState_global->outputs[14] = Meas.Iy_grid.d;
    aState_global->outputs[15] = Meas.Iy_grid.q;
    //Sincronization 5+1+2

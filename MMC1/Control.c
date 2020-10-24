@@ -13,7 +13,7 @@ void Control_calc(float enable)
 		//Ctrl.Uc_xy_filter[i] += Ctrl.Uc_xy_filter_coeff * (Meas.Uc_pn[i] - Ctrl.Uc_xy_filter[i]);
 		//Ctrl.U_dc_filter2 += Ctrl.U_dc_filter_coeff * (Ctrl.U_dc_filter - Ctrl.U_dc_filter2);
 		
-		//Ctrl.Exy[i] = Ctrl.Uc_xy_filter[i] * Ctrl.Uc_xy_filter[i] * Ctrl.C * 0.5f;
+		//Ctrl.Exy[i] = Meas.Uc_pn[i] * Meas.Uc_pn[i] * Ctrl.C * 0.5f;
 		
 	//static float decimation = 0;
 	//if (++decimation > 1.0f)
@@ -30,15 +30,7 @@ void Control_calc(float enable)
 		//Ctrl.Pxy[i] = Ctrl.Mxy[i] * Ctrl.Ixy[i];
 	}
 
-	if (Ctrl.Vdc < 1.0) Ctrl.Vdc = 1.0f;
-	Ctrl.Vx = Ctrl.Vdc * 0.5f;
-	if (Ctrl.Vc_ref < Ctrl.Vdc / 4.0f * 1.2f) Ctrl.Vc_ref = Ctrl.Vdc / 4.0f * 1.2f;
-	Ctrl.Exy_ref = Ctrl.Vc_ref * Ctrl.Vc_ref * Ctrl.C * 0.5f;
-	float Io_max = 8.0f;
-	float Umax_i = Ctrl.Vc_ref * Ctrl.n_cell;
-	float Umax_v = Ctrl.Vx * Io_max;
-	float Umin_i = -Umax_i;
-	float Umin_v = -Umax_v;
+
 
 
 
@@ -101,22 +93,22 @@ void Control_calc(float enable)
 
 			//xy2Dec(&Ctrl.xy2Dec, Ctrl.Exy);
 			//
-			//Ctrl.err_ov[0] = Ctrl.xy2Dec.o[0];//Ctrl.Eo[0];
-			//Ctrl.err_ov[1] = Ctrl.xy2Dec.o[1];//Ctrl.Eo[1];
-			//Ctrl.err_ov[2] = Ctrl.xy2Dec.o[2];//Ctrl.Eo[2];
-			//				
-			//Ctrl.err_zv[0] = Ctrl.xy2Dec.z[0];// Ctrl.Ez[0];
-			//Ctrl.err_zv[1] = Ctrl.xy2Dec.z[1]; //Ctrl.Ez[1];
-			//Ctrl.err_zv[2] = Ctrl.xy2Dec.z[2]; //Ctrl.Ez[2];
-			//
-			//Ctrl.err_sv = Ctrl.xy2Dec.s;
+			//Ctrl.err_ov[0] = -Ctrl.xy2Dec.o[0];//Ctrl.Eo[0];
+			//Ctrl.err_ov[1] = -Ctrl.xy2Dec.o[1];//Ctrl.Eo[1];
+			//Ctrl.err_ov[2] = -Ctrl.xy2Dec.o[2];//Ctrl.Eo[2];
+			////				
+			//Ctrl.err_zv[0] = -Ctrl.xy2Dec.z[0];// Ctrl.Ez[0];
+			//Ctrl.err_zv[1] = -Ctrl.xy2Dec.z[1]; //Ctrl.Ez[1];
+			//Ctrl.err_zv[2] = -Ctrl.xy2Dec.z[2]; //Ctrl.Ez[2];
+			////
+			//Ctrl.err_sv = -Ctrl.xy2Dec.s;
 			//Ctrl.err_mv = Ctrl.Exy_ref - Ctrl.xy2Dec.m;
-			//
+			////
 			//PI_tustin(&Ctrl.PI_sv, Ctrl.err_sv);
 			//PI_tustin(&Ctrl.PI_mv, Ctrl.err_mv);
 			//PI_tustin_3ph(&Ctrl.PI_ov, Ctrl.err_ov);
 			//PI_tustin_3ph(&Ctrl.PI_zv, Ctrl.err_zv);
-
+			//
 			//Ctrl.izref[0] = Ctrl.PI_ov.out_3ph[0] / Ctrl.Vx;
 			//Ctrl.izref[1] = Ctrl.PI_ov.out_3ph[1] / Ctrl.Vx;
 			//Ctrl.izref[2] = Ctrl.PI_ov.out_3ph[2] / Ctrl.Vx;
@@ -193,8 +185,8 @@ void Control_calc(float enable)
 			static struct transformation_struct Mz_ref;
 			float Mz_d_decoup = 2.0f*PLL.w * Meas.Lz * Ctrl.Iz_struct.d;
 			float Mz_q_decoup = 2.0f*PLL.w * Meas.Lz * Ctrl.Iz_struct.q;
-			Mz_ref.d = (Ctrl.PI_Izd.out - Mz_d_decoup);
-			Mz_ref.q = (Ctrl.PI_Izq.out + Mz_q_decoup);
+			Mz_ref.d = (Ctrl.PI_Izd.out + Mz_q_decoup);
+			Mz_ref.q = (Ctrl.PI_Izq.out - Mz_d_decoup);
 			//
 			dqz_abg(Mz_ref, -PLL.theta_4);
 			abg_abcn(Mz_ref);
@@ -289,8 +281,11 @@ void Control_calc(float enable)
 			//Ctrl.Vxy[3] = Mo_ref.a;
 			//Ctrl.Vxy[4] = Mo_ref.b;
 			//Ctrl.Vxy[5] = Mo_ref.c;
-
-			
+			float Io_max = 8.0f;
+			float Umax_i = Ctrl.Vc_ref * Ctrl.n_cell;
+			float Umax_v = Ctrl.Vx * Io_max;
+			float Umin_i = -Umax_i;
+			float Umin_v = -Umax_v;
 
 			for (i = 0; i < 3; i++) {
 				Ctrl.Mxy[i] = Ctrl.Vx - Meas.Vgrid[i] - Ctrl.Vxy[i];
@@ -316,12 +311,12 @@ void Control_calc(float enable)
 			}
 			
 			
-			Ctrl.duty_modxy[0] = Ctrl.Mxy[0] / Ctrl.Vc_ref / Ctrl.n_cell;
-			Ctrl.duty_modxy[1] = Ctrl.Mxy[1] / Ctrl.Vc_ref / Ctrl.n_cell;
-			Ctrl.duty_modxy[2] = Ctrl.Mxy[2] / Ctrl.Vc_ref / Ctrl.n_cell;
-			Ctrl.duty_modxy[3] = Ctrl.Mxy[3] / Ctrl.Vc_ref / Ctrl.n_cell;
-			Ctrl.duty_modxy[4] = Ctrl.Mxy[4] / Ctrl.Vc_ref / Ctrl.n_cell;
-			Ctrl.duty_modxy[5] = Ctrl.Mxy[5] / Ctrl.Vc_ref / Ctrl.n_cell;
+			Ctrl.duty_modxy[0] = Ctrl.Mxy[0] / Ctrl.Vc_ref / 1.0f*Ctrl.n_cell-2.0;
+			Ctrl.duty_modxy[1] = Ctrl.Mxy[1] / Ctrl.Vc_ref / 1.0f*Ctrl.n_cell-2.0;
+			Ctrl.duty_modxy[2] = Ctrl.Mxy[2] / Ctrl.Vc_ref / 1.0f*Ctrl.n_cell-2.0;
+			Ctrl.duty_modxy[3] = Ctrl.Mxy[3] / Ctrl.Vc_ref / 1.0f*Ctrl.n_cell;
+			Ctrl.duty_modxy[4] = Ctrl.Mxy[4] / Ctrl.Vc_ref / 1.0f*Ctrl.n_cell;
+			Ctrl.duty_modxy[5] = Ctrl.Mxy[5] / Ctrl.Vc_ref / 1.0f*Ctrl.n_cell;
 
 
 
