@@ -5,8 +5,8 @@ Plecs {
   StartTime     "0.0"
   StopTime      "2"
   Timeout       ""
-  Solver        "radau"
-  MaxStep       "1e-3"
+  Solver        "dopri"
+  MaxStep       "1e-1"
   InitStep      "-1"
   FixedStep     "1e-3"
   Refine        "1"
@@ -24,31 +24,39 @@ Plecs {
   AlgebraicLoopWithStateMachineMsg "3"
   AssertionAction "1"
   InitializationCommands "fs = 50e3; % Controlador\nTs = 1/fs;\nfsw=550;\nf_sw"
-" = 6000; % Triangle carrier wave frequency (Hz)\n%%%%%%%%%%%%%%%%Parametros\n"
-"Ldc=3e-3;\nrdc=0.3;\nLac=2e-3;\nrac=0.02;\nL=3e-3;\nr=0.01;\nC=10000e-6;\nRc="
-"10e3;\nR=Rc;\n%%%%%%%%%%%%%%%%%%%%%%%%%%%\nN=1;\nvdc=100;\nvac=100;\nVc=vdc/2"
-"; % all branch\nIs0=4;\nIC= 100;\nVcPa10=Vc;\nVcPa20=Vc;\nVcPa30=Vc;\nVcNa10="
-"Vc;\nVcNa20=Vc;\nVcNa30=Vc;\nVcPb10=Vc;\nVcPb20=Vc;\nVcPb30=Vc;\nVcNb10=Vc;\n"
-"VcNb20=Vc;\nVcNb30=Vc;\nVcPc10=Vc;\nVcPc20=Vc;\nVcPc30=Vc;\nVcNc10=Vc;\nVcNc2"
-"0=Vc;\nVcNc30=Vc;\n%%%%%%%%%%%%%%PWM%%%%%%%%%%%%%%%%%%%%%%%%%\nnum_sm = N; % "
-"number of series cells\nV_sm = vdc/num_sm; % DC capacitor initial voltage (V)"
-"\nC_sm = C; % DC bus capacitance (F)\ncarrier_min = [-1:2/num_sm:(1-1/(num_sm"
-"))]; % Minimum carrier signal values\ncarrier_max = [-(1-2/num_sm):2/num_sm:1"
-"]; % Maximum carrier signal values\n\n\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-"%%%\n%%%CONTROL%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-"%%%%%%\nxi=0.707;\nBT=0.005;\ntss=1e-3;\nwn=-log(BT)/(xi*tss);\n\nPs=-(2*xi*w"
-"n*(3*Ldc+L)+(3*rdc+r));\nIs=-(wn^2*(3*Ldc+L));\nPo=-(2*xi*wn*(L+2*Lac)+(r+2*r"
-"ac));\nIo=-(wn^2*(L+2*Lac));\nPz=-(2*xi*wn*L-r);\nIz=-(wn^2*L);\nPm=-(2*xi*wn"
-"*(3*Ldc+L+2*Lac)+(3*rdc+r+2*rac));\nIm=-(wn^2*(3*Ldc+L+2*Lac));\n\nBT2=0.001;"
-"\n\ntss2=100e-3;\nwn2=-log(BT2)/(xi*tss2);\nPe=(2*xi*wn2-2/(R*C))/(vdc/2);\nI"
-"e=(wn2^2)/(vdc/2);\n\nidcnom=35;\nBT3=0.001;\n\ntss3=50-3;\nwn3=-log(BT3)/(xi"
-"*tss2);\nPem=(2*xi*wn3-2/(R*C))/(idcnom/3);\nIem=(wn3^2)/(idcnom/3);\n\n%Is D"
-"C Corriente de Entrada\n%Iss=-N*Vc/((3*Ldc+L)*s+(3*rdc+r))\n%Ps=-0.20922;\n%a"
-"s=2553;\n%Is=as*Ps;\n\n\n% Io Corriente de Salida\n%Ioo=-N*Vc/((2*Lac+L)*s+(2"
-"*rac+r))\n%Po=-0.11412;\n%ao=2553;\n%Io=ao*Po;\n\n%Iz Corriente Circulante\n%"
-"Izz=-N*Vc/(L*s+r)\n%Pz= -0.03804;\n%az=2553;\n%Iz=az*Pz;\n\n%Es=-1/(s+2/(R*Cc"
-"))\nPEs=-70.668;\naEs=471.1;\nIEs=PEs*aEs;\n% % Eo/Iz\n%Eo=1/(s+2/(R*Cc))\nPE"
-"o=112.58;\naEo=75.06;\nIEo=PEo*aEo"
+" = 6000; % Triangle carrier wave frequency (Hz)\n\n\n% VSI characteristics\nV"
+"dc = 100; %total Vdc bus sum of isolated series dc voltage sources\nncells = "
+"4; %number of cascaded series connected half bridge cells\n% this creates (2*"
+"ncells+1) levels between -Vdc and +Vdc\nconfig = 2; %power module configurati"
+"on (switched=1, averaged=2)\n\n% Modulator\nfsw = 50e3; %carrier wave switchi"
+"ng frequency (Hz)\nfac = 50; %reference wave frequency (Hz)\nTdt = 0.00*1/fsw"
+"; %deadtime (s)\n\n% Carrier \ncarrier_min=[0:1/ncells:(1 - 1/ncells)]; % Min"
+"imum carrier signal values\ncarrier_max=[1/ncells:1/ncells:1]; % Maximum carr"
+"ier signal values\n\n\n\n%%%%%%%%%%%%%%%%Parametros\nLdc=3e-3;\nrdc=0.3;\nLac"
+"=2e-3;\nrac=0.02;\nL=3e-3;\nr=0.01;\nC=10000e-6;\nRc=10e3;\nR=Rc;\n%%%%%%%%%%"
+"%%%%%%%%%%%%%%%%%\nN=1;\nvdc=100;\nvac=100;\nVc=vdc/2; % all branch\nIs0=4;\n"
+"IC= 100;\nVcPa10=Vc;\nVcPa20=Vc;\nVcPa30=Vc;\nVcNa10=Vc;\nVcNa20=Vc;\nVcNa30="
+"Vc;\nVcPb10=Vc;\nVcPb20=Vc;\nVcPb30=Vc;\nVcNb10=Vc;\nVcNb20=Vc;\nVcNb30=Vc;\n"
+"VcPc10=Vc;\nVcPc20=Vc;\nVcPc30=Vc;\nVcNc10=Vc;\nVcNc20=Vc;\nVcNc30=Vc;\n%%%%%"
+"%%%%%%%%%PWM%%%%%%%%%%%%%%%%%%%%%%%%%\nnum_sm = N; % number of series cells\n"
+"V_sm = vdc/num_sm; % DC capacitor initial voltage (V)\nC_sm = C; % DC bus cap"
+"acitance (F)\ncarrier_min = [-1:2/num_sm:(1-1/(num_sm))]; % Minimum carrier s"
+"ignal values\ncarrier_max = [-(1-2/num_sm):2/num_sm:1]; % Maximum carrier sig"
+"nal values\n\n\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n%%%CONTROL%%%%%%%%%"
+"%%%%%%%%%%%%%%%%%%%\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\nxi=0.707;\nBT=0."
+"005;\ntss=1e-3;\nwn=-log(BT)/(xi*tss);\n\nPs=-(2*xi*wn*(3*Ldc+L)+(3*rdc+r));"
+"\nIs=-(wn^2*(3*Ldc+L));\nPo=-(2*xi*wn*(L+2*Lac)+(r+2*rac));\nIo=-(wn^2*(L+2*L"
+"ac));\nPz=-(2*xi*wn*L-r);\nIz=-(wn^2*L);\nPm=-(2*xi*wn*(3*Ldc+L+2*Lac)+(3*rdc"
+"+r+2*rac));\nIm=-(wn^2*(3*Ldc+L+2*Lac));\n\nBT2=0.001;\n\ntss2=100e-3;\nwn2=-"
+"log(BT2)/(xi*tss2);\nPe=(2*xi*wn2-2/(R*C))/(vdc/2);\nIe=(wn2^2)/(vdc/2);\n\ni"
+"dcnom=35;\nBT3=0.001;\n\ntss3=50-3;\nwn3=-log(BT3)/(xi*tss2);\nPem=(2*xi*wn3-"
+"2/(R*C))/(idcnom/3);\nIem=(wn3^2)/(idcnom/3);\n\n%Is DC Corriente de Entrada"
+"\n%Iss=-N*Vc/((3*Ldc+L)*s+(3*rdc+r))\n%Ps=-0.20922;\n%as=2553;\n%Is=as*Ps;\n"
+"\n\n% Io Corriente de Salida\n%Ioo=-N*Vc/((2*Lac+L)*s+(2*rac+r))\n%Po=-0.1141"
+"2;\n%ao=2553;\n%Io=ao*Po;\n\n%Iz Corriente Circulante\n%Izz=-N*Vc/(L*s+r)\n%P"
+"z= -0.03804;\n%az=2553;\n%Iz=az*Pz;\n\n%Es=-1/(s+2/(R*Cc))\nPEs=-70.668;\naEs"
+"=471.1;\nIEs=PEs*aEs;\n% % Eo/Iz\n%Eo=1/(s+2/(R*Cc))\nPEo=112.58;\naEo=75.06;"
+"\nIEo=PEo*aEo"
   InitialState  "1"
   SystemState   ""
   TaskingMode   "1"
@@ -68,13 +76,13 @@ Plecs {
   DiscretizationMethod "2"
   ExternalModeSettings ""
   AlgebraicLoopMethod "1"
-  AlgebraicLoopTolerance "1e-6"
+  AlgebraicLoopTolerance "1e-3"
   ScriptsDialogGeometry ""
   ScriptsDialogSplitterPos "0"
   Schematic {
-    Location      [0, 26; 1536, 780]
+    Location      [0, 23; 1536, 777]
     ZoomFactor    0.847733
-    SliderPosition [0, -1]
+    SliderPosition [0, 134]
     ShowBrowser   off
     BrowserWidth  100
     Component {
@@ -2329,12 +2337,12 @@ Plecs {
       }
       Parameter {
         Variable      "Before"
-        Value         "50"
+        Value         "4"
         Show          off
       }
       Parameter {
         Variable      "After"
-        Value         "100"
+        Value         "16"
         Show          off
       }
       Parameter {
@@ -4771,156 +4779,6 @@ Plecs {
     }
     Component {
       Type          Scope
-      Name          "Scope53"
-      Show          off
-      Position      [265, 895]
-      Direction     up
-      Flipped       off
-      Location      [208, 26; 1360, 1007]
-      State         "AAAA/wAAAAD9AAAAAgAAAAEAAADhAAADp/wCAAAAA/sAAAAQAFoAbwBvA"
-"G0AQQByAGUAYQAAAAAA/////wAAAPsA////+wAAABQAUwBhAHYAZQBkAFYAaQBlAHcAcwIAAAOOAA"
-"ACBwAAAOEAAACW+wAAAAwAVAByAGEAYwBlAHMAAAAAOAAAA6cAAAB+AP///wAAAAMAAAeAAAADOfw"
-"BAAAAAfsAAAAUAEQAYQB0AGEAVwBpAGQAZwBlAHQAAAAAAAAAB4AAAABfAP///wAABaAAAASrAAAA"
-"BAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAEAAAAOAFQAbwBvAGwAQgBhAHIBAAAAAP////8AAAAAA"
-"AAAAA=="
-      SavedViews    "AAAAAgAAAAEAAAAYAFMAYQB2AGUAZAAgAHYAaQBlAHcAIAAxAAAAAAAAA"
-"AA/8AAAAAAAAAAAAAUAf/gAAAAAAAB/+AAAAAAAAAB/+AAAAAAAAH/4AAAAAAAAAH/4AAAAAAAAf/"
-"gAAAAAAAAAf/gAAAAAAAB/+AAAAAAAAAB/+AAAAAAAAH/4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-"A"
-      HeaderState   "AAAA/wAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAAAAAAAL/gMAAAAJAAAAC"
-"QAAAH0AAAAIAAAAfQAAAAcAAAB9AAAABgAAAH0AAAAFAAAAfQAAAAQAAAB9AAAAAwAAAH0AAAACAA"
-"AAfQAAAAEAAAB9AAABVAAAAAsBAAABAAAAAAAAAAAAAAAAff////8AAACBAAAAAAAAAAsAAAEjAAA"
-"AAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAA"
-"AAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAA"
-"AAxAAAAAQAAAAAAAAPoAAAAADE="
-      PlotPalettes  "AAAAAQAAAAEAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAA"
-"AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-"AAAAEAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAA"
-"AAAAAAAA="
-      Axes          "5"
-      TimeRange     "0"
-      ScrollingMode "1"
-      SingleTimeAxis "1"
-      Open          "0"
-      Ts            "-1"
-      SampleLimit   "0"
-      XAxisLabel    "t(s)"
-      ShowLegend    "1"
-      Axis {
-        Name          "Is"
-        AutoScale     1
-        MinValue      0
-        MaxValue      1
-        Signals       {"VCSa"}
-        SignalTypes   [ ]
-        Untangle      0
-        KeepBaseline  off
-        BaselineValue 0
-      }
-      Axis {
-        Name          "Io"
-        AutoScale     1
-        MinValue      0
-        MaxValue      1
-        Signals       {}
-        SignalTypes   [ ]
-        Untangle      0
-        KeepBaseline  off
-        BaselineValue 0
-      }
-      Axis {
-        Name          "Iz"
-        AutoScale     1
-        MinValue      0
-        MaxValue      1
-        Signals       {}
-        SignalTypes   [ ]
-        Untangle      0
-        KeepBaseline  off
-        BaselineValue 0
-      }
-      Axis {
-        Name          "Im"
-        AutoScale     1
-        MinValue      0
-        MaxValue      1
-        Signals       {}
-        SignalTypes   [ ]
-        Untangle      0
-        KeepBaseline  off
-        BaselineValue 0
-      }
-      Axis {
-        Name          ""
-        AutoScale     1
-        MinValue      0
-        MaxValue      1
-        Signals       {}
-        SignalTypes   [ ]
-        Untangle      0
-        KeepBaseline  off
-        BaselineValue 0
-      }
-      Fourier {
-        SingleXAxis       on
-        AxisLabel         "Frequency"
-        Scaling           0
-        PhaseDisplay      0
-        ShowFourierLegend off
-        Axis {
-          Name          ""
-          AutoScale     1
-          MinValue      0
-          MaxValue      1
-          Signals       {}
-          Untangle      0
-          KeepBaseline  off
-          BaselineValue 0
-        }
-        Axis {
-          Name          ""
-          AutoScale     1
-          MinValue      0
-          MaxValue      1
-          Signals       {}
-          Untangle      0
-          KeepBaseline  off
-          BaselineValue 0
-        }
-        Axis {
-          Name          ""
-          AutoScale     1
-          MinValue      0
-          MaxValue      1
-          Signals       {}
-          Untangle      0
-          KeepBaseline  off
-          BaselineValue 0
-        }
-        Axis {
-          Name          ""
-          AutoScale     1
-          MinValue      0
-          MaxValue      1
-          Signals       {}
-          Untangle      0
-          KeepBaseline  off
-          BaselineValue 0
-        }
-        Axis {
-          Name          ""
-          AutoScale     1
-          MinValue      0
-          MaxValue      1
-          Signals       {}
-          Untangle      0
-          KeepBaseline  off
-          BaselineValue 0
-        }
-      }
-    }
-    Component {
-      Type          Scope
       Name          "Scope63"
       Show          off
       Position      [1285, 80]
@@ -5241,94 +5099,6 @@ Plecs {
       }
     }
     Component {
-      Type          From
-      Name          "From61"
-      Show          off
-      Position      [130, 870]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Tag"
-        Value         "Io_dec"
-        Show          off
-      }
-      Parameter {
-        Variable      "Visibility"
-        Value         "1"
-        Show          off
-      }
-    }
-    Component {
-      Type          From
-      Name          "From64"
-      Show          off
-      Position      [125, 920]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Tag"
-        Value         "Izref"
-        Show          off
-      }
-      Parameter {
-        Variable      "Visibility"
-        Value         "1"
-        Show          off
-      }
-    }
-    Component {
-      Type          SignalMux
-      Name          "Mux15"
-      Show          off
-      Position      [170, 810]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Width"
-        Value         "3"
-        Show          off
-      }
-    }
-    Component {
-      Type          SignalMux
-      Name          "Mux16"
-      Show          off
-      Position      [160, 875]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Width"
-        Value         "[3 3]"
-        Show          off
-      }
-    }
-    Component {
-      Type          SignalMux
-      Name          "Mux17"
-      Show          off
-      Position      [170, 915]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Width"
-        Value         "[3 3]"
-        Show          off
-      }
-    }
-    Component {
-      Type          SignalMux
-      Name          "Mux18"
-      Show          off
-      Position      [170, 950]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Width"
-        Value         "2"
-        Show          off
-      }
-    }
-    Component {
       Type          ConfigurableSubsystem
       Name          "PWM"
       Show          on
@@ -5519,7 +5289,7 @@ Plecs {
             TimeRange     "0.0"
             ScrollingMode "1"
             SingleTimeAxis "1"
-            Open          "1"
+            Open          "0"
             Ts            "-1"
             SampleLimit   "0"
             XAxisLabel    ""
@@ -6576,7 +6346,7 @@ Plecs {
             TimeRange     "0"
             ScrollingMode "1"
             SingleTimeAxis "1"
-            Open          "1"
+            Open          "0"
             Ts            "-1"
             SampleLimit   "0"
             XAxisLabel    ""
@@ -12526,7 +12296,7 @@ Plecs {
       Type          SignalMux
       Name          "Mux"
       Show          off
-      Position      [945, 915]
+      Position      [940, 905]
       Direction     right
       Flipped       off
       Parameter {
@@ -12539,7 +12309,7 @@ Plecs {
       Type          Goto
       Name          "Goto21"
       Show          off
-      Position      [975, 915]
+      Position      [970, 905]
       Direction     right
       Flipped       off
       Parameter {
@@ -12557,7 +12327,7 @@ Plecs {
       Type          From
       Name          "From62"
       Show          off
-      Position      [855, 870]
+      Position      [850, 860]
       Direction     right
       Flipped       off
       Parameter {
@@ -12575,7 +12345,7 @@ Plecs {
       Type          From
       Name          "From63"
       Show          off
-      Position      [855, 900]
+      Position      [850, 890]
       Direction     right
       Flipped       off
       Parameter {
@@ -12593,7 +12363,7 @@ Plecs {
       Type          From
       Name          "From65"
       Show          off
-      Position      [850, 930]
+      Position      [845, 920]
       Direction     right
       Flipped       off
       Parameter {
@@ -12611,7 +12381,7 @@ Plecs {
       Type          From
       Name          "From66"
       Show          off
-      Position      [850, 960]
+      Position      [845, 950]
       Direction     right
       Flipped       off
       Parameter {
@@ -12671,60 +12441,6 @@ Plecs {
       Parameter {
         Variable      "Tag"
         Value         "Iref"
-        Show          off
-      }
-      Parameter {
-        Variable      "Visibility"
-        Value         "1"
-        Show          off
-      }
-    }
-    Component {
-      Type          From
-      Name          "From98"
-      Show          off
-      Position      [140, 800]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Tag"
-        Value         "Is_dec"
-        Show          off
-      }
-      Parameter {
-        Variable      "Visibility"
-        Value         "1"
-        Show          off
-      }
-    }
-    Component {
-      Type          From
-      Name          "From99"
-      Show          off
-      Position      [125, 910]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Tag"
-        Value         "Iz_dec"
-        Show          off
-      }
-      Parameter {
-        Variable      "Visibility"
-        Value         "1"
-        Show          off
-      }
-    }
-    Component {
-      Type          From
-      Name          "From100"
-      Show          off
-      Position      [125, 945]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Tag"
-        Value         "Im_dec"
         Show          off
       }
       Parameter {
@@ -14472,24 +14188,6 @@ Plecs {
       }
     }
     Component {
-      Type          From
-      Name          "From106"
-      Show          off
-      Position      [195, 985]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Tag"
-        Value         "pn"
-        Show          off
-      }
-      Parameter {
-        Variable      "Visibility"
-        Value         "1"
-        Show          off
-      }
-    }
-    Component {
       Type          DCVoltageSource
       Name          "V_dc1"
       Show          on
@@ -14587,11 +14285,11 @@ Plecs {
       Position      [1555, 405]
       Direction     up
       Flipped       off
-      Location      [0, 26; 1536, 807]
+      Location      [1, 30; 1535, 803]
       State         "AAAA/wAAAAD9AAAAAgAAAAEAAADhAAADp/wCAAAAA/sAAAAQAFoAbwBvA"
 "G0AQQByAGUAYQAAAAAA/////wAAAPsA////+wAAABQAUwBhAHYAZQBkAFYAaQBlAHcAcwIAAA3eAA"
 "ACigAAAOEAAACW+wAAAAwAVAByAGEAYwBlAHMAAAAAOAAAA6cAAAB+AP///wAAAAMAAAeAAAABKvw"
-"BAAAAAfsAAAAUAEQAYQB0AGEAVwBpAGQAZwBlAHQAAAAAAAAAB4AAAABfAP///wAAB4AAAAOxAAAA"
+"BAAAAAfsAAAAUAEQAYQB0AGEAVwBpAGQAZwBlAHQAAAAAAAAAB4AAAABfAP///wAAB34AAAOnAAAA"
 "BAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAEAAAAOAFQAbwBvAGwAQgBhAHIBAAAAAP////8AAAAAA"
 "AAAAA=="
       SavedViews    "AAAAAgAAAAIAAAAYAFMAYQB2AGUAZAAgAHYAaQBlAHcAIAAxAAAAAAAAA"
@@ -14956,60 +14654,6 @@ Plecs {
       }
     }
     Component {
-      Type          From
-      Name          "From59"
-      Show          off
-      Position      [140, 810]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Tag"
-        Value         "ip"
-        Show          off
-      }
-      Parameter {
-        Variable      "Visibility"
-        Value         "1"
-        Show          off
-      }
-    }
-    Component {
-      Type          From
-      Name          "From112"
-      Show          off
-      Position      [140, 820]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Tag"
-        Value         "Isref"
-        Show          off
-      }
-      Parameter {
-        Variable      "Visibility"
-        Value         "1"
-        Show          off
-      }
-    }
-    Component {
-      Type          From
-      Name          "From75"
-      Show          off
-      Position      [130, 880]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Tag"
-        Value         "iabc"
-        Show          off
-      }
-      Parameter {
-        Variable      "Visibility"
-        Value         "1"
-        Show          off
-      }
-    }
-    Component {
       Type          Step
       Name          "Step9"
       Show          off
@@ -15172,7 +14816,7 @@ Plecs {
       Flipped       off
       Parameter {
         Variable      "Width"
-        Value         "4"
+        Value         "6"
         Show          off
       }
     }
@@ -16160,38 +15804,6 @@ Plecs {
     }
     Connection {
       Type          Signal
-      SrcComponent  "Mux15"
-      SrcTerminal   1
-      Points        [200, 810; 200, 875]
-      DstComponent  "Scope53"
-      DstTerminal   1
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "Mux16"
-      SrcTerminal   1
-      Points        [195, 875; 195, 885]
-      DstComponent  "Scope53"
-      DstTerminal   2
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "Mux17"
-      SrcTerminal   1
-      Points        [200, 915; 200, 895]
-      DstComponent  "Scope53"
-      DstTerminal   3
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "Mux18"
-      SrcTerminal   1
-      Points        [200, 950; 200, 905]
-      DstComponent  "Scope53"
-      DstTerminal   4
-    }
-    Connection {
-      Type          Signal
       SrcComponent  "From179"
       SrcTerminal   1
       DstComponent  "Scope"
@@ -16337,14 +15949,6 @@ Plecs {
       Points        [1435, 955; 1435, 995]
       DstComponent  "Goto86"
       DstTerminal   1
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "From106"
-      SrcTerminal   1
-      Points        [205, 985; 205, 915]
-      DstComponent  "Scope53"
-      DstTerminal   5
     }
     Connection {
       Type          Wire
@@ -16537,7 +16141,7 @@ Plecs {
       Type          Signal
       SrcComponent  "From62"
       SrcTerminal   1
-      Points        [900, 870; 900, 900]
+      Points        [895, 860; 895, 890]
       DstComponent  "Mux"
       DstTerminal   2
     }
@@ -16545,7 +16149,7 @@ Plecs {
       Type          Signal
       SrcComponent  "From63"
       SrcTerminal   1
-      Points        [895, 900; 895, 910]
+      Points        [890, 890; 890, 900]
       DstComponent  "Mux"
       DstTerminal   3
     }
@@ -16553,7 +16157,7 @@ Plecs {
       Type          Signal
       SrcComponent  "From65"
       SrcTerminal   1
-      Points        [895, 930; 895, 920]
+      Points        [890, 920; 890, 910]
       DstComponent  "Mux"
       DstTerminal   4
     }
@@ -16561,65 +16165,9 @@ Plecs {
       Type          Signal
       SrcComponent  "From66"
       SrcTerminal   1
-      Points        [900, 960; 900, 930]
+      Points        [895, 950; 895, 920]
       DstComponent  "Mux"
       DstTerminal   5
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "From98"
-      SrcTerminal   1
-      DstComponent  "Mux15"
-      DstTerminal   2
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "From59"
-      SrcTerminal   1
-      DstComponent  "Mux15"
-      DstTerminal   3
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "From112"
-      SrcTerminal   1
-      DstComponent  "Mux15"
-      DstTerminal   4
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "From61"
-      SrcTerminal   1
-      DstComponent  "Mux16"
-      DstTerminal   2
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "From75"
-      SrcTerminal   1
-      DstComponent  "Mux16"
-      DstTerminal   3
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "From99"
-      SrcTerminal   1
-      DstComponent  "Mux17"
-      DstTerminal   2
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "From64"
-      SrcTerminal   1
-      DstComponent  "Mux17"
-      DstTerminal   3
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "From100"
-      SrcTerminal   1
-      DstComponent  "Mux18"
-      DstTerminal   2
     }
     Connection {
       Type          Wire
@@ -16790,6 +16338,7 @@ Plecs {
       Type          Signal
       SrcComponent  "From117"
       SrcTerminal   1
+      Points        [1085, 910; 1085, 900]
       DstComponent  "Mux1"
       DstTerminal   2
     }
@@ -16828,10 +16377,6 @@ Plecs {
     Annotation {
       Name          "XY port"
       Position      [1435, 235]
-    } 
-    Annotation {
-      Name          "Decupling"
-      Position      [255, 855]
     } 
     Annotation {
       Name          "SINC"
