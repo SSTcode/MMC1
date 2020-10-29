@@ -311,12 +311,12 @@ void Control_calc(float enable)
 			}
 			
 			
-			Ctrl.duty_modxy[0] = Ctrl.Mxy[0] / Ctrl.Vc_ref / 1.0f*Ctrl.n_cell-2.0;
-			Ctrl.duty_modxy[1] = Ctrl.Mxy[1] / Ctrl.Vc_ref / 1.0f*Ctrl.n_cell-2.0;
-			Ctrl.duty_modxy[2] = Ctrl.Mxy[2] / Ctrl.Vc_ref / 1.0f*Ctrl.n_cell-2.0;
-			Ctrl.duty_modxy[3] = Ctrl.Mxy[3] / Ctrl.Vc_ref / 1.0f*Ctrl.n_cell;
-			Ctrl.duty_modxy[4] = Ctrl.Mxy[4] / Ctrl.Vc_ref / 1.0f*Ctrl.n_cell;
-			Ctrl.duty_modxy[5] = Ctrl.Mxy[5] / Ctrl.Vc_ref / 1.0f*Ctrl.n_cell;
+			Ctrl.duty_modxy[0] = Ctrl.Mxy[0]*0.01;// / Ctrl.Vc_ref / Ctrl.n_cell;
+			Ctrl.duty_modxy[1] = Ctrl.Mxy[1]*0.01;// / Ctrl.Vc_ref / Ctrl.n_cell;
+			Ctrl.duty_modxy[2] = Ctrl.Mxy[2]*0.01;// / Ctrl.Vc_ref / Ctrl.n_cell;
+			Ctrl.duty_modxy[3] = Ctrl.Mxy[3]*0.01;// / Ctrl.Vc_ref / Ctrl.n_cell;
+			Ctrl.duty_modxy[4] = Ctrl.Mxy[4]*0.01;// / Ctrl.Vc_ref / Ctrl.n_cell;
+			Ctrl.duty_modxy[5] = Ctrl.Mxy[5]*0.01;// / Ctrl.Vc_ref / Ctrl.n_cell;
 
 
 

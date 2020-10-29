@@ -73,8 +73,8 @@ Plecs {
   ScriptsDialogSplitterPos "0"
   Schematic {
     Location      [0, 26; 1536, 780]
-    ZoomFactor    0.847733
-    SliderPosition [0, -1]
+    ZoomFactor    1.11017
+    SliderPosition [-1, -1]
     ShowBrowser   off
     BrowserWidth  100
     Component {
@@ -2222,7 +2222,7 @@ Plecs {
       Type          Product
       Name          "Product3"
       Show          off
-      Position      [910, 695]
+      Position      [980, 695]
       Direction     up
       Flipped       off
       Parameter {
@@ -2240,12 +2240,12 @@ Plecs {
       Type          SineGenerator
       Name          "Sine Wave5"
       Show          off
-      Position      [860, 680]
+      Position      [930, 680]
       Direction     right
       Flipped       off
       Parameter {
         Variable      "Amplitude"
-        Value         "16"
+        Value         "4"
         Show          off
       }
       Parameter {
@@ -2273,7 +2273,7 @@ Plecs {
       Type          Step
       Name          "Step6"
       Show          off
-      Position      [860, 710]
+      Position      [930, 710]
       Direction     right
       Flipped       off
       Parameter {
@@ -2319,7 +2319,7 @@ Plecs {
       Type          Step
       Name          "Step4"
       Show          off
-      Position      [860, 650]
+      Position      [930, 650]
       Direction     right
       Flipped       off
       Parameter {
@@ -2329,91 +2329,12 @@ Plecs {
       }
       Parameter {
         Variable      "Before"
-        Value         "50"
-        Show          off
-      }
-      Parameter {
-        Variable      "After"
-        Value         "100"
-        Show          off
-      }
-      Parameter {
-        Variable      "DataType"
         Value         "10"
         Show          off
       }
-    }
-    Component {
-      Type          Product
-      Name          "Product4"
-      Show          off
-      Position      [910, 755]
-      Direction     up
-      Flipped       off
-      Parameter {
-        Variable      "Inputs"
-        Value         "2"
-        Show          off
-      }
-      Parameter {
-        Variable      "DataType"
-        Value         "11"
-        Show          off
-      }
-    }
-    Component {
-      Type          SineGenerator
-      Name          "Sine Wave2"
-      Show          off
-      Position      [860, 740]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Amplitude"
-        Value         "1"
-        Show          off
-      }
-      Parameter {
-        Variable      "Bias"
-        Value         "0"
-        Show          off
-      }
-      Parameter {
-        Variable      "Frequency"
-        Value         "2*pi*100"
-        Show          off
-      }
-      Parameter {
-        Variable      "Phase"
-        Value         "[0 2*pi/3 -2*pi/3]"
-        Show          off
-      }
-      Parameter {
-        Variable      "Units"
-        Value         "1"
-        Show          off
-      }
-    }
-    Component {
-      Type          Step
-      Name          "Step7"
-      Show          off
-      Position      [860, 770]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Time"
-        Value         "0.5"
-        Show          off
-      }
-      Parameter {
-        Variable      "Before"
-        Value         "0.5"
-        Show          off
-      }
       Parameter {
         Variable      "After"
-        Value         "0.1"
+        Value         "170"
         Show          off
       }
       Parameter {
@@ -2462,7 +2383,7 @@ Plecs {
       Type          Step
       Name          "Step8"
       Show          off
-      Position      [860, 800]
+      Position      [1010, 800]
       Direction     right
       Flipped       off
       Parameter {
@@ -3464,7 +3385,7 @@ Plecs {
       Type          Goto
       Name          "Goto23"
       Show          off
-      Position      [485, 640]
+      Position      [530, 630]
       Direction     left
       Flipped       on
       Parameter {
@@ -3482,7 +3403,7 @@ Plecs {
       Type          Goto
       Name          "Goto45"
       Show          off
-      Position      [485, 650]
+      Position      [530, 645]
       Direction     left
       Flipped       on
       Parameter {
@@ -4504,231 +4425,6 @@ Plecs {
       }
     }
     Component {
-      Type          Product
-      Name          "Product"
-      Show          off
-      Position      [80, 245]
-      Direction     up
-      Flipped       off
-      Parameter {
-        Variable      "Inputs"
-        Value         "2"
-        Show          off
-      }
-      Parameter {
-        Variable      "DataType"
-        Value         "11"
-        Show          off
-      }
-    }
-    Component {
-      Type          From
-      Name          "From73"
-      Show          off
-      Position      [45, 250]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Tag"
-        Value         "Grid"
-        Show          off
-      }
-      Parameter {
-        Variable      "Visibility"
-        Value         "1"
-        Show          off
-      }
-    }
-    Component {
-      Type          Product
-      Name          "Product1"
-      Show          off
-      Position      [80, 205]
-      Direction     up
-      Flipped       off
-      Parameter {
-        Variable      "Inputs"
-        Value         "2"
-        Show          off
-      }
-      Parameter {
-        Variable      "DataType"
-        Value         "11"
-        Show          off
-      }
-    }
-    Component {
-      Type          From
-      Name          "From85"
-      Show          off
-      Position      [45, 210]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Tag"
-        Value         "vp_vn"
-        Show          off
-      }
-      Parameter {
-        Variable      "Visibility"
-        Value         "1"
-        Show          off
-      }
-    }
-    Component {
-      Type          Gain
-      Name          "Gain24"
-      Show          off
-      Position      [125, 205]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "K"
-        Value         "6"
-        Show          off
-      }
-      Parameter {
-        Variable      "Multiplication"
-        Value         "1"
-        Show          off
-      }
-      Parameter {
-        Variable      "DataType"
-        Value         "11"
-        Show          off
-      }
-    }
-    Component {
-      Type          Subsystem
-      Name          "m-s4"
-      Show          on
-      Position      [135, 245]
-      Direction     up
-      Flipped       off
-      Frame         [-20, -10; 20, 10]
-      LabelPosition [0, 0]
-      SampleTime    "-1"
-      CodeGenDiscretizationMethod "2"
-      CodeGenTarget "Generic"
-      MaskIconFrame on
-      MaskIconOpaque off
-      MaskIconRotates on
-      Terminal {
-        Type          Input
-        Position      [-20, 0]
-        Direction     left
-      }
-      Terminal {
-        Type          Output
-        Position      [24, -5]
-        Direction     right
-      }
-      Schematic {
-        Location      [133, 155; 547, 336]
-        ZoomFactor    1
-        SliderPosition [0, 0]
-        ShowBrowser   off
-        BrowserWidth  100
-        Component {
-          Type          Function
-          Name          "xy *P3"
-          Show          on
-          Position      [195, 70]
-          Direction     right
-          Flipped       off
-          Frame         [-20, -10; 20, 10]
-          LabelPosition [0, 13]
-          LabelAlign    up
-          Parameter {
-            Variable      "f(u)"
-            Value         "(u[1]+u[2]+u[3])*2"
-            Show          off
-          }
-        }
-        Component {
-          Type          Input
-          Name          "m"
-          Show          on
-          Position      [110, 70]
-          Direction     right
-          Flipped       off
-          Parameter {
-            Variable      "Index"
-            Value         "1"
-            Show          on
-          }
-          Parameter {
-            Variable      "Width"
-            Value         "-1"
-            Show          off
-          }
-        }
-        Component {
-          Type          Output
-          Name          "s"
-          Show          on
-          Position      [330, 70]
-          Direction     right
-          Flipped       off
-          Parameter {
-            Variable      "Index"
-            Value         "2"
-            Show          on
-          }
-          Parameter {
-            Variable      "Width"
-            Value         "-1"
-            Show          off
-          }
-        }
-        Connection {
-          Type          Signal
-          SrcComponent  "m"
-          SrcTerminal   1
-          DstComponent  "xy *P3"
-          DstTerminal   1
-        }
-        Connection {
-          Type          Signal
-          SrcComponent  "xy *P3"
-          SrcTerminal   2
-          DstComponent  "s"
-          DstTerminal   1
-        }
-      }
-    }
-    Component {
-      Type          SignalMux
-      Name          "Mux14"
-      Show          off
-      Position      [175, 220]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Width"
-        Value         "[6 1]"
-        Show          off
-      }
-    }
-    Component {
-      Type          Goto
-      Name          "Goto74"
-      Show          off
-      Position      [215, 220]
-      Direction     left
-      Flipped       on
-      Parameter {
-        Variable      "Tag"
-        Value         "Pot"
-        Show          off
-      }
-      Parameter {
-        Variable      "Visibility"
-        Value         "1"
-        Show          off
-      }
-    }
-    Component {
       Type          Goto
       Name          "Goto52"
       Show          off
@@ -5519,7 +5215,7 @@ Plecs {
             TimeRange     "0.0"
             ScrollingMode "1"
             SingleTimeAxis "1"
-            Open          "1"
+            Open          "0"
             Ts            "-1"
             SampleLimit   "0"
             XAxisLabel    ""
@@ -6576,7 +6272,7 @@ Plecs {
             TimeRange     "0"
             ScrollingMode "1"
             SingleTimeAxis "1"
-            Open          "1"
+            Open          "0"
             Ts            "-1"
             SampleLimit   "0"
             XAxisLabel    ""
@@ -7843,7 +7539,7 @@ Plecs {
       Type          PlecsProbe
       Name          "ixy"
       Show          on
-      Position      [295, 765]
+      Position      [50, 115]
       Direction     right
       Flipped       off
     }
@@ -7851,7 +7547,7 @@ Plecs {
       Type          Goto
       Name          "Goto82"
       Show          off
-      Position      [105, 70]
+      Position      [185, 70]
       Direction     right
       Flipped       off
       Parameter {
@@ -8345,140 +8041,9 @@ Plecs {
     }
     Component {
       Type          Gain
-      Name          "Gain9"
-      Show          off
-      Position      [120, 120]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "K"
-        Value         "[1 1 1 1 1 1]"
-        Show          off
-      }
-      Parameter {
-        Variable      "Multiplication"
-        Value         "1"
-        Show          off
-      }
-      Parameter {
-        Variable      "DataType"
-        Value         "11"
-        Show          off
-      }
-    }
-    Component {
-      Type          Gain
-      Name          "Gain10"
-      Show          off
-      Position      [85, 155]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "K"
-        Value         "[1 1 1 -1 -1 -1]/2"
-        Show          off
-      }
-      Parameter {
-        Variable      "Multiplication"
-        Value         "1"
-        Show          off
-      }
-      Parameter {
-        Variable      "DataType"
-        Value         "11"
-        Show          off
-      }
-    }
-    Component {
-      Type          Goto
-      Name          "Goto62"
-      Show          off
-      Position      [160, 155]
-      Direction     left
-      Flipped       on
-      Parameter {
-        Variable      "Tag"
-        Value         "vp_vn"
-        Show          off
-      }
-      Parameter {
-        Variable      "Visibility"
-        Value         "1"
-        Show          off
-      }
-    }
-    Component {
-      Type          Goto
-      Name          "Goto63"
-      Show          off
-      Position      [165, 120]
-      Direction     left
-      Flipped       on
-      Parameter {
-        Variable      "Tag"
-        Value         "Grid"
-        Show          off
-      }
-      Parameter {
-        Variable      "Visibility"
-        Value         "1"
-        Show          off
-      }
-    }
-    Component {
-      Type          From
-      Name          "From91"
-      Show          off
-      Position      [50, 155]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Tag"
-        Value         "Vpn"
-        Show          off
-      }
-      Parameter {
-        Variable      "Visibility"
-        Value         "1"
-        Show          off
-      }
-    }
-    Component {
-      Type          From
-      Name          "From92"
-      Show          off
-      Position      [50, 120]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Tag"
-        Value         "vabc"
-        Show          off
-      }
-      Parameter {
-        Variable      "Visibility"
-        Value         "1"
-        Show          off
-      }
-    }
-    Component {
-      Type          SignalMux
-      Name          "Mux20"
-      Show          off
-      Position      [80, 120]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Width"
-        Value         "[3 3]"
-        Show          off
-      }
-    }
-    Component {
-      Type          Gain
       Name          "Gain15"
       Show          off
-      Position      [350, 765]
+      Position      [105, 115]
       Direction     right
       Flipped       off
       Parameter {
@@ -12016,7 +11581,7 @@ Plecs {
       Type          Goto
       Name          "Goto80"
       Show          off
-      Position      [765, 710]
+      Position      [780, 680]
       Direction     left
       Flipped       on
       Parameter {
@@ -12034,7 +11599,7 @@ Plecs {
       Type          Goto
       Name          "Goto81"
       Show          off
-      Position      [765, 740]
+      Position      [785, 760]
       Direction     left
       Flipped       on
       Parameter {
@@ -12629,7 +12194,7 @@ Plecs {
       Type          Goto
       Name          "Goto56"
       Show          off
-      Position      [435, 765]
+      Position      [190, 115]
       Direction     right
       Flipped       off
       Parameter {
@@ -12809,7 +12374,7 @@ Plecs {
       Type          Subsystem
       Name          "Measures"
       Show          on
-      Position      [1080, 450]
+      Position      [90, 185]
       Direction     up
       Flipped       off
       Frame         [-85, -35; 85, 35]
@@ -14587,7 +14152,7 @@ Plecs {
       Position      [1555, 405]
       Direction     up
       Flipped       off
-      Location      [0, 26; 1536, 807]
+      Location      [0, 23; 1536, 804]
       State         "AAAA/wAAAAD9AAAAAgAAAAEAAADhAAADp/wCAAAAA/sAAAAQAFoAbwBvA"
 "G0AQQByAGUAYQAAAAAA/////wAAAPsA////+wAAABQAUwBhAHYAZQBkAFYAaQBlAHcAcwIAAA3eAA"
 "ACigAAAOEAAACW+wAAAAwAVAByAGEAYwBlAHMAAAAAOAAAA6cAAAB+AP///wAAAAMAAAeAAAABKvw"
@@ -14614,7 +14179,7 @@ Plecs {
       TimeRange     "0"
       ScrollingMode "1"
       SingleTimeAxis "1"
-      Open          "0"
+      Open          "1"
       Ts            "-1"
       SampleLimit   "0"
       XAxisLabel    "t(s)"
@@ -14841,7 +14406,7 @@ Plecs {
       TimeRange     "0"
       ScrollingMode "1"
       SingleTimeAxis "1"
-      Open          "0"
+      Open          "1"
       Ts            "-1"
       SampleLimit   "0"
       XAxisLabel    "t(s)"
@@ -15013,7 +14578,7 @@ Plecs {
       Type          Step
       Name          "Step9"
       Show          off
-      Position      [950, 775]
+      Position      [1010, 755]
       Direction     right
       Flipped       off
       Parameter {
@@ -15056,123 +14621,43 @@ Plecs {
       }
     }
     Component {
-      Type          From
-      Name          "From117"
-      Show          off
-      Position      [1060, 910]
+      Type          Delay
+      Name          "Delay"
+      Show          on
+      Position      [120, 65]
       Direction     right
       Flipped       off
       Parameter {
-        Variable      "Tag"
-        Value         "vpa"
+        Variable      "N"
+        Value         "1"
         Show          off
       }
       Parameter {
-        Variable      "Visibility"
-        Value         "1"
+        Variable      "X0"
+        Value         "0"
+        Show          off
+      }
+      Parameter {
+        Variable      "Ts"
+        Value         "1/fs"
         Show          off
       }
     }
     Component {
       Type          From
-      Name          "From118"
+      Name          "From178"
       Show          off
-      Position      [1060, 920]
+      Position      [1195, 980]
       Direction     right
       Flipped       off
       Parameter {
         Variable      "Tag"
-        Value         "vna"
+        Value         "vCv"
         Show          off
       }
       Parameter {
         Variable      "Visibility"
         Value         "1"
-        Show          off
-      }
-    }
-    Component {
-      Type          From
-      Name          "From119"
-      Show          off
-      Position      [1060, 930]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Tag"
-        Value         "vpb"
-        Show          off
-      }
-      Parameter {
-        Variable      "Visibility"
-        Value         "1"
-        Show          off
-      }
-    }
-    Component {
-      Type          From
-      Name          "From120"
-      Show          off
-      Position      [1060, 940]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Tag"
-        Value         "vnb"
-        Show          off
-      }
-      Parameter {
-        Variable      "Visibility"
-        Value         "1"
-        Show          off
-      }
-    }
-    Component {
-      Type          From
-      Name          "From121"
-      Show          off
-      Position      [1070, 995]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Tag"
-        Value         "vpc"
-        Show          off
-      }
-      Parameter {
-        Variable      "Visibility"
-        Value         "1"
-        Show          off
-      }
-    }
-    Component {
-      Type          From
-      Name          "From122"
-      Show          off
-      Position      [1070, 1005]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Tag"
-        Value         "vnc"
-        Show          off
-      }
-      Parameter {
-        Variable      "Visibility"
-        Value         "1"
-        Show          off
-      }
-    }
-    Component {
-      Type          SignalMux
-      Name          "Mux1"
-      Show          off
-      Position      [1110, 925]
-      Direction     right
-      Flipped       off
-      Parameter {
-        Variable      "Width"
-        Value         "4"
         Show          off
       }
     }
@@ -15195,20 +14680,6 @@ Plecs {
       SrcComponent  "Step6"
       SrcTerminal   1
       DstComponent  "Product3"
-      DstTerminal   3
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "Sine Wave2"
-      SrcTerminal   1
-      DstComponent  "Product4"
-      DstTerminal   2
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "Step7"
-      SrcTerminal   1
-      DstComponent  "Product4"
       DstTerminal   3
     }
     Connection {
@@ -15251,68 +14722,6 @@ Plecs {
       SrcComponent  "Dec3"
       SrcTerminal   5
       DstComponent  "Goto46"
-      DstTerminal   1
-    }
-    Connection {
-      Type          Signal
-      Points        [53, 240]
-      DstComponent  "Product"
-      DstTerminal   2
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "From73"
-      SrcTerminal   1
-      DstComponent  "Product"
-      DstTerminal   3
-    }
-    Connection {
-      Type          Signal
-      Points        [53, 200]
-      DstComponent  "Product1"
-      DstTerminal   2
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "From85"
-      SrcTerminal   1
-      DstComponent  "Product1"
-      DstTerminal   3
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "Product1"
-      SrcTerminal   1
-      DstComponent  "Gain24"
-      DstTerminal   1
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "m-s4"
-      SrcTerminal   2
-      DstComponent  "Mux14"
-      DstTerminal   3
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "Product"
-      SrcTerminal   1
-      DstComponent  "m-s4"
-      DstTerminal   1
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "Gain24"
-      SrcTerminal   2
-      Points        [160, 205]
-      DstComponent  "Mux14"
-      DstTerminal   2
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "Mux14"
-      SrcTerminal   1
-      DstComponent  "Goto74"
       DstTerminal   1
     }
     Connection {
@@ -15361,6 +14770,7 @@ Plecs {
       Type          Signal
       SrcComponent  "Dec3"
       SrcTerminal   3
+      Points        [480, 650; 480, 645]
       DstComponent  "Goto45"
       DstTerminal   1
     }
@@ -15368,6 +14778,7 @@ Plecs {
       Type          Signal
       SrcComponent  "Dec3"
       SrcTerminal   1
+      Points        [475, 640; 475, 630]
       DstComponent  "Goto23"
       DstTerminal   1
     }
@@ -15475,13 +14886,6 @@ Plecs {
     }
     Connection {
       Type          Signal
-      SrcComponent  "vCXx"
-      SrcTerminal   1
-      DstComponent  "Goto82"
-      DstTerminal   1
-    }
-    Connection {
-      Type          Signal
       SrcComponent  "From213"
       SrcTerminal   1
       DstComponent  "Scope2"
@@ -15536,34 +14940,6 @@ Plecs {
         DstComponent  "LgC I"
         DstTerminal   2
       }
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "Gain10"
-      SrcTerminal   2
-      DstComponent  "Goto62"
-      DstTerminal   1
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "Gain9"
-      SrcTerminal   2
-      DstComponent  "Goto63"
-      DstTerminal   1
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "From91"
-      SrcTerminal   1
-      DstComponent  "Gain10"
-      DstTerminal   1
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "Mux20"
-      SrcTerminal   1
-      DstComponent  "Gain9"
-      DstTerminal   1
     }
     Connection {
       Type          Signal
@@ -15660,6 +15036,7 @@ Plecs {
       Type          Signal
       SrcComponent  "Triggered\nSubsystem2"
       SrcTerminal   2
+      Points        [750, 710; 750, 680]
       DstComponent  "Goto80"
       DstTerminal   1
     }
@@ -15681,6 +15058,7 @@ Plecs {
       Type          Signal
       SrcComponent  "Triggered\nSubsystem2"
       SrcTerminal   13
+      Points        [755, 740; 755, 760]
       DstComponent  "Goto81"
       DstTerminal   1
     }
@@ -15696,22 +15074,6 @@ Plecs {
       Branch {
         DstComponent  "Goto52"
         DstTerminal   1
-      }
-    }
-    Connection {
-      Type          Signal
-      SrcComponent  "From92"
-      SrcTerminal   1
-      Points        [60, 120]
-      Branch {
-        Points        [60, 125]
-        DstComponent  "Mux20"
-        DstTerminal   3
-      }
-      Branch {
-        Points        [60, 115]
-        DstComponent  "Mux20"
-        DstTerminal   2
       }
     }
     Connection {
@@ -16691,7 +16053,6 @@ Plecs {
       Type          Signal
       SrcComponent  "Step9"
       SrcTerminal   1
-      Points        [1015, 775; 1015, 755]
       DstComponent  "Manual Switch1"
       DstTerminal   2
     }
@@ -16788,10 +16149,26 @@ Plecs {
     }
     Connection {
       Type          Signal
-      SrcComponent  "From117"
+      SrcComponent  "vCXx"
       SrcTerminal   1
-      DstComponent  "Mux1"
-      DstTerminal   2
+      Points        [75, 65]
+      DstComponent  "Delay"
+      DstTerminal   1
+    }
+    Connection {
+      Type          Signal
+      SrcComponent  "Delay"
+      SrcTerminal   2
+      Points        [165, 65]
+      DstComponent  "Goto82"
+      DstTerminal   1
+    }
+    Connection {
+      Type          Signal
+      SrcComponent  "From178"
+      SrcTerminal   1
+      DstComponent  "Mux4"
+      DstTerminal   8
     }
     Annotation {
       Name          "io=Iy/2"
@@ -16816,14 +16193,6 @@ Plecs {
     Annotation {
       Name          "DC port"
       Position      [1430, 165]
-    } 
-    Annotation {
-      Name          "Vdc/2"
-      Position      [110, 170]
-    } 
-    Annotation {
-      Name          "Vabc"
-      Position      [145, 130]
     } 
     Annotation {
       Name          "XY port"
