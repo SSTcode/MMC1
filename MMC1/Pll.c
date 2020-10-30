@@ -14,10 +14,7 @@ void PLL_calc(float enable)
 	abg_dqz(signal_pll, PLL.theta_1);
 	Meas.theta = atan2f(signal_pll.beta, signal_pll.alfa);
 	static float theta_last;
-
-
-
-
+	
 	if (!enable && !PLL.ERR)
 	{
 		PLL.state = omega_preinit;
@@ -129,8 +126,8 @@ void PLL_calc(float enable)
 				synch_counter++;
 			}
 
-			if ((synch_counter == 40) && (PLL.RDY == 0)) PLL.ERR = 1;
-			if (synch_ok_counter >= 5)
+			if ((synch_counter == 4) && (PLL.RDY == 0)) PLL.ERR = 1;
+			if (synch_ok_counter >= 2)
 			{
 				PLL.RDY = 1;
 				PLL.state++;

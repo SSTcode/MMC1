@@ -39,9 +39,9 @@ DLLEXPORT void plecsStart(struct SimulationState* aState)
 
     Ctrl.Vdc = 100.0f;
     Ctrl.Vx = Ctrl.Vdc * 0.5f;
-    Ctrl.Vc_ref = Ctrl.Vdc / 2.0f;
+    Ctrl.Vc_ref = Ctrl.Vx / Ctrl.n_cell;
     Ctrl.Exy_ref = Ctrl.Vc_ref * Ctrl.Vc_ref * Ctrl.C * 0.5f;
-    float Io_max = 8.0f;
+    float Io_max = 8.0f*10.0f;
     float Umax_i = Ctrl.Vc_ref * Ctrl.n_cell;
     float Umax_v = Ctrl.Vx * Io_max;
     float Umin_i = -Umax_i;
@@ -117,7 +117,8 @@ DLLEXPORT void plecsStart(struct SimulationState* aState)
     
     float Lm = 3.0f*Ldc + L + 2.0f *Lac;
     float rm = 3.0f*rdc + r + 2.0f *rac;
-    register float alfa_Im = 2.0f;
+    register float alfa_Im = 6.0f;
+
     register float STC_Im = (1.5f * Ctrl.Ts)/rm;
     float kp_Im = (Lm/rm) / (alfa_Im * STC_Im);
     float ti_Im = alfa_Im * alfa_Im * STC_Im;
@@ -145,15 +146,16 @@ DLLEXPORT void plecsStart(struct SimulationState* aState)
     ///// ////////////////////////////////////////////////////////////////
     float Ls = 3.0f * Ldc + L ;
     float rs = 3.0f * rdc + r ;
-    register float alfa_Is = 6.0f;
+    register float alfa_Is = 4.0f;
+
     register float STC_Is = (1.5f * Ctrl.Ts) / rs;
-    float kp_Is = (Ls / rs) / (alfa_Is * STC_Is);
+    float kp_Is = (Ls / rs) / (alfa_Is * STC_Is) / (Ctrl.n_cell * Ctrl.Vx);
     float ti_Is = alfa_Is * alfa_Is * STC_Is;
 
     Ctrl.PI_Is.Kp = kp_Is;
     Ctrl.PI_Is.Ts_Ti = Ctrl.Ts / ti_Is;
-    Ctrl.PI_Is.lim_H = Io_max*30.0f;
-    Ctrl.PI_Is.lim_L = -Io_max*30.0f;
+    Ctrl.PI_Is.lim_H = Io_max;
+    Ctrl.PI_Is.lim_L = -Io_max;
     
    //float Ti = 4.0f;
    //float xi = 0.707f;
@@ -184,15 +186,16 @@ DLLEXPORT void plecsStart(struct SimulationState* aState)
     register float STC_Iz = (1.5f * Ctrl.Ts) / rz;
     float kp_Iz = (Meas.Lz / rz) / (alfa_Iz * STC_Iz);
     float ti_Iz = alfa_Iz * alfa_Iz * STC_Iz;
+    
     Ctrl.PI_Izd.Kp = kp_Iz;
     Ctrl.PI_Izd.Ts_Ti = Ctrl.Ts / ti_Iz;
-    Ctrl.PI_Izd.lim_H = Io_max * 100.0f;
-    Ctrl.PI_Izd.lim_L = -Io_max * 100.0f;
+    Ctrl.PI_Izd.lim_H = Io_max;
+    Ctrl.PI_Izd.lim_L = -Io_max;
 
     Ctrl.PI_Izq.Kp = kp_Iz;
     Ctrl.PI_Izq.Ts_Ti = Ctrl.Ts / ti_Iz;
-    Ctrl.PI_Izq.lim_H = Io_max * 100.0f;
-    Ctrl.PI_Izq.lim_L = -Io_max * 100.0f;
+    Ctrl.PI_Izq.lim_H = Io_max;
+    Ctrl.PI_Izq.lim_L = -Io_max;
     //float Ti = 4.0f;
     //float xi = 0.707f;
     //float h = Ctrl.Ts * Ti;
@@ -233,8 +236,8 @@ DLLEXPORT void plecsStart(struct SimulationState* aState)
 
     Ctrl.PI_Ioq.Kp = kp_Io;
     Ctrl.PI_Ioq.Ts_Ti = Ctrl.Ts / ti_Io;
-    Ctrl.PI_Ioq.lim_H = Io_max *100;
-    Ctrl.PI_Ioq.lim_L = -Io_max *100;
+    Ctrl.PI_Ioq.lim_H = Io_max;
+    Ctrl.PI_Ioq.lim_L = -Io_max;
     
     //float Ti = 4.0f;
     //float xi = 0.707f;
@@ -328,20 +331,20 @@ DLLEXPORT void plecsOutput(struct SimulationState* aState)
     aState_global->outputs[6] = Ctrl.Is;
     aState_global->outputs[7] = Ctrl.Im;
     //Sincronization 5+1+2
-   aState_global->outputs[8]  = Meas.Iy_grid.a;
-   aState_global->outputs[9]  = Meas.Iy_grid.b;
-   aState_global->outputs[10] = Meas.Iy_grid.c;
-   aState_global->outputs[11] = PLL.theta_1*2.5;
-   aState_global->outputs[12] = PLL.theta_2*2.5;
-   aState_global->outputs[13] = Ctrl.Vx;//Auxiliar
+   aState_global->outputs[8]  = Meas.Io_ref.a;
+   aState_global->outputs[9]  = Meas.Io_ref.b;
+   aState_global->outputs[10] = Meas.Io_ref.c;
+   aState_global->outputs[11] = PLL.theta_1;
+   aState_global->outputs[12] = PLL.theta_2;
+   aState_global->outputs[13] = PLL.RDY;// Ctrl.Vx;//Auxiliar
    aState_global->outputs[14] = Meas.Iy_grid.d;
    aState_global->outputs[15] = Meas.Iy_grid.q;
    //Sincronization 5+1+2
    aState_global->outputs[16] = Meas.Iz_ref.a;
    aState_global->outputs[17] = Meas.Iz_ref.b;
    aState_global->outputs[18] = Meas.Iz_ref.c;
-   aState_global->outputs[19] = PLL.theta_4 * 0.02;
-   aState_global->outputs[20] = PLL.theta_5 * 0.02;
+   aState_global->outputs[19] = PLL.theta_4 ;
+   aState_global->outputs[20] = PLL.theta_5 ;
    aState_global->outputs[21] = Ctrl.Vc_ref;//Auxiliar
    aState_global->outputs[22] = Ctrl.Iz_struct.d;
    aState_global->outputs[23] = Ctrl.Iz_struct.q;

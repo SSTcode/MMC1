@@ -26,7 +26,7 @@ Plecs {
   InitializationCommands "fs = 50e3; % Controlador\nTs = 1/fs;\nfsw=550;\nf_sw"
 " = 6000; % Triangle carrier wave frequency (Hz)\n%%%%%%%%%%%%%%%%Parametros\n"
 "Ldc=3e-3;\nrdc=0.3;\nLac=2e-3;\nrac=0.02;\nL=3e-3;\nr=0.01;\nC=10000e-6;\nRc="
-"10e3;\nR=Rc;\n%%%%%%%%%%%%%%%%%%%%%%%%%%%\nN=1;\nvdc=100;\nvac=100;\nVc=vdc/2"
+"10e3;\nR=Rc;\n%%%%%%%%%%%%%%%%%%%%%%%%%%%\nN=4;\nvdc=100;\nvac=100;\nVc=vdc/2"
 "; % all branch\nIs0=4;\nIC= 100;\nVcPa10=Vc;\nVcPa20=Vc;\nVcPa30=Vc;\nVcNa10="
 "Vc;\nVcNa20=Vc;\nVcNa30=Vc;\nVcPb10=Vc;\nVcPb20=Vc;\nVcPb30=Vc;\nVcNb10=Vc;\n"
 "VcNb20=Vc;\nVcNb30=Vc;\nVcPc10=Vc;\nVcPc20=Vc;\nVcPc30=Vc;\nVcNc10=Vc;\nVcNc2"
@@ -72,9 +72,9 @@ Plecs {
   ScriptsDialogGeometry ""
   ScriptsDialogSplitterPos "0"
   Schematic {
-    Location      [0, 26; 1536, 780]
-    ZoomFactor    1.11017
-    SliderPosition [-1, -1]
+    Location      [0, 23; 1536, 777]
+    ZoomFactor    0.740788
+    SliderPosition [0, 0]
     ShowBrowser   off
     BrowserWidth  100
     Component {
@@ -505,27 +505,6 @@ Plecs {
             Show          off
           }
         }
-        Component {
-          Type          Constant
-          Name          "Constant"
-          Show          on
-          Position      [285, 175]
-          Direction     right
-          Flipped       off
-          Frame         [-10, -10; 10, 10]
-          LabelPosition [0, 13]
-          LabelAlign    up
-          Parameter {
-            Variable      "Value"
-            Value         "50"
-            Show          off
-          }
-          Parameter {
-            Variable      "DataType"
-            Value         "10"
-            Show          off
-          }
-        }
         Connection {
           Type          Signal
           SrcComponent  "Vc'"
@@ -592,9 +571,9 @@ Plecs {
         }
         Connection {
           Type          Signal
-          SrcComponent  "Constant"
-          SrcTerminal   1
-          Points        [315, 175; 315, 100]
+          SrcComponent  "Integrator"
+          SrcTerminal   2
+          Points        [315, 125; 315, 100]
           DstComponent  "Mux1"
           DstTerminal   3
         }
@@ -816,27 +795,6 @@ Plecs {
             Show          off
           }
         }
-        Component {
-          Type          Constant
-          Name          "Constant"
-          Show          on
-          Position      [205, 190]
-          Direction     right
-          Flipped       off
-          Frame         [-10, -10; 10, 10]
-          LabelPosition [0, 13]
-          LabelAlign    up
-          Parameter {
-            Variable      "Value"
-            Value         "50"
-            Show          off
-          }
-          Parameter {
-            Variable      "DataType"
-            Value         "10"
-            Show          off
-          }
-        }
         Connection {
           Type          Signal
           SrcComponent  "Vc'"
@@ -903,9 +861,9 @@ Plecs {
         }
         Connection {
           Type          Signal
-          SrcComponent  "Constant"
-          SrcTerminal   1
-          Points        [230, 190; 230, 110]
+          SrcComponent  "Integrator"
+          SrcTerminal   2
+          Points        [225, 135; 225, 110]
           DstComponent  "Mux1"
           DstTerminal   3
         }
@@ -1127,27 +1085,6 @@ Plecs {
             Show          off
           }
         }
-        Component {
-          Type          Constant
-          Name          "Constant"
-          Show          on
-          Position      [290, 205]
-          Direction     right
-          Flipped       off
-          Frame         [-10, -10; 10, 10]
-          LabelPosition [0, 13]
-          LabelAlign    up
-          Parameter {
-            Variable      "Value"
-            Value         "50"
-            Show          off
-          }
-          Parameter {
-            Variable      "DataType"
-            Value         "10"
-            Show          off
-          }
-        }
         Connection {
           Type          Signal
           SrcComponent  "Vc'"
@@ -1214,9 +1151,9 @@ Plecs {
         }
         Connection {
           Type          Signal
-          SrcComponent  "Constant"
-          SrcTerminal   1
-          Points        [315, 205; 315, 100]
+          SrcComponent  "Integrator"
+          SrcTerminal   2
+          Points        [315, 125; 315, 100]
           DstComponent  "Mux1"
           DstTerminal   3
         }
@@ -1434,27 +1371,6 @@ Plecs {
             Show          off
           }
         }
-        Component {
-          Type          Constant
-          Name          "Constant"
-          Show          on
-          Position      [295, 205]
-          Direction     right
-          Flipped       off
-          Frame         [-10, -10; 10, 10]
-          LabelPosition [0, 13]
-          LabelAlign    up
-          Parameter {
-            Variable      "Value"
-            Value         "50"
-            Show          off
-          }
-          Parameter {
-            Variable      "DataType"
-            Value         "10"
-            Show          off
-          }
-        }
         Connection {
           Type          Signal
           SrcComponent  "Vc'"
@@ -1521,9 +1437,9 @@ Plecs {
         }
         Connection {
           Type          Signal
-          SrcComponent  "Constant"
-          SrcTerminal   1
-          Points        [320, 205; 320, 100]
+          SrcComponent  "Integrator"
+          SrcTerminal   2
+          Points        [315, 125; 315, 100]
           DstComponent  "Mux1"
           DstTerminal   3
         }
@@ -1741,27 +1657,6 @@ Plecs {
             Show          off
           }
         }
-        Component {
-          Type          Constant
-          Name          "Constant"
-          Show          on
-          Position      [290, 190]
-          Direction     right
-          Flipped       off
-          Frame         [-10, -10; 10, 10]
-          LabelPosition [0, 13]
-          LabelAlign    up
-          Parameter {
-            Variable      "Value"
-            Value         "50"
-            Show          off
-          }
-          Parameter {
-            Variable      "DataType"
-            Value         "10"
-            Show          off
-          }
-        }
         Connection {
           Type          Signal
           SrcComponent  "Vc'"
@@ -1828,9 +1723,9 @@ Plecs {
         }
         Connection {
           Type          Signal
-          SrcComponent  "Constant"
-          SrcTerminal   1
-          Points        [315, 190; 315, 100]
+          SrcComponent  "Integrator"
+          SrcTerminal   2
+          Points        [315, 125; 315, 100]
           DstComponent  "Mux1"
           DstTerminal   3
         }
@@ -2048,27 +1943,6 @@ Plecs {
             Show          off
           }
         }
-        Component {
-          Type          Constant
-          Name          "Constant"
-          Show          on
-          Position      [290, 205]
-          Direction     right
-          Flipped       off
-          Frame         [-10, -10; 10, 10]
-          LabelPosition [0, 13]
-          LabelAlign    up
-          Parameter {
-            Variable      "Value"
-            Value         "50"
-            Show          off
-          }
-          Parameter {
-            Variable      "DataType"
-            Value         "10"
-            Show          off
-          }
-        }
         Connection {
           Type          Signal
           SrcComponent  "Vc'"
@@ -2135,9 +2009,9 @@ Plecs {
         }
         Connection {
           Type          Signal
-          SrcComponent  "Constant"
-          SrcTerminal   1
-          Points        [315, 205; 315, 100]
+          SrcComponent  "Integrator"
+          SrcTerminal   2
+          Points        [325, 125]
           DstComponent  "Mux1"
           DstTerminal   3
         }
@@ -2329,12 +2203,12 @@ Plecs {
       }
       Parameter {
         Variable      "Before"
-        Value         "10"
+        Value         "50"
         Show          off
       }
       Parameter {
         Variable      "After"
-        Value         "170"
+        Value         "70"
         Show          off
       }
       Parameter {
@@ -13418,7 +13292,7 @@ Plecs {
       Flipped       on
       Parameter {
         Variable      "R"
-        Value         "rdc"
+        Value         "rdc*3"
         Show          off
       }
     }
@@ -13431,7 +13305,7 @@ Plecs {
       Flipped       on
       Parameter {
         Variable      "R"
-        Value         "rdc"
+        Value         "rdc*3"
         Show          off
       }
     }
@@ -13635,7 +13509,7 @@ Plecs {
       TimeRange     "0"
       ScrollingMode "1"
       SingleTimeAxis "1"
-      Open          "0"
+      Open          "1"
       Ts            "-1"
       SampleLimit   "0"
       XAxisLabel    "t(s)"
@@ -13652,7 +13526,7 @@ Plecs {
         BaselineValue 0
       }
       Axis {
-        Name          "frequency (rad)"
+        Name          "Vx - Vcref"
         AutoScale     1
         MinValue      0
         MaxValue      1
@@ -14152,7 +14026,7 @@ Plecs {
       Position      [1555, 405]
       Direction     up
       Flipped       off
-      Location      [0, 23; 1536, 804]
+      Location      [0, 26; 1536, 807]
       State         "AAAA/wAAAAD9AAAAAgAAAAEAAADhAAADp/wCAAAAA/sAAAAQAFoAbwBvA"
 "G0AQQByAGUAYQAAAAAA/////wAAAPsA////+wAAABQAUwBhAHYAZQBkAFYAaQBlAHcAcwIAAA3eAA"
 "ACigAAAOEAAACW+wAAAAwAVAByAGEAYwBlAHMAAAAAOAAAA6cAAAB+AP///wAAAAMAAAeAAAABKvw"
@@ -14387,22 +14261,23 @@ Plecs {
       Position      [690, 940]
       Direction     up
       Flipped       off
-      Location      [0, 26; 1536, 807]
-      State         "AAAA/wAAAAD9AAAAAgAAAAEAAAAAAAAAAPwCAAAAA/sAAAAQAFoAbwBvA"
-"G0AQQByAGUAYQAAAAAA/////wAAAD8A////+wAAABQAUwBhAHYAZQBkAFYAaQBlAHcAcwAAAAAA//"
-"///wAAAH4A////+wAAAAwAVAByAGEAYwBlAHMAAAAAAP////8AAAB+AP///wAAAAMAAAAAAAAAAPw"
-"BAAAAAfsAAAAUAEQAYQB0AGEAVwBpAGQAZwBlAHQAAAAAAP////8AAABfAP///wAAB4AAAAOxAAAA"
+      Location      [0, 23; 1536, 804]
+      State         "AAAA/wAAAAD9AAAAAgAAAAEAAADhAAADsfwCAAAAA/sAAAAQAFoAbwBvA"
+"G0AQQByAGUAYQAAAAAA/////wAAAG4A////+wAAABQAUwBhAHYAZQBkAFYAaQBlAHcAcwAAAAAA//"
+"///wAAAH4A////+wAAAAwAVAByAGEAYwBlAHMBAAAAOAAAA7EAAAB+AP///wAAAAMAAAeAAAABO/w"
+"BAAAAAfsAAAAUAEQAYQB0AGEAVwBpAGQAZwBlAHQAAAAAAAAAB4AAAABfAP///wAABpoAAAOxAAAA"
 "BAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAEAAAAOAFQAbwBvAGwAQgBhAHIBAAAAAP////8AAAAAA"
 "AAAAA=="
       SavedViews    "AAAAAgAAAAA="
       HeaderState   "AAAA/wAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAAAAAAAL/gMAAAAJAAAAC"
 "QAAAH0AAAAIAAAAfQAAAAcAAAB9AAAABgAAAH0AAAAFAAAAfQAAAAQAAAB9AAAAAwAAAH0AAAACAA"
-"AAfQAAAAEAAAB9AAABVAAAAAsBAAABAAAAAAAAAAAAAAAAff////8AAACBAAAAAAAAAAsAAAEjAAA"
+"AAfQAAAAEAAAB9AAAHgAAAAAsBAAABAAAAAAAAAAAAAAAAff////8AAACBAAAAAAAAAAsAAAEjAAA"
 "AAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAA"
 "AAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAA"
-"AAxAAAAAQAAAAAAAAPoAAAAADE="
-      PlotPalettes  "AAAAAQAAAAEAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-      Axes          "1"
+"AZdAAAAAQAAAAAAAAPoAAAAADE="
+      PlotPalettes  "AAAAAQAAAAEAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAA"
+"AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+      Axes          "2"
       TimeRange     "0"
       ScrollingMode "1"
       SingleTimeAxis "1"
@@ -14422,12 +14297,33 @@ Plecs {
         KeepBaseline  off
         BaselineValue 0
       }
+      Axis {
+        Name          ""
+        AutoScale     1
+        MinValue      0
+        MaxValue      1
+        Signals       {}
+        SignalTypes   [ ]
+        Untangle      0
+        KeepBaseline  off
+        BaselineValue 0
+      }
       Fourier {
         SingleXAxis       on
         AxisLabel         "Frequency"
         Scaling           0
         PhaseDisplay      0
         ShowFourierLegend off
+        Axis {
+          Name          ""
+          AutoScale     1
+          MinValue      0
+          MaxValue      1
+          Signals       {}
+          Untangle      0
+          KeepBaseline  off
+          BaselineValue 0
+        }
         Axis {
           Name          ""
           AutoScale     1
@@ -14606,7 +14502,7 @@ Plecs {
       Type          From
       Name          "From109"
       Show          off
-      Position      [645, 940]
+      Position      [635, 905]
       Direction     right
       Flipped       off
       Parameter {
@@ -14653,6 +14549,24 @@ Plecs {
       Parameter {
         Variable      "Tag"
         Value         "vCv"
+        Show          off
+      }
+      Parameter {
+        Variable      "Visibility"
+        Value         "1"
+        Show          off
+      }
+    }
+    Component {
+      Type          From
+      Name          "From105"
+      Show          off
+      Position      [625, 960]
+      Direction     right
+      Flipped       off
+      Parameter {
+        Variable      "Tag"
+        Value         "Duty"
         Show          off
       }
       Parameter {
@@ -16067,6 +15981,7 @@ Plecs {
       Type          Signal
       SrcComponent  "From109"
       SrcTerminal   1
+      Points        [660, 905]
       DstComponent  "Scope57"
       DstTerminal   1
     }
@@ -16169,6 +16084,14 @@ Plecs {
       SrcTerminal   1
       DstComponent  "Mux4"
       DstTerminal   8
+    }
+    Connection {
+      Type          Signal
+      SrcComponent  "From105"
+      SrcTerminal   1
+      Points        [650, 960; 650, 945]
+      DstComponent  "Scope57"
+      DstTerminal   2
     }
     Annotation {
       Name          "io=Iy/2"

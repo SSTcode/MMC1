@@ -281,42 +281,42 @@ void Control_calc(float enable)
 			//Ctrl.Vxy[3] = Mo_ref.a;
 			//Ctrl.Vxy[4] = Mo_ref.b;
 			//Ctrl.Vxy[5] = Mo_ref.c;
-			float Io_max = 8.0f;
-			float Umax_i = Ctrl.Vc_ref * Ctrl.n_cell;
+			float Io_max = 80.0f;
+			float Umax_i = Ctrl.Vx;
 			float Umax_v = Ctrl.Vx * Io_max;
 			float Umin_i = -Umax_i;
 			float Umin_v = -Umax_v;
 
 			for (i = 0; i < 3; i++) {
-				Ctrl.Mxy[i] = Ctrl.Vx - Meas.Vgrid[i] - Ctrl.Vxy[i];
+				Ctrl.Mxy[i] = Ctrl.Vc_ref - Meas.Vgrid[i] - Ctrl.Vxy[i];
 				//if (Ctrl.Mxy[i] > Umax_i)
 				//	Ctrl.Mxy[i] = Umax_i;
 				//else if (Ctrl.Mxy[i] < Umin_i)
 				//	Ctrl.Mxy[i] = Umin_i;
 				//else
-				//	Ctrl.Mxy[i] = Ctrl.Vx - Meas.Vgrid[i] - Ctrl.Vxy[i];
+				//	Ctrl.Mxy[i] = Ctrl.Vc_ref - Meas.Vgrid[i] - Ctrl.Vxy[i];
 				//
 				//Mxy[i]=Vx-Vabc[i]-Vxy[i];
 			
 			}
 			for (i = 3; i < 6; i++) {
-				Ctrl.Mxy[i] = -Ctrl.Vx - Meas.Vgrid[i - 3] + Ctrl.Vxy[i];
+				Ctrl.Mxy[i] = -Ctrl.Vc_ref - Meas.Vgrid[i - 3] + Ctrl.Vxy[i];
 				//if (Ctrl.Mxy[i] > Umax_i)
 				//	Ctrl.Mxy[i] = Umax_i;
 				//else if (Ctrl.Mxy[i] < Umin_i)
 				//	Ctrl.Mxy[i] = Umin_i;
 				//else
-				//	Ctrl.Mxy[i] = -Ctrl.Vx - Meas.Vgrid[i - 3] + Ctrl.Vxy[i];
+				//	Ctrl.Mxy[i] = -Ctrl.Vc_ref - Meas.Vgrid[i - 3] + Ctrl.Vxy[i];
 				//Mxy[i]=-Vx-Vabc[i-3]-Vxy[i]; 
 			}
 			
 			
-			Ctrl.duty_modxy[0] = Ctrl.Mxy[0]*0.01;// / Ctrl.Vc_ref / Ctrl.n_cell;
-			Ctrl.duty_modxy[1] = Ctrl.Mxy[1]*0.01;// / Ctrl.Vc_ref / Ctrl.n_cell;
-			Ctrl.duty_modxy[2] = Ctrl.Mxy[2]*0.01;// / Ctrl.Vc_ref / Ctrl.n_cell;
-			Ctrl.duty_modxy[3] = Ctrl.Mxy[3]*0.01;// / Ctrl.Vc_ref / Ctrl.n_cell;
-			Ctrl.duty_modxy[4] = Ctrl.Mxy[4]*0.01;// / Ctrl.Vc_ref / Ctrl.n_cell;
-			Ctrl.duty_modxy[5] = Ctrl.Mxy[5]*0.01;// / Ctrl.Vc_ref / Ctrl.n_cell;
+			Ctrl.duty_modxy[0] = Ctrl.Mxy[0]/ Ctrl.Vdc;
+			Ctrl.duty_modxy[1] = Ctrl.Mxy[1]/ Ctrl.Vdc;
+			Ctrl.duty_modxy[2] = Ctrl.Mxy[2]/ Ctrl.Vdc;
+			Ctrl.duty_modxy[3] = Ctrl.Mxy[3]/ Ctrl.Vdc;
+			Ctrl.duty_modxy[4] = Ctrl.Mxy[4]/ Ctrl.Vdc;
+			Ctrl.duty_modxy[5] = Ctrl.Mxy[5]/ Ctrl.Vdc;
 
 
 
