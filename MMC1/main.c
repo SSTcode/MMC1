@@ -41,7 +41,7 @@ DLLEXPORT void plecsStart(struct SimulationState* aState)
     Ctrl.Vx = Ctrl.Vdc * 0.5f;
     Ctrl.Vc_ref = Ctrl.Vx / Ctrl.n_cell;
     Ctrl.Exy_ref = Ctrl.Vc_ref * Ctrl.Vc_ref * Ctrl.C * 0.5f;
-    float Io_max = 8.0f*10.0f;
+    float Io_max = 8.0f*50.0f;
     float Umax_i = Ctrl.Vc_ref * Ctrl.n_cell;
     float Umax_v = Ctrl.Vx * Io_max;
     float Umin_i = -Umax_i;
@@ -269,9 +269,9 @@ DLLEXPORT void plecsStart(struct SimulationState* aState)
 DLLEXPORT void plecsOutput(struct SimulationState* aState)
 {
     //6
-    //Meas.Vgrid[0] = aState_global->inputs[0];
-    //Meas.Vgrid[1] = aState_global->inputs[1];
-    //Meas.Vgrid[2] = aState_global->inputs[2];
+    Meas.Vgrid[1] = aState_global->inputs[1];
+    Meas.Vgrid[0] = aState_global->inputs[0];
+    Meas.Vgrid[2] = aState_global->inputs[2];
     //
     Meas.Uy_grid.a = aState_global->inputs[0];
     Meas.Uy_grid.b = aState_global->inputs[1];
@@ -305,10 +305,10 @@ DLLEXPORT void plecsOutput(struct SimulationState* aState)
     Meas.Iz_step = aState_global->inputs[24];
     //Meas.Iz_ref.b = aState_global->inputs[25];
     //Meas.Iz_ref.c = aState_global->inputs[26];
-    Meas.Io_ref.a = aState_global->inputs[27];
-    Meas.Io_ref.b = aState_global->inputs[28];
-    Meas.Io_ref.c = aState_global->inputs[29];
-    //6
+    //Meas.Io_ref.a = aState_global->inputs[27];
+    //Meas.Io_ref.b = aState_global->inputs[28];
+    //Meas.Io_ref.c = aState_global->inputs[29];
+    ////6
     //Meas.Uc_pn[0] = aState_global->inputs[30]; //vcpa
     //Meas.Uc_pn[1] = aState_global->inputs[31]; //vcpb
     //Meas.Uc_pn[2] = aState_global->inputs[32]; //vcpc
@@ -331,9 +331,9 @@ DLLEXPORT void plecsOutput(struct SimulationState* aState)
     aState_global->outputs[6] = Ctrl.Is;
     aState_global->outputs[7] = Ctrl.Im;
     //Sincronization 5+1+2
-   aState_global->outputs[8]  = Meas.Io_ref.a;
-   aState_global->outputs[9]  = Meas.Io_ref.b;
-   aState_global->outputs[10] = Meas.Io_ref.c;
+   aState_global->outputs[8]  = Ctrl.Io_ref.a;
+   aState_global->outputs[9]  = Ctrl.Io_ref.b;
+   aState_global->outputs[10] = Ctrl.Io_ref.c;
    aState_global->outputs[11] = PLL.theta_1;
    aState_global->outputs[12] = PLL.theta_2;
    aState_global->outputs[13] = PLL.RDY;// Ctrl.Vx;//Auxiliar
@@ -362,10 +362,10 @@ DLLEXPORT void plecsOutput(struct SimulationState* aState)
    aState_global->outputs[33] = Ctrl.duty_modxy[4];
    aState_global->outputs[34] = Ctrl.duty_modxy[5];
    // ERROR 5
-   aState_global->outputs[35] = Meas.Io_ref.d;
-   aState_global->outputs[36] = Meas.Io_ref.q;
-   aState_global->outputs[37] = Meas.Iz_ref.d;
-   aState_global->outputs[38] = Meas.Iz_ref.q;
+   aState_global->outputs[35] = Ctrl.Io_ref.d;
+   aState_global->outputs[36] = Ctrl.Io_ref.q;
+   aState_global->outputs[37] = Ctrl.Iz_ref.d;
+   aState_global->outputs[38] = Ctrl.Iz_ref.q;
    aState_global->outputs[39] = Meas.Is_ref;
    //6
    aState_global->outputs[40] = Ctrl.xy2Dec.pa;

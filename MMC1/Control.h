@@ -47,7 +47,9 @@ struct Control_struct
 	struct transformation_struct Mz;
 
 	struct transformation_struct Io_struct;
+	struct transformation_struct Io_ref;
 	struct transformation_struct Iz_struct;
+	struct transformation_struct Iz_ref;
 	struct transformation_struct Io_ref_struct;
 	struct transformation_struct Iz_ref_struct;
 

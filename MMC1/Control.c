@@ -87,10 +87,6 @@ void Control_calc(float enable)
 		}
 		case Ctrler_active:
 		{
-			Meas.Iz_ref.a = Meas.Iz_step * sinf(PLL.theta_4);
-			Meas.Iz_ref.b = Meas.Iz_step * sinf(PLL.theta_5);
-			Meas.Iz_ref.c = Meas.Iz_step * sinf(PLL.theta_6);
-
 			//xy2Dec(&Ctrl.xy2Dec, Ctrl.Exy);
 			//
 			//Ctrl.err_ov[0] = -Ctrl.xy2Dec.o[0];//Ctrl.Eo[0];
@@ -123,6 +119,18 @@ void Control_calc(float enable)
 			//else Ctrl.is_sign = -1.0;
 			//
 			//Ctrl.Vmrefv = 0.0;// -1.0 * Ctrl.PI_sv.out / Ctrl.Is_est * Ctrl.is_sign;
+
+
+			////////////////////////////////////////////////////////////////////////////
+
+			Ctrl.Io_ref.a = 20.0f * Meas.Iz_step * cosf(PLL.theta_1);
+			Ctrl.Io_ref.b = 20.0f * Meas.Iz_step * cosf(PLL.theta_2);
+			Ctrl.Io_ref.c = 20.0f * Meas.Iz_step * cosf(PLL.theta_3);
+
+			Ctrl.Iz_ref.a = 0.25f*Meas.Iz_step * cosf(PLL.theta_4);
+			Ctrl.Iz_ref.b = 0.25f*Meas.Iz_step * cosf(PLL.theta_5);
+			Ctrl.Iz_ref.c = 0.25f*Meas.Iz_step * cosf(PLL.theta_6);
+
 			//
 			xy2Dec(&Ctrl.xy2Dec, Ctrl.Ixy);
 			//
@@ -136,32 +144,33 @@ void Control_calc(float enable)
 			Ctrl.Im			 = Ctrl.xy2Dec.m;
 			//
 
-			/// STRUCTURE REF IO////////////////////////////////
+			////////////////STRUCTURE REF IO////////////////////////////////
 			abc_abg(Meas.Iy_grid);
 			abg_dqz(Meas.Iy_grid, PLL.theta_1);
+
+			abc_abg(Meas.Uy_grid);
+			abg_dqz(Meas.Uy_grid, PLL.theta_1);
 
 			abc_abg(Ctrl.Io_struct);
 			abg_dqz(Ctrl.Io_struct, PLL.theta_1);
 
-			abc_abg(Meas.Io_ref);
-			abg_dqz(Meas.Io_ref, PLL.theta_1);
-			
-			/// STRUCTURE REF IZ//////////////////////////////////
+			abc_abg(Ctrl.Io_ref);
+			abg_dqz(Ctrl.Io_ref, PLL.theta_1);
+			///////////STRUCTURE REF IZ//////////////////////////////////
 			abc_abg(Ctrl.Iz_struct);
 			abg_dqz(Ctrl.Iz_struct, -PLL.theta_4);
 
-			abc_abg(Meas.Iz_ref);
-			abg_dqz(Meas.Iz_ref, -PLL.theta_4);
-
+			abc_abg(Ctrl.Iz_ref);
+			abg_dqz(Ctrl.Iz_ref, -PLL.theta_4);
 			/////////////////////////////////////////////////////////////////
-			register float error_Io_d = Meas.Io_ref.d - Meas.Iy_grid.d;
+			register float error_Io_d = Ctrl.Io_ref.d - Meas.Iy_grid.d;
 			PI_antiwindup_fast(&Ctrl.PI_Iod, error_Io_d);
-			register float error_Io_q = Meas.Io_ref.q - Meas.Iy_grid.q;
+			register float error_Io_q = Ctrl.Io_ref.q - Meas.Iy_grid.q;
 			PI_antiwindup_fast(&Ctrl.PI_Ioq, error_Io_q);
 
-			register float error_Iz_d = Meas.Iz_ref.d - Ctrl.Iz_struct.d;
+			register float error_Iz_d = Ctrl.Iz_ref.d - Ctrl.Iz_struct.d;
 			PI_antiwindup_fast(&Ctrl.PI_Izd, error_Iz_d);
-			register float error_Iz_q = Meas.Iz_ref.q - Ctrl.Iz_struct.q;
+			register float error_Iz_q = Ctrl.Iz_ref.q - Ctrl.Iz_struct.q;
 			PI_antiwindup_fast(&Ctrl.PI_Izq, error_Iz_q);
 
 			register float error_Is = Meas.Is_ref - Meas.Is;
@@ -173,8 +182,8 @@ void Control_calc(float enable)
 			static struct transformation_struct Mo_ref;
 			float Mo_d_decoup = PLL.w  * Meas.Lo* Meas.Iy_grid.d;
 			float Mo_q_decoup = PLL.w  * Meas.Lo* Meas.Iy_grid.q;
-			Mo_ref.d = (Ctrl.PI_Iod.out + Mo_q_decoup);
-			Mo_ref.q = (Ctrl.PI_Ioq.out - Mo_d_decoup);
+			Mo_ref.d = (Ctrl.PI_Iod.out + Mo_q_decoup + Meas.Uy_grid.d);
+			Mo_ref.q = (Ctrl.PI_Ioq.out - Mo_d_decoup + Meas.Uy_grid.q);
 			/*
 			u_ref.d = Ctrl.PI_oi_d.out - u_d_decoup + Meas.U_grid.d;
 			u_ref.q = Ctrl.PI_oi_q.out + u_q_decoup + Meas.U_grid.q;
@@ -288,7 +297,7 @@ void Control_calc(float enable)
 			float Umin_v = -Umax_v;
 
 			for (i = 0; i < 3; i++) {
-				Ctrl.Mxy[i] = Ctrl.Vc_ref - Meas.Vgrid[i] - Ctrl.Vxy[i];
+				Ctrl.Mxy[i] = Ctrl.Vc_ref + Meas.Vgrid[i] - Ctrl.Vxy[i];
 				//if (Ctrl.Mxy[i] > Umax_i)
 				//	Ctrl.Mxy[i] = Umax_i;
 				//else if (Ctrl.Mxy[i] < Umin_i)
